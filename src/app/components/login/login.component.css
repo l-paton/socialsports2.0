@@ -1,0 +1,31 @@
+.container-login{
+    margin-top: 25%;
+}
+
+.form-login{
+    width: 75%;
+    margin: auto;
+}
+
+
+
+.container-fluid, .row{
+    height: 100%;
+}
+
+.container-left{
+    background-image: url('../../../assets/images/ana.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
+    position: relative;
+}
+
+.overlay{
+    background-color: rgba(0, 171, 184, 0.6);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
