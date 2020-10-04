@@ -18,6 +18,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="USERS", uniqueConstraints = {@UniqueConstraint(columnNames = "EMAIL")} )
 public class User {
@@ -27,12 +29,14 @@ public class User {
 	@Column(name="ID")
 	private long id;
 	
+	@JsonIgnore
 	@NotBlank
 	@Email
 	@Size(max = 320)
 	@Column(name="EMAIL", nullable=false, unique=true)
 	private String email;
 	
+	@JsonIgnore
 	@NotBlank
 	@Size(max = 64)
 	@Column(name="PASSWORD", nullable=false)
@@ -50,12 +54,14 @@ public class User {
 	@Column(name="BIRTHDAY")
 	private Date birthday;
 	
+	@JsonIgnore
 	@Column(name="CREATED_AT")
 	private Date created_at;
 	
 	@Column(name="PICTURE")
 	private String picture;
 	
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "USER_ROLES", 
 				joinColumns = @JoinColumn(name = "USER_ID"), 
@@ -66,8 +72,10 @@ public class User {
 		
 	}
 	
-	public User(String email, String password) {
+	public User(String email, String firstname, String lastname, String password) {
 		this.email = email;
+		this.firstName = firstname;
+		this.lastName = lastname;
 		this.password = password;
 	}
 	

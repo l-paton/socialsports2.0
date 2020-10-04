@@ -1,5 +1,6 @@
 package com.laura.api.Service;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +17,15 @@ public class EventService {
 		return repository.findAll();
 	}
 	
+	public Event getEvent(long id) {
+		return repository.findById(id).orElse(null);
+	}
+	
 	public Event createEvent(Event event) {
 		return repository.save(event);
+	}
+	
+	public void deleteEvent(Event event) {
+		repository.delete(event);
 	}
 }

@@ -6,15 +6,21 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.laura.api.Service.EventService;
+import com.laura.api.Service.UserService;
 import com.laura.api.model.Event;
+import com.laura.api.model.User;
 
 @RestController
 @RequestMapping("/api/event")
@@ -23,9 +29,16 @@ public class EventController {
 	@Autowired
 	EventService eventService;
 	
+	@Autowired
+	UserService userService;
+	
 	@PostMapping("/create")
-	public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event, Errors errors){
-		if(!errors.hasErrors()) {
+	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event, Errors errors){
+		
+		User user = getUser();
+		
+		if(!errors.hasErrors() && user != null) {
+			event.setOrganizer(user);
 			event.setCreatedAt(new Date(System.currentTimeMillis()));;
 			event.setFinish(false);
 			return ResponseEntity.ok(eventService.createEvent(event));
@@ -37,5 +50,33 @@ public class EventController {
 	@GetMapping("/list")
 	public Iterable<Event> getEvents(){
 		return eventService.getEvents();
+	}
+	
+	@GetMapping("/get/{id}")
+	public ResponseEntity<?> getEvent(@PathVariable("id") long id) {
+		Event event = eventService.getEvent(id);
+		
+		if(event != null) {
+			return ResponseEntity.ok(event);
+		}
+		
+		return ResponseEntity.notFound().build();
+	}
+	
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> removeEvent(@PathVariable("id") long id){
+		Event event = eventService.getEvent(id);
+		
+		if(event.getOrganizer().getId() == getUser().getId()) {
+			eventService.deleteEvent(event);
+			return ResponseEntity.noContent().build();
+		}
+		
+		return ResponseEntity.badRequest().build();
+	}
+	
+	private User getUser() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		return userService.getUser(auth.getName());
 	}
 }

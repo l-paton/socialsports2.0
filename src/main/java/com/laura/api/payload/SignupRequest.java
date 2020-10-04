@@ -12,6 +12,10 @@ public class SignupRequest {
     @Email
     private String email;
     
+    private String firstname;
+    
+    private String lastname;
+    
     private Set<String> role;
     
     @NotBlank
@@ -30,7 +34,23 @@ public class SignupRequest {
         return password;
     }
  
-    public void setPassword(String password) {
+    public String getFirstname() {
+		return firstname;
+	}
+
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
+
+	public void setPassword(String password) {
         this.password = password;
     }
     
