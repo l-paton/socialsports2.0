@@ -6,6 +6,7 @@ const USER_KEY = 'auth-user';
 @Injectable({
   providedIn: 'root'
 })
+
 export class TokenStorageService {
 
   constructor() { }
@@ -31,4 +32,9 @@ export class TokenStorageService {
   public getUser(): any{
     return JSON.parse(sessionStorage.getItem(USER_KEY));
   }
+  
+  get isLoggedIn(): boolean {
+    let authToken = this.getToken();
+    return (authToken !== null) ? true : false;
+  }  
 }

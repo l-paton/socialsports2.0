@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { TokenStorageService } from '../../services/token-storage.service'
 import { Router, NavigationStart } from '@angular/router';
 
 @Component({
@@ -11,15 +11,12 @@ export class HeaderComponent implements OnInit {
   
   showHead: boolean = false;
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private tokenStorage:TokenStorageService) {
     router.events.forEach((event) => {
-      if (event instanceof NavigationStart) {
-        if (event['url'] == '/login') {
-          this.showHead = false;
-        } else {
-          // console.log("NU")
-          this.showHead = true;
-        }
+      if(tokenStorage.isLoggedIn){
+        this.showHead = true;
+      }else{
+        this.showHead = false;
       }
     });
    }
