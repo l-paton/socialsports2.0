@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,6 +20,11 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+	
+	@GetMapping("/list")
+	public Iterable<User> getUsers(){
+		return userService.getUsers();
+	}
 	
 	@PutMapping("/edit/fistname")
 	public ResponseEntity<?> editFirstName(@RequestBody String firstName){
@@ -38,6 +45,13 @@ public class UserController {
 			return ResponseEntity.noContent().build();
 		}
 		return ResponseEntity.badRequest().build();
+	}
+	
+	@DeleteMapping("/delete")
+	public ResponseEntity<?> deleteUser(){
+		User user = getUser();
+		userService.deleteUser(user);
+		return ResponseEntity.noContent().build();
 	}
 	
 	private User getUser() {

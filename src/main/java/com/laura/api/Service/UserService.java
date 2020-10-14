@@ -19,5 +19,13 @@ public class UserService {
 	public User editUser(User user) {
 		return repository.save(user);
 	}
+	
+	public void deleteUser(User user) {
+		repository.delete(user);
+	}
+	
+	public Iterable<User> getUsers(){
+		return repository.findAll();
+	}
 
 }

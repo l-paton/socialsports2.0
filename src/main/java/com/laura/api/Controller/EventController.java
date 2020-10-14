@@ -1,6 +1,8 @@
 package com.laura.api.Controller;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,6 +25,7 @@ import com.laura.api.Service.UserService;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/event")
 public class EventController {
@@ -34,12 +38,14 @@ public class EventController {
 	
 	@PostMapping("/create")
 	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event, Errors errors){
-		
 		User user = getUser();
 		
 		if(!errors.hasErrors() && user != null) {
 			event.setOrganizer(user);
-			event.setCreatedAt(new Date(System.currentTimeMillis()));;
+			event.setCreatedAt(new Date(System.currentTimeMillis()));
+			Set<User> set = new HashSet<User>();
+			set.add(getUser());
+			event.setParticipants(set);
 			event.setFinish(false);
 			return ResponseEntity.ok(eventService.createEvent(event));
 		}else {
@@ -72,6 +78,14 @@ public class EventController {
 			return ResponseEntity.noContent().build();
 		}
 		
+		return ResponseEntity.badRequest().build();
+	}
+	
+	@PostMapping("/join/{id}")
+	public ResponseEntity<?> joinToEvent(@PathVariable("id") long id){
+		if(eventService.joinToEvent(id, getUser()) != null) {
+			return ResponseEntity.noContent().build();
+		}
 		return ResponseEntity.badRequest().build();
 	}
 	

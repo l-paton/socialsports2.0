@@ -1,13 +1,15 @@
 package com.laura.api.model;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,7 +21,7 @@ public class Event {
 	@Column(name="ID")
 	private long id;
 	
-	@OneToOne
+	@ManyToOne
 	@JoinColumn(name="ORGANIZADOR_ID", referencedColumnName="ID")
 	private User organizer;
 	
@@ -46,6 +48,9 @@ public class Event {
 	
 	@Column(name="FINISH")
 	private boolean finish;
+	
+	@ManyToMany(mappedBy = "eventsJoined")
+	private Set<User> participants;
 
 	public long getId() {
 		return id;
@@ -125,6 +130,14 @@ public class Event {
 
 	public void setFinish(boolean finish) {
 		this.finish = finish;
+	}
+
+	public Set<User> getParticipants() {
+		return participants;
+	}
+
+	public void setParticipants(Set<User> participants) {
+		this.participants = participants;
 	}
 	
 }
