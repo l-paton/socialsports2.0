@@ -15,6 +15,13 @@ export class EventService {
   constructor(private http:HttpClient, private tokenStorage:TokenStorageService) { }
 
   getListEvents(): Observable<Event[]>{
-    return this.http.get<Event[]>(EVENT_API + "/list", { headers: new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken()})});
+    return this.http.get<Event[]>(EVENT_API + '/list', { headers: new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken()})});
   }
+
+  createEvent(event : Event): Observable<Response>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    headers.append('content-type', 'application/json');
+    return this.http.post<Response>(EVENT_API + '/create', event, {headers});
+  } 
 }

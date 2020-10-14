@@ -14,7 +14,7 @@ export class HideGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if(this.tokenStorage.isLoggedIn){
-      this.router.navigate(['/home']);
+      this.router.navigate(['/event']);
     }
     return true;
   }
