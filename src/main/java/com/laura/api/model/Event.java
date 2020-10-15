@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -49,7 +50,10 @@ public class Event {
 	@Column(name="FINISH")
 	private boolean finish;
 	
-	@ManyToMany(mappedBy = "eventsJoined")
+	@ManyToMany
+	@JoinTable(name = "participants_event",
+		joinColumns = @JoinColumn(name = "event_id"), 
+	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> participants;
 
 	public long getId() {
