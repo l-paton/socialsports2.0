@@ -24,4 +24,10 @@ export class EventService {
     headers.append('content-type', 'application/json');
     return this.http.post<Response>(EVENT_API + '/create', event, {headers});
   } 
+
+  joinToEvent(id:number): Observable<Response>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.post<Response>(EVENT_API + '/join/' + id, {headers});
+  }
 }

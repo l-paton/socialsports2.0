@@ -11,7 +11,7 @@ export class Event{
         this.comments = comments;
     }
 
-    id_?: number;
+    id: number;
     organizer: User;
     sport: string;
     address: string;

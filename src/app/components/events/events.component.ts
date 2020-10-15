@@ -15,14 +15,18 @@ export class EventsComponent implements OnInit {
   constructor(private eventService: EventService) { }
 
   ngOnInit(): void {
-    this.cargarLibros();
+    this.getEvents();
   }
 
-  cargarLibros(){
+  getEvents(){
     this.eventService.getListEvents().subscribe(data => {
       this.events = data;
     });
-    console.log("EEEEEEEEEEEEE:" + this.events);
+  }
+
+  joinToEvent(event:Event){
+    console.log(event.id);
+    this.eventService.joinToEvent(event.id);
   }
 
 }

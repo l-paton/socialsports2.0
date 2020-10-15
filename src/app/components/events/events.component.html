@@ -22,7 +22,7 @@
                     <th scope="col">Creado el</th>
                     <th scope="col">Precio</th>
                     <th scope="col">Participantes</th>
-                    <th scope="col">Acción</th>
+                    <th scope="col"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -32,8 +32,11 @@
                     <td>{{evento.address | uppercase}}</td>
                     <td>{{evento.createdAt}}</td>
                     <td>{{evento.price}}€</td>
-                    <td>0</td>
-                    <td><button class="btn btn-primary btn-sm">   Ver   </button></td>
+                    <td>{{evento.participants.length}}</td>
+                    <td>
+                      <button class="btn btn-primary btn-sm mr-2">Mostrar</button>
+                      <button class="btn btn-warning btn-sm" (click)="joinToEvent(evento)">Unirse</button>
+                    </td>
                   </tr>
                 </tbody>
               </table>

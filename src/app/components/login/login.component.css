@@ -14,7 +14,7 @@
 }
 
 .container-left{
-    background-image: url('../../../assets/images/ana.jpg');
+    background-image: url('../../../assets/images/pexels-gustavo-linhares-1839836.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
@@ -22,7 +22,7 @@
 }
 
 .overlay{
-    background-color: rgba(0, 171, 184, 0.6);
+    background-color: rgba(0, 171, 184, 0.5);
     height: 100%;
     width: 100%;
     position: absolute;
