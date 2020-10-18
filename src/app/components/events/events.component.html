@@ -12,8 +12,8 @@
          <!-- END ROW -->
 
         <div class="row">
-            <div class="col">
-              <table class="table">
+            <div class="col table-responsive">
+              <table class="table table-hover">
                 <thead class="thead-dark">
                   <tr>
                     <th scope="col" style="width: 20%">Creador</th>
@@ -36,7 +36,8 @@
                     <td>{{evento.participants.length}}</td>
                     <th><button class="btn btn-primary btn-sm">Mostrar</button></th>
                     <th>
-                      <button class="btn btn-warning btn-sm" (click)="joinToEvent(evento)">Unirse</button>
+                      <button class="btn btn-danger btn-sm" *ngIf="id == evento.organizer.id" (click)="deleteEvent(evento)">Eliminar</button>
+                      <button class="btn btn-warning btn-sm" *ngIf="id != evento.organizer.id" (click)="joinToEvent(evento)">Unirse</button>
                     </th>
                   </tr>
                 </tbody>

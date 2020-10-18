@@ -30,4 +30,10 @@ export class EventService {
     headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
     return this.http.post<Response>(EVENT_API + '/join/' + id, {headers});
   }
+
+  deleteEvent(id:number): Observable<Response>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.delete<Response>(EVENT_API + '/delete/' + id, {headers});
+  }
 }

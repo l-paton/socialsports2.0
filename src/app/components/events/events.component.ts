@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../services/event.service';
 import { Event } from '../../models/Event';
-
+import { TokenStorageService } from '../../services/token-storage.service';
+import { EmailValidator } from '@angular/forms';
 
 @Component({
   selector: 'app-events',
@@ -11,11 +12,13 @@ import { Event } from '../../models/Event';
 export class EventsComponent implements OnInit {
 
   events : Event[];
+  id: number;
 
-  constructor(private eventService: EventService) { }
+  constructor(private eventService: EventService, private tokenStorageService: TokenStorageService) { }
 
   ngOnInit(): void {
     this.getEvents();
+    this.id = this.tokenStorageService.getUser().id;
   }
 
   getEvents(){
@@ -25,9 +28,11 @@ export class EventsComponent implements OnInit {
   }
 
   joinToEvent(event:Event){
-    console.log(event.id);
-    this.eventService.joinToEvent(event.id).subscribe(Response);
-    window.location.reload();
+    this.eventService.joinToEvent(event.id).subscribe(() => window.location.reload());
+  }
+
+  deleteEvent(event:Event){
+    this.eventService.deleteEvent(event.id).subscribe(() => window.location.reload());
   }
 
 }
