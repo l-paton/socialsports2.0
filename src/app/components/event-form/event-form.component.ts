@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import{ EventService } from '../../services/event.service';
 import { Event } from '../../models/Event'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-event-form',
   templateUrl: './event-form.component.html',
@@ -15,7 +16,7 @@ export class EventFormComponent implements OnInit {
   price : number;
   comments:string;
 
-  constructor(public eventService : EventService) { }
+  constructor(private eventService : EventService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +25,7 @@ export class EventFormComponent implements OnInit {
       let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments);
       console.log(e);
       this.eventService.createEvent(e).subscribe((res:Response) => {
-        console.log(res);
+        this.router.navigateByUrl('/event');
       });
   }
 

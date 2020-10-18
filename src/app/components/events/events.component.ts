@@ -26,7 +26,8 @@ export class EventsComponent implements OnInit {
 
   joinToEvent(event:Event){
     console.log(event.id);
-    this.eventService.joinToEvent(event.id);
+    this.eventService.joinToEvent(event.id).subscribe(Response);
+    window.location.reload();
   }
 
 }

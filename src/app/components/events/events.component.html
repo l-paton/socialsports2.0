@@ -16,13 +16,14 @@
               <table class="table">
                 <thead class="thead-dark">
                   <tr>
-                    <th scope="col">Creador</th>
-                    <th scope="col">Deporte</th>
-                    <th scope="col">Localización</th>
-                    <th scope="col">Creado el</th>
-                    <th scope="col">Precio</th>
-                    <th scope="col">Participantes</th>
-                    <th scope="col"></th>
+                    <th scope="col" style="width: 20%">Creador</th>
+                    <th scope="col" style="width: 20%">Deporte</th>
+                    <th scope="col" style="width: 20%">Localización</th>
+                    <th scope="col" style="width: 10%">Fecha</th>
+                    <th scope="col" style="width: 10%">Precio</th>
+                    <th scope="col" style="width: 10%">Participantes</th>
+                    <th scope="col" style="width: 5%"></th>
+                    <th scope="col" style="width: 5%"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -30,13 +31,13 @@
                     <td>{{evento.organizer.firstName}}</td>
                     <td>{{evento.sport | uppercase}}</td>
                     <td>{{evento.address | uppercase}}</td>
-                    <td>{{evento.createdAt}}</td>
+                    <td>{{evento.startDate | date : 'dd-MM-yyyy'}}</td>
                     <td>{{evento.price}}€</td>
                     <td>{{evento.participants.length}}</td>
-                    <td>
-                      <button class="btn btn-primary btn-sm mr-2">Mostrar</button>
+                    <th><button class="btn btn-primary btn-sm">Mostrar</button></th>
+                    <th>
                       <button class="btn btn-warning btn-sm" (click)="joinToEvent(evento)">Unirse</button>
-                    </td>
+                    </th>
                   </tr>
                 </tbody>
               </table>
@@ -52,8 +53,6 @@
                   <a class="page-link" href="#" tabindex="-1">Previous</a>
                 </li>
                 <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
                 <li class="page-item">
                   <a class="page-link" href="#">Next</a>
                 </li>

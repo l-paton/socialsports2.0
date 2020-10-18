@@ -32,6 +32,11 @@ export class TokenStorageService {
   public getUser(): any{
     return JSON.parse(sessionStorage.getItem(USER_KEY));
   }
+
+  public logout(): void{
+    window.sessionStorage.removeItem(USER_KEY);
+    window.sessionStorage.clear();
+  }
   
   get isLoggedIn(): boolean {
     let authToken = this.getToken();
