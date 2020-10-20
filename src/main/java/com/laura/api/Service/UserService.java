@@ -30,15 +30,30 @@ public class UserService {
 		return repository.findAll();
 	}
 
-	public User addFriend(User user, long id){
+	public void addFriend(User user, long id){
 
 		User friend = repository.findById(id).orElse(null);
 		
-		if(friend != null && user != null) {
-			Set<User> set = user.getFriends();
-			set.add(friend);
-			user.setFriends(set);
-			return repository.save(user);
+		if(friend != null && user != null && friend.getId() != user.getId()) {
+			Set<User> userSet = user.getFriends();
+			Set<User> friendSet = friend.getFriends();
+			
+			userSet.add(friend);
+			friendSet.add(user);
+
+			user.setFriends(userSet);
+			friend.setFriends(friendSet);
+
+			repository.save(user);
+			repository.save(friend);
+		}
+		
+	}
+
+	public Iterable<User> getFriends(long id){
+		User user = repository.findById(id).orElse(null);
+		if(user != null){
+			return user.getFriends();
 		}
 		return null;
 	}

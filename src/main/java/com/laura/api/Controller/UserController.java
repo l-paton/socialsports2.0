@@ -60,13 +60,13 @@ public class UserController {
 
 	@PostMapping("/add/friend/{id}")
 	public ResponseEntity<?> addFriend(@PathVariable("id") long id){
+		userService.addFriend(getUser(), id);
+		return ResponseEntity.ok().build();
+	}
 
-		if(userService.addFriend(getUser(), id) != null){
-			return ResponseEntity.ok().build();
-		}
-		
-		return ResponseEntity.badRequest().build();
-
+	@GetMapping("/friends")
+	public Iterable<User> getFriends(){
+		return userService.getFriends(getUser().getId());
 	}
 	
 	private User getUser() {

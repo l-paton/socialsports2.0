@@ -68,9 +68,11 @@ public class User {
 				inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
 	private Set<Role> roles = new HashSet<>();
 	
+	@JsonIgnore
 	@ManyToMany(mappedBy = "participants")
 	private Set<Event> eventsJoined = new HashSet<>();
 
+	@JsonIgnore
 	@ManyToMany
 	private Set<User> friends = new HashSet<>();
 
