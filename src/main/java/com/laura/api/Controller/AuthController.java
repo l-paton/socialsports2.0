@@ -33,9 +33,9 @@ import com.laura.api.payload.LoginRequest;
 import com.laura.api.payload.MessageResponse;
 import com.laura.api.payload.SignupRequest;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
 	@Autowired
@@ -82,7 +82,7 @@ public class AuthController {
 		}
 		
 		User user = new User(signUpRequest.getEmail(), signUpRequest.getFirstname(), signUpRequest.getLastname(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), new Date(System.currentTimeMillis()));
-
+		user.setFriends(new HashSet<User>());
 		Set<String> strRoles = signUpRequest.getRole();
 		Set<Role> roles = new HashSet<>();
 

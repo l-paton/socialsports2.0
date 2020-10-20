@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +19,7 @@ import com.laura.api.model.User;
 
 @RestController
 @RequestMapping("/api/user")
+@CrossOrigin(origins = "*")
 public class UserController {
 
 	@Autowired
@@ -52,6 +56,17 @@ public class UserController {
 		User user = getUser();
 		userService.deleteUser(user);
 		return ResponseEntity.noContent().build();
+	}
+
+	@PostMapping("/add/friend/{id}")
+	public ResponseEntity<?> addFriend(@PathVariable("id") long id){
+
+		if(userService.addFriend(getUser(), id) != null){
+			return ResponseEntity.ok().build();
+		}
+		
+		return ResponseEntity.badRequest().build();
+
 	}
 	
 	private User getUser() {

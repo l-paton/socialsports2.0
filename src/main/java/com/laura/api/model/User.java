@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,7 +33,7 @@ public class User {
 	@NotBlank
 	@Email
 	@Size(max = 320)
-	@Column(name="EMAIL", nullable=false, unique=true)
+	@Column(name="EMAIL", nullable=false)
 	private String email;
 	
 	@JsonIgnore
@@ -71,6 +70,9 @@ public class User {
 	
 	@ManyToMany(mappedBy = "participants")
 	private Set<Event> eventsJoined = new HashSet<>();
+
+	@ManyToMany
+	private Set<User> friends = new HashSet<>();
 
 	public User() {
 		
@@ -141,12 +143,12 @@ public class User {
 		this.birthday = birthday;
 	}
 
-	public Date getCreated_at() {
-		return created_at;
+	public Date getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreated_at(Date created_at) {
-		this.created_at = created_at;
+	public void setcreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
 	}
 
 	public String getPicture() {
@@ -164,4 +166,25 @@ public class User {
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Set<Event> getEventsJoined() {
+		return eventsJoined;
+	}
+
+	public void setEventsJoined(Set<Event> eventsJoined) {
+		this.eventsJoined = eventsJoined;
+	}
+
+	public Set<User> getFriends() {
+		return friends;
+	}
+
+	public void setFriends(Set<User> friends) {
+		this.friends = friends;
+	}
+	
 }

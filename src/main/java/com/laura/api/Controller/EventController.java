@@ -25,9 +25,10 @@ import com.laura.api.Service.UserService;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
 
-@CrossOrigin(origins = "*", maxAge = 3600)
+
 @RestController
 @RequestMapping("/api/event")
+@CrossOrigin(origins = "*")
 public class EventController {
 
 	@Autowired
@@ -83,10 +84,16 @@ public class EventController {
 	
 	@PostMapping("/join/{id}")
 	public ResponseEntity<?> joinToEvent(@PathVariable("id") long id){
-		if(eventService.joinToEvent(id, getUser()) != null) {
-			return ResponseEntity.noContent().build();
+		try{
+			if(eventService.joinToEvent(id, getUser()) != null) {
+				return ResponseEntity.noContent().build();
+			}
+
+			return ResponseEntity.badRequest().build();
+
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.badRequest().build();
 	}
 	
 	private User getUser() {
