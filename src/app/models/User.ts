@@ -9,4 +9,5 @@ export class User{
     birthday:Date;
     created_at:Date;
     picture:string;
+    description:string;
 }

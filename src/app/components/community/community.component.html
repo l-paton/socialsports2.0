@@ -1,0 +1,20 @@
+<div class="container-fluid">
+    <div class="row mt-5">
+        <div class="col-4" *ngFor="let user of users">
+            <ul class="user-card list-unstyled">
+                <li class="media">
+                  <img class="img-user mr-3" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                  <div class="media-body">
+                    <h5 class="mt-0 mb-1">{{user.firstName}} {{user.lastName}}</h5>
+                    {{user.description}}
+                    <p *ngIf="user.description == null">Sin descripción</p>
+                    <div class="text-right">
+                        <button class="btn btn-sm btn-success mr-1" *ngIf="user.id != id" (click)="addFriend(user.id)">Añadir amigo</button>
+                        <button class="btn btn-sm btn-info">Ver perfil</button>
+                    </div>
+                  </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

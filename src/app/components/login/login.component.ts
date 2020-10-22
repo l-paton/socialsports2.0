@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit {
     this.loginForm.markAllAsTouched();
 
     if (!this.loginForm.invalid) {
-      this.authService.login(this.loginForm).subscribe(
+      this.authService.login(this.loginForm.get('email').value, this.loginForm.get('password').value).subscribe(
         data => {
           this.tokenStorage.saveToken(data.accessToken);
           this.tokenStorage.saveUser(data);

@@ -35,6 +35,7 @@ export class TokenStorageService {
 
   public logout(): void{
     window.sessionStorage.removeItem(USER_KEY);
+    window.sessionStorage.removeItem(TOKEN_KEY);
     window.sessionStorage.clear();
   }
   

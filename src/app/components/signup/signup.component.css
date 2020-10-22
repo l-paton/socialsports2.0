@@ -8,14 +8,14 @@
 }
 
 .container-fluid, .row{
-    height: 100%;
+    height: 100vh;
 }
 
 .container-left{
     background-image: url('../../../assets/images/pexels-gustavo-linhares-1839836.jpg');
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100%;
+    height: 100vh;
     position: relative;
 }
 
