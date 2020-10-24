@@ -6,7 +6,9 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -90,6 +92,21 @@ public class EventController {
 			}
 
 			return ResponseEntity.badRequest().build();
+
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@DeleteMapping("/leave/{id}")
+	public ResponseEntity<?> leaveEvent(@PathVariable("id") long id){
+		try{
+			Event event = eventService.leaveEvent(id, getUser());
+			if(event.getParticipants().contains(getUser())){
+				return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			}
+			
+			return ResponseEntity.noContent().build();
 
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();

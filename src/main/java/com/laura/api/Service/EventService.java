@@ -44,4 +44,17 @@ public class EventService {
 		
 		return null;
 	}
+
+	public Event leaveEvent(long id, User user){
+		Event event = repository.findById(id).orElse(null);
+
+		if(event != null){
+			Set<User> set = event.getParticipants();
+			set.remove(user);
+			event.setParticipants(set);
+			return repository.save(event);
+		}
+
+		return null;
+	}
 }

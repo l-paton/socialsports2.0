@@ -3,6 +3,8 @@ package com.laura.api.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import antlr.debug.Event;
+
 import java.util.Set;
 
 import com.laura.api.Repository.UserRepository;
@@ -49,13 +51,4 @@ public class UserService {
 		}
 		
 	}
-
-	public Iterable<User> getFriends(long id){
-		User user = repository.findById(id).orElse(null);
-		if(user != null){
-			return user.getFriends();
-		}
-		return null;
-	}
-
 }

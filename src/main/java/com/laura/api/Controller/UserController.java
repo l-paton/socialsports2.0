@@ -53,20 +53,40 @@ public class UserController {
 	
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> deleteUser(){
-		User user = getUser();
-		userService.deleteUser(user);
-		return ResponseEntity.noContent().build();
+		try{
+			userService.deleteUser(getUser());
+			return ResponseEntity.noContent().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
 	}
 
 	@PostMapping("/add/friend/{id}")
 	public ResponseEntity<?> addFriend(@PathVariable("id") long id){
-		userService.addFriend(getUser(), id);
-		return ResponseEntity.ok().build();
+		try{
+			userService.addFriend(getUser(), id);
+			return ResponseEntity.ok().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
 	}
 
 	@GetMapping("/friends")
-	public Iterable<User> getFriends(){
-		return userService.getFriends(getUser().getId());
+	public ResponseEntity<?> getFriends(){
+		try{
+			return ResponseEntity.ok(getUser().getFriends());
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/events/joined")
+	public ResponseEntity<?> getEventsJoined(){
+		try{
+			return ResponseEntity.ok(getUser().getEventsJoined());
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
 	}
 	
 	private User getUser() {

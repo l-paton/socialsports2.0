@@ -60,6 +60,13 @@ public class User {
 	
 	@Column(name="PICTURE")
 	private String picture;
+
+	@Column(name="DESCRIPTION")
+	private String description;
+
+	/*@JsonIgnore
+	@Column(name="ACTIVATED")
+	private boolean activated;*/
 	
 	@JsonIgnore
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -188,5 +195,20 @@ public class User {
 	public void setFriends(Set<User> friends) {
 		this.friends = friends;
 	}
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/*public boolean isActivated() {
+		return activated;
+	}
+
+	public void setActivated(boolean activated) {
+		this.activated = activated;
+	}*/	
 }
