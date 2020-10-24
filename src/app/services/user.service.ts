@@ -18,4 +18,11 @@ export class UserService {
     headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
     return this.http.get<Event[]>(USER_API + '/events/joined', {headers});
   }
+
+  getProfilePicture(): Observable<any>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    headers.append('Content-Type', 'text/plain; charset=utf-8');
+    return this.http.get(USER_API + '/picture', {headers, responseType: 'text'});
+  }
 }

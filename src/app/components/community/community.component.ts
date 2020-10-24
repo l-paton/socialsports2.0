@@ -36,4 +36,11 @@ export class CommunityComponent implements OnInit {
     );
   }
 
+  getUrlPictureUser(user:User): string{
+    if(user.picture == null){
+      return "http://placehold.it/64x64";
+    }
+    return user.picture;
+  }
+
 }

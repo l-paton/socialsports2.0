@@ -3,7 +3,7 @@
         <div class="col-4" *ngFor="let user of users">
             <ul class="user-card list-unstyled">
                 <li class="media">
-                  <img class="img-user mr-3" src="http://placehold.it/64x64" alt="Generic placeholder image">
+                  <img class="img-user mr-3" [src]="getUrlPictureUser(user)" alt="image">
                   <div class="media-body">
                     <h5 class="mt-0 mb-1">{{user.firstName}} {{user.lastName}}</h5>
                     {{user.description}}
