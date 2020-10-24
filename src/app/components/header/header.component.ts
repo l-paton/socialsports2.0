@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
   }
 
   getProfilePicture(): string{
-    console.log(this.picture);
     if(this.picture == null){
       return "http://placehold.it/45x45";
     }

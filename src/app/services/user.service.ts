@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Event } from '../../app/models/Event';
 import { TokenStorageService } from './token-storage.service';
+import { User } from '../models/User';
 
 const USER_API = 'http://localhost:8080/api/user';
 
@@ -22,7 +23,12 @@ export class UserService {
   getProfilePicture(): Observable<any>{
     let headers = new HttpHeaders();
     headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
-    headers.append('Content-Type', 'text/plain; charset=utf-8');
     return this.http.get(USER_API + '/picture', {headers, responseType: 'text'});
+  }
+
+  getUserData(): Observable<User>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.get<User>(USER_API + "/data", {headers});
   }
 }
