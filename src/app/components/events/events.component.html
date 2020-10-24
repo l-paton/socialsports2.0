@@ -37,7 +37,8 @@
                     <th><button class="btn btn-primary btn-sm">Mostrar</button></th>
                     <th>
                       <button class="btn btn-danger btn-sm" *ngIf="id == evento.organizer.id" (click)="deleteEvent(evento)">Eliminar</button>
-                      <button class="btn btn-warning btn-sm" *ngIf="id != evento.organizer.id" (click)="joinToEvent(evento)">Unirse</button>
+                      <button class="btn btn-warning btn-sm" *ngIf="id != evento.organizer.id && !isInEventsJoined(evento.id)" (click)="joinToEvent(evento)">Unirse</button>
+                      <button class="btn btn-danger btn-sm" *ngIf="isInEventsJoined(evento.id)" (click)="leave(evento.id)">Abandonar</button>
                     </th>
                   </tr>
                 </tbody>

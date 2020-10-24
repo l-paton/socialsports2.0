@@ -13,6 +13,7 @@ import { HeaderComponent } from './components/header/header.component';
 import { EventsComponent } from './components/events/events.component';
 import { EventFormComponent } from './components/event-form/event-form.component';
 import { CommunityComponent } from './components/community/community.component';
+import { ProfileComponent } from './components/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { CommunityComponent } from './components/community/community.component';
     HeaderComponent,
     EventsComponent,
     EventFormComponent,
-    CommunityComponent
+    CommunityComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

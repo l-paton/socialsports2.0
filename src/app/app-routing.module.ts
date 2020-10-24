@@ -7,7 +7,7 @@ import { HomeComponent } from './components/home/home.component';
 import { EventsComponent } from './components/events/events.component';
 import { EventFormComponent } from './components/event-form/event-form.component';
 import { CommunityComponent } from './components/community/community.component';
-
+import { ProfileComponent } from './components/profile/profile.component';
 import { AuthGuard } from './_helpers/auth.guard';
 
 
@@ -18,7 +18,8 @@ const routes: Routes = [
   { path: 'event', component: EventsComponent, canActivate: [AuthGuard] },
   { path: 'eventform', component: EventFormComponent, canActivate: [AuthGuard] },
   { path: 'community', component: CommunityComponent, canActivate: [AuthGuard] },
-  { path: '', component: EventsComponent, canActivate: [AuthGuard] },
+  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

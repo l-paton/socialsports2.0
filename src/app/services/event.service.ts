@@ -36,4 +36,10 @@ export class EventService {
     headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
     return this.http.delete<Response>(EVENT_API + '/delete/' + id, {headers});
   }
+
+  leaveEvent(id:number){
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.delete(EVENT_API + '/leave/' + id, {headers});
+  }
 }
