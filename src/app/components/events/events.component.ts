@@ -55,4 +55,11 @@ export class EventsComponent implements OnInit {
 
     return false;
   }
+
+  getUserPicture(picture){
+    if(picture == null){
+      return "http://placehold.it/45x45";
+    }
+    return picture;
+  }
 }

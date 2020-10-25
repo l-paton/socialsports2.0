@@ -20,4 +20,8 @@ export class CommunityService {
   addFriend(id:number): Observable<any>{
     return this.http.post<any>(USER_API + '/add/friend/' + id, { headers: new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken()})});
   }
+
+  deleteFriend(id:number): Observable<any>{
+    return this.http.delete<any>(USER_API + '/delete/friend/' + id, { headers: new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken()})});
+  }
 }

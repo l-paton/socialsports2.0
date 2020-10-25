@@ -1,9 +1,7 @@
-import { Component, OnInit, SecurityContext } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Component, OnInit } from '@angular/core';
 import { TokenStorageService } from '../../services/token-storage.service'
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
-import { User } from 'src/app/models/User';
 
 @Component({
   selector: 'app-header',
@@ -15,9 +13,10 @@ export class HeaderComponent implements OnInit {
   showHead: boolean = false;
   picture:string;
 
-  constructor(private sanitizer: DomSanitizer, private router: Router, private tokenStorage:TokenStorageService, private userService:UserService) {
-    router.events.forEach(() => {
+  constructor(private router: Router, private tokenStorage:TokenStorageService, private userService:UserService) {
+    this.router.events.forEach(() => {
       if(tokenStorage.isLoggedIn){
+        this.userService.getProfilePicture().subscribe(data => this.picture = data);
         this.showHead = true;
       }else{
         this.showHead = false;
@@ -26,7 +25,7 @@ export class HeaderComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.userService.getProfilePicture().subscribe(data => this.picture = data);
+    
   }
 
   logout(){
@@ -34,9 +33,12 @@ export class HeaderComponent implements OnInit {
   }
 
   getProfilePicture(): string{
-    if(this.picture == null){
-      return "http://placehold.it/45x45";
+    if(this.picture != undefined){
+      this.ngOnInit();
+      if(this.picture == null){
+        return "http://placehold.it/45x45";
+      }
+      return this.picture;
     }
-    return this.picture;
   }
 }

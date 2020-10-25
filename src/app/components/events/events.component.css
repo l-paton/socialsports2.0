@@ -1,3 +1,9 @@
 .container-fluid{
     height: 100%;
 }
+
+.img-profile{
+    width: 45px;
+    height: 45px;
+    border-radius: 180%;
+}

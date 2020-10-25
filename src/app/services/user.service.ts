@@ -31,4 +31,10 @@ export class UserService {
     headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
     return this.http.get<User>(USER_API + "/data", {headers});
   }
+
+  getFriends(): Observable<User[]>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.get<User[]>(USER_API + '/friends', {headers});
+  }
 }
