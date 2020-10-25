@@ -49,4 +49,22 @@ public class UserService {
 		}
 		
 	}
+
+	public void deleteFriend(User user, long id){
+		User friend = repository.findById(id).orElse(null);
+		
+		if(friend != null && user != null){
+			Set<User> userSet = user.getFriends();
+			Set<User> friendSet = friend.getFriends();
+
+			userSet.remove(friend);
+			friendSet.remove(user);
+
+			user.setFriends(userSet);
+			friend.setFriends(friendSet);
+
+			repository.save(user);
+			repository.save(friend);
+		}
+	}
 }

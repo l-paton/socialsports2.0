@@ -1,6 +1,7 @@
 package com.laura.api.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
 
 import com.laura.api.Service.UserService;
 import com.laura.api.model.User;
@@ -71,6 +74,16 @@ public class UserController {
 		}
 	}
 
+	@DeleteMapping("/delete/friend/{id}")
+	public ResponseEntity<?> deleteFriend(@PathVariable("id") long id){
+		try{
+			userService.deleteFriend(getUser(), id);
+			return ResponseEntity.noContent().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 	@GetMapping("/friends")
 	public ResponseEntity<?> getFriends(){
 		try{
@@ -87,6 +100,16 @@ public class UserController {
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
+	}
+
+	@GetMapping("/picture")
+	public ResponseEntity<?> getPicture(){
+		return ResponseEntity.ok(getUser().getPicture());
+	}
+
+	@GetMapping("/data")
+	public User getUserData(){
+		return getUser();
 	}
 	
 	private User getUser() {
