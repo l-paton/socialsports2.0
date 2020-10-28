@@ -23,15 +23,18 @@
                 <form class="form-profile" *ngIf="user != undefined">
                     <div class="form-group text-left">
                         <label class=" col-form-label">Nombre</label>
-                        <input type="text" class="form-control" placeholder={{user.firstName}}>
+                        <input type="text" class="form-control" placeholder={{user.firstName}} [(ngModel)]="firstName" name="firstname">
                     </div>
                     <div class="form-group text-left">
                         <label class="col-form-label">Apellidos</label>
-                        <input type="text" class="form-control" placeholder={{user.lastName}}>
+                        <input type="text" class="form-control" placeholder={{user.lastName}} [(ngModel)]="lastName" name="lastname">
                     </div>
                     <div class="form-group text-left">
                         <label class="col-form-label">Descripción</label>
-                        <textarea class="form-control" placeholder={{user.description}}></textarea>
+                        <textarea class="form-control" placeholder={{user.description}} [(ngModel)]="description" name="description"></textarea>
+                    </div>
+                    <div class="form-group text-right">
+                        <button class="btn btn-warning" (click)="modifyProfile()" >Cambiar</button>
                     </div>
                 </form>
             </div>

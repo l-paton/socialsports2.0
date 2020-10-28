@@ -33,12 +33,10 @@ export class HeaderComponent implements OnInit {
   }
 
   getProfilePicture(): string{
-    if(this.picture != undefined){
-      this.ngOnInit();
-      if(this.picture == null){
+      if(this.picture == null || this.picture.length <= 0){
         return "http://placehold.it/45x45";
       }
       return this.picture;
     }
-  }
+  
 }

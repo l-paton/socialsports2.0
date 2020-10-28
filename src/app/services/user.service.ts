@@ -37,4 +37,22 @@ export class UserService {
     headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
     return this.http.get<User[]>(USER_API + '/friends', {headers});
   }
+
+  modifyFirstName(firstName: string): Observable<any>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.put(USER_API + '/edit/firstname', firstName, {headers});
+  }
+
+  modifyLastName(lastName: string): Observable<any>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.put(USER_API + '/edit/lastname', lastName, {headers});
+  }
+
+  modifyDescription(description: string): Observable<any>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.put(USER_API + '/edit/description', description, {headers});
+  }
 }

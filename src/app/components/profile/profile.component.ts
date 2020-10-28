@@ -13,6 +13,9 @@ export class ProfileComponent implements OnInit {
 
   user: User;
   email:string;
+  firstName:string;
+  lastName:string;
+  description:string;
   selectedFiles:FileList;
 
   constructor(private userService:UserService, private tokenStorage:TokenStorageService, private fileService:FileServiceService) { 
@@ -40,6 +43,20 @@ export class ProfileComponent implements OnInit {
     if(this.selectedFiles.length > 0){
       this.fileService.uploadImage(this.selectedFiles.item(0)).subscribe(() => window.location.reload());
     }    
+  }
+
+  modifyProfile(){
+    if(this.description != null){
+      this.userService.modifyDescription(this.description).subscribe();      
+    }
+
+    if(this.firstName != null && this.firstName != ""){
+      this.userService.modifyFirstName(this.firstName).subscribe();
+    }
+
+    if(this.lastName != null && this.lastName != ""){
+      this.userService.modifyLastName(this.lastName).subscribe();
+    }
   }
 
 }
