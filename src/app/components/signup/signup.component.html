@@ -11,7 +11,7 @@
                     <h1 class="mb-5">Sign in</h1>
                     <form class="form-login" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
             
-                        <div *ngIf="signUpForm.invalid && signUpForm.touched" class="alert alert-danger">Rellena bien todos los campos</div>
+                        <div *ngIf="errorMessage" class="alert alert-danger">{{errorMessage}}</div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <input type="text" class="form-control" formControlName="firstname" placeholder="Nombre">

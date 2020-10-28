@@ -13,7 +13,7 @@ export class SignupComponent implements OnInit {
   signUpForm: FormGroup;
   isSuccessful = false;
   isSignUpFailed = false;
-  errorMessage = '';
+  errorMessage = null;
 
   constructor(private authService:AuthService, private router:Router, private formBuilder:FormBuilder) { }
 
@@ -37,20 +37,26 @@ export class SignupComponent implements OnInit {
 
   onSubmit(): void {
 
-    this.signUpForm.markAllAsTouched();
-
     if (!this.signUpForm.invalid) {
-      this.authService.signup(this.signUpForm).subscribe(
-        data => {
-          this.isSuccessful = true;
-          this.isSignUpFailed = false;
-          this.router.navigateByUrl('/login');
-        },
-        err => {
-          this.errorMessage = err.error.message;
-          this.isSignUpFailed = true;
-        }
-      );
+
+      if(this.password.value === this.repeatPassword.value){
+        this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value).subscribe(
+          () => {
+            this.isSuccessful = true;
+            this.isSignUpFailed = false;
+            this.router.navigateByUrl('/login');
+          },
+          err => {
+            console.log(err);
+            this.errorMessage = err.error;
+            this.isSignUpFailed = true;
+          }
+        );
+      }else{
+        this.errorMessage = 'Las contraseñas no coinciden';
+      }
+    }else{
+      this.errorMessage = 'Rellena bien los campos';
     }
   }
 }
