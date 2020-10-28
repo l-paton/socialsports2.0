@@ -73,4 +73,10 @@ public class SignupRequest {
     public void setGender(EGender gender) {
       this.gender = gender;
     }
+
+    @Override
+    public String toString() {
+      return "SignupRequest [email=" + email + ", firstname=" + firstname + ", gender=" + gender + ", lastname="
+          + lastname + ", password=" + password + ", role=" + role + "]";
+    }
 }

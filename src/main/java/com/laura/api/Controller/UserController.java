@@ -1,7 +1,7 @@
 package com.laura.api.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.HashMap;
 
 import com.laura.api.Service.UserService;
 import com.laura.api.model.User;
@@ -33,7 +31,7 @@ public class UserController {
 		return userService.getUsers();
 	}
 	
-	@PutMapping("/edit/fistname")
+	@PutMapping("/edit/firstname")
 	public ResponseEntity<?> editFirstName(@RequestBody String firstName){
 		
 		User user = getUser();
@@ -53,7 +51,19 @@ public class UserController {
 		}
 		return ResponseEntity.badRequest().build();
 	}
-	
+
+	@PutMapping("/edit/description")
+	public ResponseEntity<?> editDescription(@RequestBody String description){
+		User user = getUser();
+		user.setDescription(description);
+		try{
+			userService.editUser(user);
+			return ResponseEntity.noContent().build();
+		}catch(Exception e){
+			return ResponseEntity.noContent().build();
+		}
+	}
+
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> deleteUser(){
 		try{
