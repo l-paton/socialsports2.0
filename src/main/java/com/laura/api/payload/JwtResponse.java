@@ -1,20 +1,16 @@
 package com.laura.api.payload;
 
-import java.util.List;
-
 public class JwtResponse {
 	
 	private String token;
 	private String type = "Bearer";
 	private Long id;
 	private String email;
-	private List<String> roles;
 	
-	public JwtResponse(String accessToken, Long id, String email, List<String> roles) {
+	public JwtResponse(String accessToken, Long id, String email) {
 		this.token = accessToken;
 		this.id = id;
 		this.email = email;
-		this.roles = roles;
 	}
 
 	public String getAccessToken() {
@@ -47,9 +43,5 @@ public class JwtResponse {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public List<String> getRoles() {
-		return roles;
 	}
 }

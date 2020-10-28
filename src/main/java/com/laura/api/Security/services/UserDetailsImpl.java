@@ -1,9 +1,9 @@
 package com.laura.api.Security.services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,10 +22,10 @@ public class UserDetailsImpl implements UserDetails {
 	@JsonIgnore
 	private String password;
 
-	private Collection<? extends GrantedAuthority> authorities;
+	private List<GrantedAuthority> authorities;
 
 	public UserDetailsImpl(Long id, String email, String password,
-			Collection<? extends GrantedAuthority> authorities) {
+	List<GrantedAuthority> authorities) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
@@ -33,9 +33,8 @@ public class UserDetailsImpl implements UserDetails {
 	}
 
 	public static UserDetailsImpl build(User user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(role -> new SimpleGrantedAuthority(role.getName().name()))
-				.collect(Collectors.toList());
+		List<GrantedAuthority> authorities = new ArrayList<>();
+		authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
 		return new UserDetailsImpl(
 				user.getId(), 

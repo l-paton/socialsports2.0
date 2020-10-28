@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.laura.api.Security.jwt.AuthEntryPointJwt;
 import com.laura.api.Security.jwt.AuthTokenFilter;
 import com.laura.api.Security.services.UserDetailsServiceImpl;
 
@@ -25,9 +24,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
-
-	@Autowired
-	private AuthEntryPointJwt unauthorizedHandler;
 
 	@Bean
 	public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -52,12 +48,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+		http.cors().and().csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.authorizeRequests().antMatchers("/api/auth/**", "/api/images/users/**").permitAll()
 			.anyRequest().authenticated();
 		
-		http.cors().and().csrf().disable();
 		http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 }

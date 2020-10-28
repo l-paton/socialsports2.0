@@ -1,10 +1,6 @@
 package com.laura.api.Controller;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -22,12 +18,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.laura.api.Repository.RoleRepository;
 import com.laura.api.Repository.UserRepository;
 import com.laura.api.Security.jwt.JwtUtils;
 import com.laura.api.Security.services.UserDetailsImpl;
-import com.laura.api.model.ERole;
-import com.laura.api.model.Role;
 import com.laura.api.model.User;
 import com.laura.api.payload.JwtResponse;
 import com.laura.api.payload.LoginRequest;
@@ -46,9 +39,6 @@ public class AuthController {
 	UserRepository userRepository;
 
 	@Autowired
-	RoleRepository roleRepository;
-
-	@Autowired
 	PasswordEncoder encoder;
 
 	@Autowired
@@ -59,19 +49,16 @@ public class AuthController {
 
 		Authentication authentication = authenticationManager.authenticate(
 				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-
-		SecurityContextHolder.getContext().setAuthentication(authentication);
-		String jwt = jwtUtils.generateJwtToken(authentication);
 		
-		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();		
-		List<String> roles = userDetails.getAuthorities().stream()
-				.map(item -> item.getAuthority())
-				.collect(Collectors.toList());
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		String jwt = jwtUtils.generateJwtToken(loginRequest.getEmail());
+		
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
 		return ResponseEntity.ok(new JwtResponse(jwt, 
 												 userDetails.getId(), 
-												 userDetails.getEmail(), 
-												 roles));
+												 userDetails.getEmail()));
 	}
 
 	@PostMapping("/signup")
@@ -93,33 +80,7 @@ public class AuthController {
 		}
 		
 		User user = new User(signUpRequest.getEmail(), signUpRequest.getFirstname(), signUpRequest.getLastname(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), new Date(System.currentTimeMillis()));
-
-		Set<String> strRoles = signUpRequest.getRole();
-		Set<Role> roles = new HashSet<>();
-
-		if (strRoles == null) {
-			Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-					.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-			roles.add(userRole);
-		} else {
-			strRoles.forEach(role -> {
-				switch (role) {
-				case "admin":
-					Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(adminRole);
-
-					break;
-				default:
-					Role userRole = roleRepository.findByName(ERole.ROLE_USER)
-							.orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-					roles.add(userRole);
-				}
-			});
-		}
-
-		user.setRoles(roles);
-
+		
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

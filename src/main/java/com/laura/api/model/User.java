@@ -6,11 +6,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -67,13 +64,6 @@ public class User {
 	/*@JsonIgnore
 	@Column(name="ACTIVATED")
 	private boolean activated;*/
-	
-	@JsonIgnore
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name = "USER_ROLES", 
-				joinColumns = @JoinColumn(name = "USER_ID"), 
-				inverseJoinColumns = @JoinColumn(name = "ROLE_ID"))
-	private Set<Role> roles = new HashSet<>();
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "participants")
@@ -166,14 +156,6 @@ public class User {
 
 	public void setPicture(String picture) {
 		this.picture = picture;
-	}
-
-	public Set<Role> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<Role> roles) {
-		this.roles = roles;
 	}
 
 	public void setCreatedAt(Date createdAt) {

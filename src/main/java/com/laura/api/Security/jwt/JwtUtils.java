@@ -2,64 +2,57 @@ package com.laura.api.Security.jwt;
 
 import org.springframework.stereotype.Component;
 
-import com.laura.api.Security.services.UserDetailsImpl;
-
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.Keys;
 
+import java.util.Base64;
 import java.util.Date;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
 
 @Component
 public class JwtUtils {
-	private static final Logger logger = LoggerFactory.getLogger(JwtUtils.class);
 
-	@Value("${laura.api.jwtSecret}")
-	private String jwtSecret;
+	private byte[] secret = Base64.getDecoder().decode("FzrjEf54HygsZxHaHqmPBGfvilRIET2e5srD70iLLTs=");
 
-	@Value("${laura.api.jwtExpirationMs}")
-	private int jwtExpirationMs;
-
-	public String generateJwtToken(Authentication authentication) {
-
-		UserDetailsImpl userPrincipal = (UserDetailsImpl) authentication.getPrincipal();
+	public String generateJwtToken(String correo) {
 
 		return Jwts.builder()
-				.setSubject((userPrincipal.getEmail()))
+				.setSubject(correo)
 				.setIssuedAt(new Date())
-				.setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
-				.signWith(SignatureAlgorithm.HS512, jwtSecret)
+				.setExpiration(new Date((new Date()).getTime() + 86400000))
+				.signWith(Keys.hmacShaKeyFor(secret))
 				.compact();
 	}
 
-	public String getUserNameFromJwtToken(String token) {
-		return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody().getSubject();
+	public String getEmail(String token) {
+		Jws<Claims> jws;
+		try {
+			jws = Jwts.parserBuilder() 
+				    .setSigningKey(Keys.hmacShaKeyFor(secret))
+				    .build()                    
+				    .parseClaimsJws(token);
+			
+			return jws.getBody().getSubject();
+		}catch(JwtException ex) {
+			return "";
+		}
 	}
 
-	public boolean validateJwtToken(String authToken) {
+	public boolean validateJwtToken(String token) {
+		Jws<Claims> jws;
 		try {
-			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+		    jws = Jwts.parserBuilder() 
+		    .setSigningKey(Keys.hmacShaKeyFor(secret))
+		    .build()                    
+		    .parseClaimsJws(token); 
+		
 			return true;
-		} catch (SignatureException e) {
-			logger.error("Invalid JWT signature: {}", e.getMessage());
-		} catch (MalformedJwtException e) {
-			logger.error("Invalid JWT token: {}", e.getMessage());
-		} catch (ExpiredJwtException e) {
-			logger.error("JWT token is expired: {}", e.getMessage());
-		} catch (UnsupportedJwtException e) {
-			logger.error("JWT token is unsupported: {}", e.getMessage());
-		} catch (IllegalArgumentException e) {
-			logger.error("JWT claims string is empty: {}", e.getMessage());
+			
+		} catch (JwtException e) {
+			System.out.println(e.getMessage());
+			return false;
 		}
-
-		return false;
 	}
 }
