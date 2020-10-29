@@ -46,7 +46,7 @@ public class User {
 	private String lastName;
 	
 	@Column(name="GENDER")
-	private EGender gender;
+	private int gender;
 	
 	@Column(name="BIRTHDAY")
 	private Date birthday;
@@ -77,7 +77,7 @@ public class User {
 		
 	}
 	
-	public User(String email, String firstname, String lastname, String password, EGender gender, Date createAt) {
+	public User(String email, String firstname, String lastname, String password, int gender, Date createAt) {
 		this.email = email;
 		this.firstName = firstname;
 		this.lastName = lastname;
@@ -126,11 +126,11 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public EGender getGender() {
+	public int getGender() {
 		return gender;
 	}
 
-	public void setGender(EGender gender) {
+	public void setGender(int gender) {
 		this.gender = gender;
 	}
 

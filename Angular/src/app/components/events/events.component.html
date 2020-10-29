@@ -43,7 +43,7 @@
                     <td>{{evento.startDate | date : 'dd-MM-yyyy'}}</td>
                     <td>{{evento.price}}€</td>
                     <td>{{evento.participants.length}}</td>
-                    <th><button class="btn btn-primary btn-sm">Mostrar</button></th>
+                    <th><button class="btn btn-mostrar btn-sm" (click)="getEvent(evento.id)">Mostrar</button></th>
                     <th>
                       <button class="btn btn-danger btn-sm" *ngIf="id == evento.organizer.id" (click)="deleteEvent(evento)">Eliminar</button>
                       <button class="btn btn-warning btn-sm" *ngIf="id != evento.organizer.id && !isInEventsJoined(evento.id)" (click)="joinToEvent(evento)">Unirse</button>

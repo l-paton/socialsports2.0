@@ -6,8 +6,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.laura.api.model.EGender;
-
 public class SignupRequest {
     @NotBlank
     @Size(max = 320)
@@ -18,13 +16,11 @@ public class SignupRequest {
     
     private String lastname;
     
-    private Set<String> role;
-    
     @NotBlank
     @Size(min = 6, max = 64)
     private String password;
 
-    private EGender gender;
+    private int gender;
  
     public String getEmail() {
         return email;
@@ -57,26 +53,18 @@ public class SignupRequest {
 	public void setPassword(String password) {
         this.password = password;
     }
-    
-    public Set<String> getRole() {
-      return this.role;
-    }
-    
-    public void setRole(Set<String> role) {
-      this.role = role;
-    }
 
-    public EGender getGender() {
+    public int getGender() {
       return gender;
     }
 
-    public void setGender(EGender gender) {
+    public void setGender(int gender) {
       this.gender = gender;
     }
 
     @Override
     public String toString() {
       return "SignupRequest [email=" + email + ", firstname=" + firstname + ", gender=" + gender + ", lastname="
-          + lastname + ", password=" + password + ", role=" + role + "]";
+          + lastname + ", password=" + password + "]";
     }
 }

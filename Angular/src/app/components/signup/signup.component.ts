@@ -14,6 +14,7 @@ export class SignupComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = null;
+  gender = 0;
 
   constructor(private authService:AuthService, private router:Router, private formBuilder:FormBuilder) { }
 
@@ -24,7 +25,7 @@ export class SignupComponent implements OnInit {
         lastname:new FormControl('', [Validators.required]),
         email:new FormControl('', [Validators.required]),
         password:new FormControl('', [Validators.required]),
-        repeatPassword:new FormControl('', [Validators.required])
+        repeatPassword:new FormControl('', [Validators.required]),
       }
     );
   }
@@ -40,7 +41,7 @@ export class SignupComponent implements OnInit {
     if (!this.signUpForm.invalid) {
 
       if(this.password.value === this.repeatPassword.value){
-        this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value).subscribe(
+        this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value, this.gender).subscribe(
           () => {
             this.isSuccessful = true;
             this.isSignUpFailed = false;
@@ -58,5 +59,10 @@ export class SignupComponent implements OnInit {
     }else{
       this.errorMessage = 'Rellena bien los campos';
     }
+  }
+
+  checkCheckBoxvalue(gender:number){
+    console.log(gender);
+    this.gender = gender;  
   }
 }

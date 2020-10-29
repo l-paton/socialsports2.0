@@ -42,4 +42,11 @@ export class EventService {
     headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
     return this.http.delete(EVENT_API + '/leave/' + id, {headers});
   }
+
+  getEvent(id:string): Observable<Event>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.get<Event>(EVENT_API + '/get/' + id, {headers});
+  }
+
 }

@@ -15,3 +15,7 @@ thead{
 table{
     background-color: rgba(0,0,0,0.3) !important;
 }
+
+.btn-mostrar{
+    background-color: #00ffea !important;
+}

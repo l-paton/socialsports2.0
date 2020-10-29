@@ -1,13 +1,9 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md container-left d-none d-md-block">
-            <div class="overlay">
-                
-            </div>
-        </div>
-        <div class="col-sm container-right">
-            <div class="col-sm container-right">
-                <div class="container container-login text-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-sm-12">
+                <div class="container-login text-center mt-5">
+    
                     <h1 class="mb-5">Sign in</h1>
                     <form class="form-login" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
             
@@ -43,15 +39,15 @@
                         </div>
             
                         <div class="form-check form-check-inline mb-3">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                            <input class="form-check-input" (change)="checkCheckBoxvalue('0')" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
                             <label class="form-check-label" for="inlineRadio1">Mujer</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                            <input class="form-check-input" (change)="checkCheckBoxvalue('1')" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
                             <label class="form-check-label" for="inlineRadio2">Hombre</label>
                           </div>
                           <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" checked>
+                            <input class="form-check-input" (change)="checkCheckBoxvalue('2')" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="option3" checked>
                             <label class="form-check-label" for="inlineRadio3">Otro</label>
                           </div>
             
@@ -63,7 +59,12 @@
                         </div>
             
                 </form>
+                </div>
+            </div>
+            <div class="col-md-7 col-sm-0 d-none d-md-block">
+    
             </div>
         </div>
     </div>
-  </div>
+    
+</div>

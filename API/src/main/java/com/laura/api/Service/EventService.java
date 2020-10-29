@@ -1,6 +1,6 @@
 package com.laura.api.Service;
 
-
+import java.util.Date;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +56,9 @@ public class EventService {
 		}
 
 		return null;
+	}
+
+	public Iterable<Event> getEventsNotFinished(){
+		return repository.findByStartDateAfter(new Date(System.currentTimeMillis()));
 	}
 }

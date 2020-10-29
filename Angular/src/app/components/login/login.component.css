@@ -1,29 +1,32 @@
-.container-login{
-    margin-top: 25%;
+.container-fluid{
+    height: 100vh;
+    overflow: hidden;
 }
 
-.form-login{
-    width: 75%;
-    margin: auto;
+.container{
+    height: 80vh;
 }
 
-.container-fluid, .row{
-    height: 100%;
+h1, i{
+    color: black ;
 }
 
-.container-left{
-    background-image: url('../../../assets/images/pexels-gustavo-linhares-1839836.jpg');
+.row{
+    box-shadow: 0 0 6px 1px black;
+    margin-top: 5%;
+    height: 80vh;
+}
+
+.col-md-5{
+    background-color: white;
+}
+
+.col-md-7{
+    background-image: url('../../../assets/images/pjvic9eq4vt41.webp');
     background-size: cover;
     background-repeat: no-repeat;
-    height: 100%;
-    position: relative;
 }
 
-.overlay{
-    background-color: rgba(0, 171, 184, 0.5);
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
+form{
+    padding: 8px;
 }

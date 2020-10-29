@@ -57,7 +57,7 @@ public class EventController {
 	
 	@GetMapping("/list")
 	public Iterable<Event> getEvents(){
-		return eventService.getEvents();
+		return eventService.getEventsNotFinished();
 	}
 	
 	@GetMapping("/get/{id}")

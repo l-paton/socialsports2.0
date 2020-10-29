@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { EventService } from '../../services/event.service';
 import { UserService } from '../../services/user.service';
@@ -28,6 +28,10 @@ export class EventsComponent implements OnInit {
     this.eventService.getListEvents().subscribe(data => {
       this.events = data;
     });
+  }
+
+  getEvent(id:number){
+    this.router.navigateByUrl('/event/' + id);
   }
 
   joinToEvent(event:Event){
