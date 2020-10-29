@@ -16,10 +16,10 @@ public class JwtUtils {
 
 	private byte[] secret = Base64.getDecoder().decode("FzrjEf54HygsZxHaHqmPBGfvilRIET2e5srD70iLLTs=");
 
-	public String generateJwtToken(String correo) {
+	public String generateJwtToken(String email) {
 
 		return Jwts.builder()
-				.setSubject(correo)
+				.setSubject(email)
 				.setIssuedAt(new Date())
 				.setExpiration(new Date((new Date()).getTime() + 86400000))
 				.signWith(Keys.hmacShaKeyFor(secret))

@@ -6,20 +6,20 @@
 /bazel-out
 
 # dependencies
-/node_modules
+*/node_modules
 
 # profiling files
-chrome-profiler-events*.json
-speed-measure-plugin*.json
+*/chrome-profiler-events*.json
+*/speed-measure-plugin*.json
 
 # IDEs and editors
-/.idea
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
+*/.idea
+*/.project
+*/.classpath
+*/.c9/
+*/*.launch
+*/.settings/
+*/*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
@@ -28,6 +28,7 @@ speed-measure-plugin*.json
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+.vscode
 
 # misc
 /.sass-cache
@@ -43,39 +44,23 @@ testem.log
 .DS_Store
 Thumbs.db
 =======
-HELP.md
-target/
+*/HELP.md
+*/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
 
 ### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
-
-### NetBeans ###
-/nbproject/private/
-/nbbuild/
-/dist/
-/nbdist/
-/.nb-gradle/
-build/
-!**/src/main/**/build/
-!**/src/test/**/build/
+*/.apt_generated
+*/.classpath
+*/.factorypath
+*/.project
+*/.settings
+*/.springBeans
+*/.sts4-cache
 
 ### VS Code ###
-.vscode/
+*/.vscode/
 
 */images-storage/*
 
