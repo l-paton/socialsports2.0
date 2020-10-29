@@ -7,3 +7,35 @@
 a{
     text-decoration: none;
 }
+
+.nav-link{
+    color: white !important;
+}
+
+.navbar, .dropdown-menu{
+    color: white;
+    background-color: rgba(0,0,0,1) !important;
+}
+
+.nav-link, .navbar > a{
+    color: #00ffea;
+}
+
+.navbar-brand{
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+.btn-main{
+    background-color: #00ffea !important;
+    color: #1c1c1c !important;
+}
+
+.form-inline > input{
+    background-color: rgba(0, 58, 74, 0.7) !important;
+    color: #ffffff !important;
+}
+
+.dropdown-item:hover{
+    background-color: rgba(0, 58, 74, 0.7);
+}
