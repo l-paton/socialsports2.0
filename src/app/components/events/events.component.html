@@ -1,0 +1,76 @@
+<div class="container-fluid ">
+
+        <div class="row mt-4 mb-4">
+            <div class="col-6">
+              
+            </div>
+            <div class="col-6">
+              <button class="btn btn-primary float-right" routerLink="/eventform">Crear nuevo</button>
+            </div>
+            <!-- END COLUMN -->
+        </div>
+         <!-- END ROW -->
+
+        <div class="row">
+            <div class="col table-responsive">
+              <table class="table table-hover">
+                <thead class="thead-dark">
+                  <tr>
+                    <th scope="col" style="width: 20%">Creador</th>
+                    <th scope="col" style="width: 20%">Deporte</th>
+                    <th scope="col" style="width: 20%">Localización</th>
+                    <th scope="col" style="width: 10%">Fecha</th>
+                    <th scope="col" style="width: 10%">Precio</th>
+                    <th scope="col" style="width: 10%">Participantes</th>
+                    <th scope="col" style="width: 5%"></th>
+                    <th scope="col" style="width: 5%"></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let evento of events">
+                    <td>
+                      <div class="row">
+                        <div class="col-lg-3">
+                          <img class="img-profile" [src]="getUserPicture(evento.organizer.picture)"/>
+                        </div>
+                        <div class="col-lg-6 ml-2">
+                          {{evento.organizer.firstName}}
+                        </div>
+                      </div>
+                    </td>
+                    <td>{{evento.sport | uppercase}}</td>
+                    <td>{{evento.address | uppercase}}</td>
+                    <td>{{evento.startDate | date : 'dd-MM-yyyy'}}</td>
+                    <td>{{evento.price}}€</td>
+                    <td>{{evento.participants.length}}</td>
+                    <th><button class="btn btn-primary btn-sm">Mostrar</button></th>
+                    <th>
+                      <button class="btn btn-danger btn-sm" *ngIf="id == evento.organizer.id" (click)="deleteEvent(evento)">Eliminar</button>
+                      <button class="btn btn-warning btn-sm" *ngIf="id != evento.organizer.id && !isInEventsJoined(evento.id)" (click)="joinToEvent(evento)">Unirse</button>
+                      <button class="btn btn-danger btn-sm" *ngIf="id != evento.organizer.id && isInEventsJoined(evento.id)" (click)="leave(evento.id)">Abandonar</button>
+                    </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <!-- END COLUMN -->
+        </div>
+        <!-- END ROW -->
+        <div class="row mt-4">
+          <div class="col">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                  <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item">
+                  <a class="page-link" href="#">Next</a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <!-- END COL-->
+        </div>
+        <!-- END ROW -->
+</div>
