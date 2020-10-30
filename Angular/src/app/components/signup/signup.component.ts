@@ -14,7 +14,7 @@ export class SignupComponent implements OnInit {
   isSuccessful = false;
   isSignUpFailed = false;
   errorMessage = null;
-  gender = 0;
+  gender: string;
 
   constructor(private authService:AuthService, private router:Router, private formBuilder:FormBuilder) { }
 
@@ -61,7 +61,7 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  checkCheckBoxvalue(gender:number){
+  checkCheckBoxvalue(gender:string){
     console.log(gender);
     this.gender = gender;  
   }

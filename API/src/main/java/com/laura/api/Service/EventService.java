@@ -59,6 +59,6 @@ public class EventService {
 	}
 
 	public Iterable<Event> getEventsNotFinished(){
-		return repository.findByStartDateAfter(new Date(System.currentTimeMillis()));
+		return repository.findByFinish(false);
 	}
 }

@@ -1,7 +1,5 @@
 package com.laura.api.payload;
 
-import java.util.Set;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -20,7 +18,7 @@ public class SignupRequest {
     @Size(min = 6, max = 64)
     private String password;
 
-    private int gender;
+    private String gender;
  
     public String getEmail() {
         return email;
@@ -54,11 +52,11 @@ public class SignupRequest {
         this.password = password;
     }
 
-    public int getGender() {
+    public String getGender() {
       return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(String gender) {
       this.gender = gender;
     }
 

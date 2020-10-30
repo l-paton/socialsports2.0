@@ -46,7 +46,10 @@ public class User {
 	private String lastName;
 	
 	@Column(name="GENDER")
-	private int gender;
+	private String gender;
+
+	@Column(name="ADDRESS")
+	private String address;
 	
 	@Column(name="BIRTHDAY")
 	private Date birthday;
@@ -59,7 +62,7 @@ public class User {
 	private String picture;
 
 	@Column(name="DESCRIPTION")
-	private String description;
+	private String description; 
 
 	/*@JsonIgnore
 	@Column(name="ACTIVATED")
@@ -77,7 +80,7 @@ public class User {
 		
 	}
 	
-	public User(String email, String firstname, String lastname, String password, int gender, Date createAt) {
+	public User(String email, String firstname, String lastname, String password, String gender, Date createAt) {
 		this.email = email;
 		this.firstName = firstname;
 		this.lastName = lastname;
@@ -126,11 +129,11 @@ public class User {
 		this.lastName = lastName;
 	}
 
-	public int getGender() {
+	public String getGender() {
 		return gender;
 	}
 
-	public void setGender(int gender) {
+	public void setGender(String gender) {
 		this.gender = gender;
 	}
 

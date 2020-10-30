@@ -3,7 +3,9 @@ package com.laura.api.model;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -34,6 +36,9 @@ public class Event {
 	
 	@Column(name="START_DATE")
 	private Date startDate;
+
+	@Column(name="TIME")
+	private String time;
 	
 	@Column(name="CREATED_AT")
 	private Date createdAt;
@@ -50,7 +55,10 @@ public class Event {
 	@Column(name="FINISH")
 	private boolean finish;
 	
-	@ManyToMany
+	@Embedded
+	private Requirement requirement;
+	
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "participants_event",
 		joinColumns = @JoinColumn(name = "event_id"), 
 	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
@@ -142,6 +150,22 @@ public class Event {
 
 	public void setParticipants(Set<User> participants) {
 		this.participants = participants;
+	}
+
+	public String getTime() {
+		return time;
+	}
+
+	public void setTime(String time) {
+		this.time = time;
+	}
+
+	public Requirement getRequirement() {
+		return requirement;
+	}
+
+	public void setRequirement(Requirement requirement) {
+		this.requirement = requirement;
 	}
 	
 }

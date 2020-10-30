@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.laura.api.Repository.UserRepository;
 import com.laura.api.Security.jwt.JwtUtils;
 import com.laura.api.Security.services.UserDetailsImpl;
+import com.laura.api.Service.UserService;
 import com.laura.api.model.User;
 import com.laura.api.payload.JwtResponse;
 import com.laura.api.payload.LoginRequest;
@@ -37,6 +38,9 @@ public class AuthController {
 
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	UserService userService;
 
 	@Autowired
 	PasswordEncoder encoder;
@@ -56,9 +60,7 @@ public class AuthController {
 		
 		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-		return ResponseEntity.ok(new JwtResponse(jwt, 
-												 userDetails.getId(), 
-												 userDetails.getEmail()));
+		return ResponseEntity.ok(new JwtResponse(jwt, userService.getUser(userDetails.getEmail())));
 	}
 
 	@PostMapping("/signup")

@@ -43,13 +43,17 @@ public class EventController {
 		User user = getUser();
 		
 		if(!errors.hasErrors() && user != null) {
-			event.setOrganizer(user);
-			event.setCreatedAt(new Date(System.currentTimeMillis()));
-			Set<User> set = new HashSet<User>();
-			set.add(getUser());
-			event.setParticipants(set);
-			event.setFinish(false);
-			return ResponseEntity.ok(eventService.createEvent(event));
+			try{
+				event.setOrganizer(user);
+				event.setCreatedAt(new Date(System.currentTimeMillis()));
+				Set<User> set = new HashSet<User>();
+				set.add(getUser());
+				event.setParticipants(set);
+				event.setFinish(false);
+				return ResponseEntity.ok(eventService.createEvent(event));
+			}catch(Exception e){
+				return ResponseEntity.badRequest().build();
+			}
 		}else {
 			return ResponseEntity.badRequest().build();
 		}

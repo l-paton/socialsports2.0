@@ -1,14 +1,16 @@
 import { User } from './User';
+import { Requirement } from './Requirement';
 
 export class Event{
 
-    constructor(sport:string, address:string, startDate:string, maxParticipants:number, price:number, comments:string){
+    constructor(sport:string, address:string, startDate:string, maxParticipants:number, price:number, comments:string, requirement: Requirement){
         this.sport = sport;
         this.address = address;
         this.startDate = startDate;
         this.maxParticipants = maxParticipants;
         this.price = price;
         this.comments = comments;
+        this.requirement = requirement;
     }
 
     id: number;
@@ -22,4 +24,5 @@ export class Event{
     comments: string;
     finish: boolean;
     participants: User[];
+    requirement: Requirement;
 }

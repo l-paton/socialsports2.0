@@ -1,16 +1,16 @@
 package com.laura.api.payload;
 
+import com.laura.api.model.User;
+
 public class JwtResponse {
 	
 	private String token;
 	private String type = "Bearer";
-	private Long id;
-	private String email;
+	private User user;
 	
-	public JwtResponse(String accessToken, Long id, String email) {
+	public JwtResponse(String accessToken, User user) {
 		this.token = accessToken;
-		this.id = id;
-		this.email = email;
+		this.user = user;
 	}
 
 	public String getAccessToken() {
@@ -29,19 +29,12 @@ public class JwtResponse {
 		this.type = tokenType;
 	}
 
-	public Long getId() {
-		return id;
+	public User getUser() {
+		return user;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setUser(User user) {
+		this.user = user;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 }
