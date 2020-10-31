@@ -22,12 +22,12 @@
 
       <form class="form-inline mr-5">
         <input class="form-control mr-1 border-0" type="search" placeholder="Search">
-        <button class="btn-main btn btn-info my-sm-0 border-0" type="submit">Search</button>
+        <button class="btn-main btn btn-info my-sm-0 border-0" type="submit"><i class="fas fa-search"></i></button>
       </form>
 
       <li class="dropdown mr-2">
         <a href="#" data-toggle="dropdown" role="button">
-          <img [src]="getProfilePicture()" *ngIf="picture != undefined" class="profile-img">
+          <img [src]="getProfilePicture()" *ngIf="picture" class="profile-img">
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
           <a href="#" class="dropdown-item" [routerLink]="['/profile']"><li>Perfil</li></a>

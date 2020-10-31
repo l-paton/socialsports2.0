@@ -1,6 +1,6 @@
 package com.laura.api.Service;
 
-import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +29,15 @@ public class EventService {
 	}
 	
 	public void deleteEvent(Event event) {
+
+		Set<User> set = event.getParticipants();
+
+		for(User u : set){
+			System.out.println(u.getFirstName());
+			event = leaveEvent(event.getId(), u);
+			System.out.println(event.toString());
+		}
+
 		repository.delete(event);
 	}
 	

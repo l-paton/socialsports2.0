@@ -9,34 +9,36 @@ import { UserService } from '../../services/user.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
-  
-  showHead: boolean = false;
-  picture:string;
 
-  constructor(private router: Router, private tokenStorage:TokenStorageService, private userService:UserService) {
+  showHead: boolean = false;
+  picture: string;
+
+  constructor(
+    private router: Router,
+    private tokenStorage: TokenStorageService,
+    private userService: UserService) {
+  }
+
+  ngOnInit(): void {
     this.router.events.forEach(() => {
-      if(tokenStorage.isLoggedIn){
+      if (this.tokenStorage.isLoggedIn) {
         this.userService.getProfilePicture().subscribe(data => this.picture = data);
         this.showHead = true;
-      }else{
+      } else {
         this.showHead = false;
       }
     });
-   }
-
-  ngOnInit(): void {
-    
   }
 
-  logout(){
+  logout() {
     this.tokenStorage.logout();
   }
 
-  getProfilePicture(): string{
-      if(this.picture == null || this.picture.length <= 0){
-        return "http://placehold.it/45x45";
-      }
-      return this.picture;
+  getProfilePicture(): string {
+    if (this.picture == null || this.picture.length <= 0) {
+      return "http://placehold.it/45x45";
     }
-  
+    return this.picture;
+  }
+
 }

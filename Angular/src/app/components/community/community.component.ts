@@ -11,55 +11,59 @@ import { TokenStorageService } from '../../services/token-storage.service';
 })
 export class CommunityComponent implements OnInit {
 
-  users:User[];
-  myFriends:User[];
-  id:number;
+  users: User[] = [];
+  myFriends: User[] = [];
+  id: number;
 
-  constructor(private communityService:CommunityService, private tokenStorageService:TokenStorageService, private userservice:UserService) { }
+  constructor(
+    private communityService: CommunityService,
+    private tokenStorageService: TokenStorageService,
+    private userservice: UserService) {
+  }
 
   ngOnInit(): void {
     this.getUsers();
-    this.id = this.tokenStorageService.getUser().id;
+    this.id = this.tokenStorageService.getUser().user.id;
     this.userservice.getFriends().subscribe(data => this.myFriends = data);
   }
 
-  getUsers(){
+  getUsers() {
     this.communityService.getListUsers().subscribe(
-      data => { 
+      data => {
         this.users = data;
       }
     );
   }
 
-  addFriend(id:number){
+  addFriend(id: number) {
     this.communityService.addFriend(id).subscribe(
-      data => {
+      () => {
         this.ngOnInit();
       }
     );
   }
 
-  deleteFriend(id:number){
+  deleteFriend(id: number) {
     this.communityService.deleteFriend(id).subscribe(
-      data =>{
+      () => {
         this.ngOnInit();
       }
     );
   }
 
-  getUrlPictureUser(user:User): string{
-    if(user.picture == null || user.picture.length <= 0){
+  getUrlPictureUser(user: User): string {
+    if (user.picture == null || user.picture.length <= 0) {
       return "http://placehold.it/95x95";
     }
     return user.picture;
   }
 
-  IsUserMyFriend(id:number): boolean{
-      for(let i of this.myFriends){
-        if(i.id == id){
-          return true;
-        }
+  IsUserMyFriend(id: number): boolean {
+    for (let i of this.myFriends) {
+      if (i.id == id) {
+        return true;
       }
-      return false;
+    }
+    return false;
   }
 }

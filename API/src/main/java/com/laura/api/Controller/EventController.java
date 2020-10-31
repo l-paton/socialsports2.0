@@ -78,13 +78,16 @@ public class EventController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<?> removeEvent(@PathVariable("id") long id){
 		Event event = eventService.getEvent(id);
-		
-		if(event.getOrganizer().getId() == getUser().getId()) {
-			eventService.deleteEvent(event);
-			return ResponseEntity.noContent().build();
-		}
-		
-		return ResponseEntity.badRequest().build();
+		try{
+			if(event.getOrganizer().getId() == getUser().getId()) {
+				eventService.deleteEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().build();
+		}	
 	}
 	
 	@PostMapping("/join/{id}")

@@ -18,14 +18,19 @@ export class LoginComponent implements OnInit {
   isLoginFailed = false;
   errorMessage = null;
 
-  constructor(public router:Router, private authService: AuthService, private tokenStorage: TokenStorageService, private formBuilder:FormBuilder) { }
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private tokenStorage: TokenStorageService,
+    private formBuilder: FormBuilder) {
+  }
 
   ngOnInit(): void {
 
     this.loginForm = this.formBuilder.group(
       {
-        email:new FormControl('', [Validators.required]),
-        password:new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required]),
+        password: new FormControl('', [Validators.required]),
       }
     );
 
@@ -46,7 +51,7 @@ export class LoginComponent implements OnInit {
         data => {
           this.tokenStorage.saveToken(data.accessToken);
           this.tokenStorage.saveUser(data);
-  
+
           this.isLoginFailed = false;
           this.isLoggedIn = true;
           this.router.navigateByUrl('/home');
@@ -56,14 +61,14 @@ export class LoginComponent implements OnInit {
           this.errorMessage = err.error.message;
           this.isLoginFailed = true;
         }
-      );      
-    }else{
-      if(this.loginForm.get('email').invalid){
+      );
+    } else {
+      if (this.loginForm.get('email').invalid) {
         this.errorMessage = 'Email requerido';
-      }else if(this.loginForm.get('password')){
+      } else if (this.loginForm.get('password')) {
         this.errorMessage = 'Contraseña requerida';
       }
     }
   }
-  
+
 }

@@ -19,3 +19,7 @@ table{
 .btn-mostrar{
     background-color: #00ffea !important;
 }
+
+hr{
+    opacity: 0;
+}

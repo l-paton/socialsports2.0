@@ -1,4 +1,4 @@
-<div class="container-fluid" *ngIf="myFriends != undefined">
+<div class="container-fluid" *ngIf="myFriends && users">
     <div class="row mt-5">
         <div class="col-4" *ngFor="let user of users">
             <ul class="user-card list-unstyled">
@@ -8,6 +8,13 @@
                     <h5 class="mt-0 mb-1">{{user.firstName}} {{user.lastName}}</h5>
                     {{user.description}}
                     <p *ngIf="user.description == null">Sin descripción</p>
+                    <div class="text-left">
+                        <span class="fa fa-star unchecked" id="one"></span>
+                        <span class="fa fa-star unchecked" id="two"></span>
+                        <span class="fa fa-star unchecked" id="three"></span>
+                        <span class="fa fa-star unchecked" id="four"></span>
+                        <span class="fa fa-star unchecked" id="five"></span>                  
+                    </div>
                     <div class="text-right">
                         <button class="btn btn-sm btn-success mr-1" *ngIf="user.id != id && !IsUserMyFriend(user.id)" (click)="addFriend(user.id)">Añadir amigo</button>
                         <button class="btn btn-sm btn-danger mr-1" *ngIf="IsUserMyFriend(user.id)" (click)="deleteFriend(user.id)">Eliminar amigo</button>

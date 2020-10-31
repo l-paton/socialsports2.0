@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FormGroup, FormControl, Validators, FormBuilder } from "@angular/forms";
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -16,31 +16,31 @@ export class SignupComponent implements OnInit {
   errorMessage = null;
   gender: string;
 
-  constructor(private authService:AuthService, private router:Router, private formBuilder:FormBuilder) { }
+  constructor(private authService: AuthService, private router: Router, private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
     this.signUpForm = this.formBuilder.group(
       {
-        firstname:new FormControl('', [Validators.required]),
-        lastname:new FormControl('', [Validators.required]),
-        email:new FormControl('', [Validators.required]),
-        password:new FormControl('', [Validators.required]),
-        repeatPassword:new FormControl('', [Validators.required]),
+        firstname: new FormControl('', [Validators.required]),
+        lastname: new FormControl('', [Validators.required]),
+        email: new FormControl('', [Validators.required]),
+        password: new FormControl('', [Validators.required]),
+        repeatPassword: new FormControl('', [Validators.required]),
       }
     );
   }
 
-  get firstname(){ return this.signUpForm.get('firstname') }
-  get lastname(){ return this.signUpForm.get('lastname') }
-  get email(){ return this.signUpForm.get('email') }
-  get password(){ return this.signUpForm.get('password') }
-  get repeatPassword(){ return this.signUpForm.get('repeatPassword') }
+  get firstname() { return this.signUpForm.get('firstname') }
+  get lastname() { return this.signUpForm.get('lastname') }
+  get email() { return this.signUpForm.get('email') }
+  get password() { return this.signUpForm.get('password') }
+  get repeatPassword() { return this.signUpForm.get('repeatPassword') }
 
   onSubmit(): void {
 
     if (!this.signUpForm.invalid) {
 
-      if(this.password.value === this.repeatPassword.value){
+      if (this.password.value === this.repeatPassword.value) {
         this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value, this.gender).subscribe(
           () => {
             this.isSuccessful = true;
@@ -53,16 +53,16 @@ export class SignupComponent implements OnInit {
             this.isSignUpFailed = true;
           }
         );
-      }else{
+      } else {
         this.errorMessage = 'Las contraseñas no coinciden';
       }
-    }else{
+    } else {
       this.errorMessage = 'Rellena bien los campos';
     }
   }
 
-  checkCheckBoxvalue(gender:string){
+  checkCheckBoxvalue(gender: string) {
     console.log(gender);
-    this.gender = gender;  
+    this.gender = gender;
   }
 }

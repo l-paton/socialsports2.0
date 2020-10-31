@@ -39,3 +39,7 @@ a{
 .dropdown-item:hover{
     background-color: rgba(0, 58, 74, 0.7);
 }
+
+.fa-search{
+    color: black;
+}
