@@ -90,6 +90,17 @@ public class EventController {
 		}	
 	}
 	
+	@DeleteMapping("/cancel/{id}")
+	public ResponseEntity<?> cancelRequest(@PathVariable("id") long id){
+		try{
+			eventService.cancelRequest(id, getUser());
+			return ResponseEntity.noContent().build();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 	@PostMapping("/join/{id}")
 	public ResponseEntity<?> joinToEvent(@PathVariable("id") long id){
 		try{

@@ -59,6 +59,10 @@ export class EventsComponent implements OnInit {
     this.eventService.deleteEvent(event.id).subscribe(() => this.ngOnInit());
   }
 
+  cancelRequest(id: number){
+    this.eventService.cancelRequest(id).subscribe(() => this.ngOnInit());
+  }
+
   isInEventsJoined(id: number): boolean {
     for (let i of this.eventsJoined) {
       if (i.id == id) {
@@ -66,6 +70,16 @@ export class EventsComponent implements OnInit {
       }
     }
 
+    return false;
+  }
+
+  isInEventsApplied(id: number): boolean{
+    var evento = this.events.find(o => o.id == id);
+    for(let j of evento.applicants){
+      if(j.id == this.id){
+        return true;
+      }
+    }
     return false;
   }
 

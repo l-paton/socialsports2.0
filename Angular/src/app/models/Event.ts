@@ -24,5 +24,6 @@ export class Event{
     comments: string;
     finish: boolean;
     participants: User[];
+    applicants: User[];
     requirement: Requirement;
 }

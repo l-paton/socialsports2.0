@@ -73,6 +73,10 @@ public class User {
 	private Set<Event> eventsJoined = new HashSet<>();
 
 	@JsonIgnore
+	@ManyToMany(mappedBy = "applicants")
+	private Set<Event> eventsApplied = new HashSet<>();
+	
+	@JsonIgnore
 	@ManyToMany
 	private Set<User> friends = new HashSet<>();
 

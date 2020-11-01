@@ -1,4 +1,30 @@
-<p>event works!</p>
+<div class="container" *ngIf="event">
+    <div class="row">
 
-<div *ngIf="event != undefined">{{event.sport}}</div>
+        <div class="col-4">
+            <div class="solicitantes" *ngIf="isOrganizer()">
+                <h4>Solicitantes</h4>
+                <div *ngFor="let applicant of event.applicants">
+                    <div class="solicitante">
+                        <img [src]="getUserPicture(applicant.picture)" class="img-profile rounded"/>
+                        <p>{{ applicant.firstName }}</p>
+                        <button class="btn btn-primary btn-sm">Aceptar</button>
+                        <button class="btn btn-danger btn-sm">Rechazar</button>
+                    </div>
+                </div>
+            </div>
+
+            <h4>Participantes</h4>
+            <div class="participantes" *ngFor="let participant of event.participants">
+                <div class="participante">
+                    <img [src]="getUserPicture(participant.picture)" class="img-profile rounded"/>
+                    <p>{{ participant.firstName }}</p>
+                </div>
+            
+            </div>
+            
+        </div>
+
+    </div>
+</div>
 

@@ -26,4 +26,15 @@ export class EventComponent implements OnInit {
     }
   }
 
+  isOrganizer(): boolean{
+    return true;
+  }
+
+  getUserPicture(picture) {
+    if (picture == null) {
+      return "http://placehold.it/45x45";
+    }
+    return picture;
+  }
+
 }

@@ -1,6 +1,5 @@
 package com.laura.api.Service;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,6 @@ public class EventService {
 		Set<User> set = event.getParticipants();
 
 		for(User u : set){
-			System.out.println(u.getFirstName());
 			event = leaveEvent(event.getId(), u);
 			System.out.println(event.toString());
 		}
@@ -45,12 +43,25 @@ public class EventService {
 		Event event = repository.findById(id).orElse(null);
 		
 		if(event != null) {
-			Set<User> set = event.getParticipants();
+			Set<User> set = event.getApplicants();
 			set.add(user);
-			event.setParticipants(set);
+			event.setApplicants(set);;
 			return repository.save(event);
 		}
 		
+		return null;
+	}
+
+	public Event cancelRequest(long id, User user){
+		Event event = repository.findById(id).orElse(null);
+
+		if(event != null){
+			Set<User> set = event.getApplicants();
+			set.remove(user);
+			event.setApplicants(set);
+			return repository.save(event);
+		}
+
 		return null;
 	}
 
@@ -65,6 +76,15 @@ public class EventService {
 		}
 
 		return null;
+	}
+
+	
+	public void acceptApplicant(){
+		
+	}
+
+	public void denyApplicant(){
+		
 	}
 
 	public Iterable<Event> getEventsNotFinished(){

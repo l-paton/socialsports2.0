@@ -64,6 +64,12 @@ public class Event {
 	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> participants;
 
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "applicants_event",
+		joinColumns = @JoinColumn(name = "event_id"), 
+	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
+	private Set<User> applicants;
+
 	public long getId() {
 		return id;
 	}
@@ -166,6 +172,22 @@ public class Event {
 
 	public void setRequirement(Requirement requirement) {
 		this.requirement = requirement;
+	}
+
+	public Set<User> getApplicants() {
+		return applicants;
+	}
+
+	public void setApplicants(Set<User> applicants) {
+		this.applicants = applicants;
+	}
+
+	@Override
+	public String toString() {
+		return "Event [address=" + address + ", applicants=" + applicants + ", comments=" + comments + ", createdAt="
+				+ createdAt + ", finish=" + finish + ", id=" + id + ", maxParticipants=" + maxParticipants
+				+ ", organizer=" + organizer + ", participants=" + participants + ", price=" + price + ", requirement="
+				+ requirement + ", sport=" + sport + ", startDate=" + startDate + ", time=" + time + "]";
 	}
 	
 }

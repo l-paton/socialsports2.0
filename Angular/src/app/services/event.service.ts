@@ -31,6 +31,12 @@ export class EventService {
     return this.http.post<Response>(EVENT_API + '/join/' + id, {headers});
   }
 
+  cancelRequest(id:number){
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.delete(EVENT_API + '/cancel/' + id, {headers});
+  }
+
   deleteEvent(id:number): Observable<Response>{
     let headers = new HttpHeaders();
     headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
