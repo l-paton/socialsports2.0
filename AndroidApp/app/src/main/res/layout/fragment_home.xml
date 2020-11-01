@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/views_horizontal_margin"
+    android:paddingTop="@dimen/views_vertical_margin"
+    tools:context=".fragments.home.Home">
+
+    <TextView
+        android:id="@+id/textEventosPopulares"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/views_vertical_margin"
+        android:text="@string/text_home_popular_events"
+        android:textColor="@color/colorElements"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <ViewFlipper
+        android:id="@+id/flipperHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorElements"
+        android:flipInterval="3000"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
+        android:padding="6dp">
+    </ViewFlipper>
+
+    <TextView
+        android:id="@+id/textDescripcionFoto"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TextView"
+        android:textAlignment="center"
+        android:textColor="@color/colorElements"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
+        android:typeface="monospace" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/text_home_rating"
+        android:textAlignment="center"
+        android:textAllCaps="true"
+        android:textColor="@color/colorElements"
+        android:layout_marginTop="@dimen/activity_vertical_margin"/>
+
+    <RatingBar
+        android:id="@+id/ratingUserHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:theme="@style/checkBoxCustom" />
+</LinearLayout>

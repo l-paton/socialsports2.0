@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CalenderViewCustom" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorElements</item>
+        <item name="colorPrimaryDark">@color/colorElementsDark</item>
+    </style>
+    <style name="checkBoxCustom" parent="Base.Theme.AppCompat">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorSecondary">@color/colorElements</item>
+    </style>
+    <style name="calenderDialogCustom" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/colorElements</item>
+        <item name="colorPrimaryDark">@color/colorElementsDark</item>
+        <item name="android:background">@color/dialogo</item>
+        <item name="android:backgroundTint">@color/dialogo</item>
+    </style>
+    <style name="timerDialogCustom" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/dialogo</item>
+        <item name="android:backgroundTint">@color/dialogo</item>
+    </style>
+</resources>

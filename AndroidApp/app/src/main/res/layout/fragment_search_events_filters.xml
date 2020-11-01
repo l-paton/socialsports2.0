@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".fragments.searchevent.SearchEventsFilters" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin"
+            android:orientation="vertical" >
+
+            <EditText
+                android:id="@+id/editFilterSport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/views_vertical_margin"
+                android:backgroundTint="@color/colorElements"
+                android:ems="10"
+                android:hint="@string/description_sport"
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:selectAllOnFocus="true"
+                android:textAlignment="center"
+                android:textColor="@color/colorElements"
+                android:textColorHint="@color/colorElementsDark" />
+
+            <EditText
+                android:id="@+id/editFilterLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/views_vertical_margin"
+                android:backgroundTint="@color/colorElements"
+                android:ems="10"
+                android:hint="@string/description_loction"
+                android:inputType="textPersonName"
+                android:maxLength="30"
+                android:selectAllOnFocus="true"
+                android:textAlignment="center"
+                android:textColor="@color/colorElements"
+                android:textColorHint="@color/colorElementsDark" />
+
+            <EditText
+                android:id="@+id/editFilterDate"
+                android:layout_marginTop="@dimen/views_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/colorElements"
+                android:focusable="false"
+                android:hint="@string/specify_date"
+                android:inputType="date"
+                android:textAlignment="center"
+                android:textColor="@color/colorElements"
+                android:textColorHint="@color/colorElementsDark" />
+
+            <EditText
+                android:id="@+id/editFilterTime"
+                android:layout_marginTop="@dimen/views_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/colorElements"
+                android:hint="@string/specify_time"
+                android:inputType="time"
+                android:focusable="false"
+                android:textAlignment="center"
+                android:textColor="@color/colorElements"
+                android:textColorHint="@color/colorElementsDark" />
+
+            <CheckBox
+                android:id="@+id/checkFilterReserved"
+                android:layout_marginTop="@dimen/views_vertical_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/specify_chek_reserved"
+                android:textColor="@color/colorElements"
+                android:theme="@style/checkBoxCustom" />
+
+            <TableRow
+                android:id="@+id/rowFilterReputation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/views_vertical_margin">
+
+                <CheckBox
+                    android:id="@+id/checkFilterReputation"
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textColor="@color/colorElements"
+                    android:text="@string/organizer_reputation"
+                    android:theme="@style/checkBoxCustom"/>
+
+                <TextView
+                    android:id="@+id/textFilterReputation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorElements"
+                    android:layout_marginLeft="@dimen/activity_vertical_margin"/>
+            </TableRow>
+            <RatingBar
+                android:id="@+id/ratingFilterReputation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:layout_gravity="center_horizontal"
+                android:theme="@style/checkBoxCustom"/>
+        </LinearLayout>
+    </ScrollView>
+</FrameLayout>

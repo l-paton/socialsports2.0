@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolBarUserConfig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:minHeight="54dp"
+            app:title="@string/nav_user"
+            app:titleTextColor="@color/colorAccent" />
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabsUserConfig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:tabIndicatorColor="@color/colorAccent"
+            app:tabIndicatorGravity="stretch"
+            app:tabMode="fixed"
+            app:tabRippleColor="@color/colorPrimary"
+            app:tabSelectedTextColor="@color/colorPrimary"
+            app:tabTextColor="@color/colorElements">
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabUserConfigConfiguracion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_configuration" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabUserConfigAmigos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_amigos" />
+
+            <com.google.android.material.tabs.TabItem
+                android:id="@+id/tabUserConfigBloqueados"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_bloqueados" />
+        </com.google.android.material.tabs.TabLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/colorAccent"/>
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/navigationUserConfig"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            app:itemIconTint="@color/colorPrimary"
+            app:itemTextColor="@color/colorPrimary"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/user_menu" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:id="@+id/containerUserConfig"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimary"
+        tools:context=".fragments.userconfig.UserConfig" />
+</LinearLayout>

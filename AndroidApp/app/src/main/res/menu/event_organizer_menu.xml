@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemMenuEventSave"
+        android:icon="@drawable/icon_save"
+        android:title="@string/button_save" />
+    <item
+        android:id="@+id/itemMenuEventDelete"
+        android:icon="@drawable/icon_delete"
+        android:title="@string/button_delete_event" />
+    <item
+        android:id="@+id/itemMenuEventFinalize"
+        android:icon="@drawable/icon_finalize"
+        android:title="@string/button_finalize_event" />
+</menu>

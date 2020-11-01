@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemMenuRate"
+        android:icon="@drawable/icon_menu_sendrate"
+        android:title="@string/button_send_rate" />
+</menu>

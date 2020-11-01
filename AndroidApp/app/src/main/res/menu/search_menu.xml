@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemSearchMenuClean"
+        android:icon="@drawable/icon_clean"
+        android:title="@string/button_filter_clean" />
+    <item
+        android:id="@+id/itemSearchMenuSearch"
+        android:icon="@drawable/icon_search"
+        android:title="@string/button_filter_search" />
+</menu>

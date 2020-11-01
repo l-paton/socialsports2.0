@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingVertical="@dimen/views_vertical_margin">
+
+    <TableRow
+        android:id="@+id/rowTituloItemEvento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textItemEventoDeporte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Fútbol"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/colorElements"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textItemEventoLocalidad"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="Fuenlabrada de los Montes"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/colorElements"
+            android:textSize="18sp"
+            android:textStyle="bold|italic" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/rowDatosItemEvento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/textItemEventoFecha"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="SAB, 23 May 2020"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/colorElements"
+            android:textSize="14sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textItemEventoReserva"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="No Rservado"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/colorElements"
+            android:textSize="14sp"
+            android:textStyle="bold|italic" />
+
+        <TextView
+            android:id="@+id/textItemEventoPrecio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:text="0 €"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:textColor="@color/colorElements"
+            android:textSize="14sp"
+            android:textStyle="bold|italic" />
+    </TableRow>
+
+    <TableRow
+        android:id="@+id/rowInfoItemEvento"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/textItemEventoOrganizador"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="organizador:"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:layout_weight="0.5"
+            android:textColor="@color/colorElementsDark"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/textItemEventoEstado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="estado:"
+            android:textAlignment="center"
+            android:textAllCaps="true"
+            android:layout_weight="0.5"
+            android:textColor="@color/colorElementsDark"
+            android:textSize="14sp" />
+    </TableRow>
+
+</LinearLayout>

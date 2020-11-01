@@ -1,0 +1,162 @@
+<resources>
+    <string name="app_name">SocialSports</string>
+
+    <!-- Strings related to Funcionalidades -->
+    <string name="has_been_baned">You have been banned at this event.</string>
+
+    <!-- Strings related to Dialogo -->
+    <string name="boton_aceptar">Accept</string>
+    <string name="boton_cancelar">Cancel</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Login</string>
+    <string name="action_register">Register</string>
+    <string name="usuario_incompleto">You have to enter your email for</string>
+    <string name="password_incompleto">You have to enter any password for</string>
+    <string name="login_datos_incorrectos">Incorrect login data entered.</string>
+    <string name="login_usuario_existe">A user with this email already exists</string>
+    <string name="login_creado_nuevo_usuario">The new user has been created</string>
+    <string name="login_error_nuevo_usuario">The new user could not be created.</string>
+
+    <!-- Strings related to main menu -->
+    <string name="nav_new_event">Create New Event</string>
+    <string name="nav_search_event">Search Event</string>
+    <string name="nav_my_events">My Events</string>
+    <string name="nav_user">User</string>
+    <string name="nav_home">Home</string>
+
+    <!-- Strings related to fragmet_new_event -->
+    <string name="tab_description">Description</string>
+    <string name="tab_specify">Specify</string>
+    <string name="tab_requirements">Requirements</string>
+    <string name="tab_invite">Invite</string>
+    <string name="button_next">NEXT >></string>
+    <string name="button_previous">&lt;&lt; PREVIOUS</string>
+    <string name="button_create_event">Create Event</string>
+    <string name="mensaje_incomplete_data">Please, enter Sport and Location.</string>
+    <string name="mensaje_evento_creado">Event Created.</string>
+    <string name="mensaje_error_evento_creado">Error. The event could not be created.</string>
+
+    <!-- Strings related to fragmet_new_event_description -->
+    <string name="description_description">The following fields are required to initially create an event.</string><!--Los siguientes  campos son obligatorios para crear inicialmente un event.-->
+    <string name="description_sport">Sport</string>
+    <string name="description_loction">Location</string>
+
+    <!-- Strings related to fragmet_new_event_specify -->
+    <string name="specify_description">Optional fields to specify the event data.</string><!--Campos opcionales para concretar los datos del event.-->
+    <string name="specify_date">Event date</string>
+    <string name="specify_time">Event time</string>
+    <string name="specify_hint_address">Event address</string>
+    <string name="specify_chek_reserved">Facilities reserved</string>
+    <string name="specify_cost">Cost</string>
+    <string name="specify_price">Individual contribution:</string>
+    <string name="specify_hint_price">Price</string>
+    <string name="specify_not_participant">The organizer is not a participant.</string>
+    <string name="specify_coments">Comments (max 300 characters)</string>
+    <string name="specify_participants">Participants Required:</string>
+
+    <!-- Strings related to fragmet_new_event_requirements -->
+    <string name="requirements_description">Participants requirements. (optional)</string>
+    <string name="requirements_gender">Gender:</string>
+    <string name="requirements_min_age">Min Age:</string>
+    <string name="requirements_max_age">Max Age:</string>
+    <string name="requirements_reputation">Reputation as Participants:</string>
+    <string name="requirements_male">Male</string>
+    <string name="requirements_female">Female</string>
+
+    <!-- Strings related to fragmet_new_event_invite -->
+    <string name="invite_description">Invite friends to this event:</string>
+    <string name="invite_text_all">Select All</string>
+    <string name="invite_text_none">Select None</string>
+
+    <!-- Strings related to AdaptadorListaEventos -->
+    <string name="sin_fecha">NO DATE</string>
+    <string name="reserved">RESERVED</string>
+    <string name="no_reserved">NOT RESERVED</string>
+    <string name="moneda">€</string>
+    <string name="organizer">Organizer:</string>
+    <string name="me">Me</string>
+    <string name="state">State:</string>
+    <string name="full">Full</string>
+    <string name="vacancies">Vacancies</string>
+    <string name="rate_participants">Rate participants</string>
+
+    <!-- Strings related to fragmet_my_events -->
+    <string name="tab_my_events_pend">Pending</string>
+    <string name="tab_my_events_final">Finished</string>
+
+    <!-- Strings related to fragmet_search_events -->
+    <string name="tab_search_events_filters">Filters</string>
+    <string name="tab_search_events_results">Results</string>
+    <string name="button_filter_search">Search</string>
+    <string name="button_filter_clean">Clean All</string>
+    <string name="organizer_reputation">Organizer Reputation:</string>
+
+    <!-- Strings related to Event Settings -->
+    <string name="tab_event_settings_sttings">Settings</string>
+    <string name="tab_event_settings_participants">Participants</string>
+    <string name="tab_event_settings_requests">Requests</string>
+    <string name="button_save">Save changes</string>
+    <string name="button_delete_event">Delete event</string>
+    <string name="button_finalize_event">Finish event</string>
+    <string name="button_subscribe">Send Request</string>
+    <string name="button_delete_request">Cancel participation</string>
+    <string name="text_rating_organizer">Reputation as Organizer</string>
+    <string name="messaje_request_sent">Request Sent.</string>
+    <string name="mensaje_guardado_correcto">Updated data</string>
+    <string name="mensaje_request_removed">Request removed</string>
+    <string name="mensaje_event_removed">Request removed</string>
+
+    <!-- Strings related to AdaptadorListaUsuarios -->
+    <string name="years_old">years old</string>
+    <string name="unknow_age">Unknow Age</string>
+    <string name="undefined_gender">Undefined Gender</string>
+
+    <!-- Strings related to Event Rate -->
+    <string name="rate_organization">Rate event organization</string>
+    <string name="button_send_rate">Submit Ratings</string>
+    <string name="organizer_has_been_rated">The organizer has been rated</string>
+    <string name="participants_has_been_rated">Participants have been rated</string>
+
+    <!-- Strings related to opciones emergentes -->
+    <string name="opcion_aceptar_solicitud">Accept Request</string>
+    <string name="opcion_rechazar_solicitud">Reject Request</string>
+    <string name="opcion_bloqueo_de_evento">Banned to Event</string>
+    <string name="opcion_bloqueo_permanente">Permanent Banned</string>
+    <string name="opcion_solicitud_de_amistad">Add to Friendlist</string>
+    <string name="opcion_eliminar_participante">Delete Participant</string>
+    <string name="opcion_eliminar_amigo">Delete Friend</string>
+    <string name="opcion_desbloquear">Unlock User</string>
+
+    <!-- Strings related to User Config -->
+    <string name="tab_configuration">Configuration</string>
+    <string name="tab_amigos">Friends</string>
+    <string name="tab_bloqueados">Banned</string>
+    <string name="item_menu_delete_account">Delete Account</string>
+    <string name="item_menu_logout">Logout</string>
+    <string name="text_participant_rating">Participant rating</string>
+    <string name="text_organizer_rating">Organizer rating</string>
+    <string name="hint_user_name">Name</string>
+    <string name="hint_user_surname">Surname</string>
+    <string name="hint_user_address">Address</string>
+    <string name="hint_user_birthday">Birthdate</string>
+    <string name="hint_user_changepassword">Change Password:</string>
+    <string name="hint_user_newpassword">New password</string>
+    <string name="hint_user_repeatpassword">Repeat new password</string>
+    <string name="user_config_button_save_settings">Save Settings</string>
+    <string name="mensaje_usuario_eliminado">The user account has been deleted</string>
+    <string name="mensaje_usuario_no_eliminado">The user account could not be deleted</string>
+    <string name="mensaje_cambios_guardados">Updated data</string>
+    <string name="mensaje_cambios_no_guardados">The data could not be updated</string>
+    <string name="mensaje_cambios_finalizados">Save finished</string>
+    <string name="mensaje_passwords_diferentes">Passwords are different</string>
+
+    <!-- Strings related to Home -->
+    <string name="text_home_popular_events">My Next Events:</string>
+    <string name="text_home_rating">Your current rating</string>
+    <string name="wellcome">WELLCOME TO SOCIAL SPORTS</string>
+    <string name="no_events">(no events yet)</string>
+</resources>

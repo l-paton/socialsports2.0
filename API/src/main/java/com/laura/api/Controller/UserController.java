@@ -60,7 +60,31 @@ public class UserController {
 			userService.editUser(user);
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/address")
+	public ResponseEntity<?> editAddress(@RequestBody String address){
+		User user = getUser();
+		user.setAddress(address);
+		try{
+			userService.editUser(user);
 			return ResponseEntity.noContent().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/gender")
+	public ResponseEntity<?> editGender(@RequestBody String gender){
+		User user = getUser();
+		user.setGender(gender);
+		try{
+			userService.editUser(user);
+			return ResponseEntity.noContent().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
 		}
 	}
 
@@ -106,7 +130,16 @@ public class UserController {
 	@GetMapping("/events/joined")
 	public ResponseEntity<?> getEventsJoined(){
 		try{
-			return ResponseEntity.ok(getUser().getEventsJoined());
+			return ResponseEntity.ok(getUser().getEventsJoined().stream().filter(o -> !o.isFinish()));
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/events/joined/finished")
+	public ResponseEntity<?> getEventsJoinedFinished(){
+		try{
+			return ResponseEntity.ok(getUser().getEventsJoined().stream().filter(o -> o.isFinish()));
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}

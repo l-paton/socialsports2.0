@@ -193,6 +193,22 @@ public class User {
 		this.description = description;
 	}
 
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public Set<Event> getEventsApplied() {
+		return eventsApplied;
+	}
+
+	public void setEventsApplied(Set<Event> eventsApplied) {
+		this.eventsApplied = eventsApplied;
+	}
+
 	/*public boolean isActivated() {
 		return activated;
 	}

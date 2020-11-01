@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/itemInviteAllMenu"
+        android:icon="@drawable/icon_menu_invite_all"
+        android:title="@string/invite_text_all" />
+    <item
+        android:id="@+id/itemInviteNoneMenu"
+        android:icon="@drawable/icon_menu_invite_none"
+        android:title="@string/invite_text_none" />
+</menu>
