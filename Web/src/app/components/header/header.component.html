@@ -27,7 +27,8 @@
 
       <li class="dropdown mr-2">
         <a href="#" data-toggle="dropdown" role="button">
-          <img [src]="getProfilePicture()" *ngIf="picture" class="profile-img">
+          <img [src]="picture" *ngIf="picture" class="profile-img">
+          <img src="../../../assets/images/45x45.png" *ngIf="picture == null || this.picture.length <= 0" class="profile-img">
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
           <a href="#" class="dropdown-item" [routerLink]="['/profile']"><li>Perfil</li></a>

@@ -1,30 +1,75 @@
-<div class="container" *ngIf="event">
+<div class="container mt-4" *ngIf="event">
+
     <div class="row">
 
-        <div class="col-4">
-            <div class="solicitantes" *ngIf="isOrganizer()">
-                <h4>Solicitantes</h4>
-                <div *ngFor="let applicant of event.applicants">
-                    <div class="solicitante">
-                        <img [src]="getUserPicture(applicant.picture)" class="img-profile rounded"/>
-                        <p>{{ applicant.firstName }}</p>
-                        <button class="btn btn-primary btn-sm">Aceptar</button>
-                        <button class="btn btn-danger btn-sm">Rechazar</button>
+        <div class="col-md-4 mb-2">
+            <div class="col-12 column-participants">
+                <h4>Participantes</h4>
+
+                <div class="row">  
+                    <div *ngFor="let participant of event.participants">
+                        <div class="participante ml-3">
+                            <img [src]="getUserPicture(participant.picture)" class="img-profile rounded" />
+                            <p>{{ participant.firstName }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+
+                    </div>
+                    <!-- END DIV COL-6 -->
+                    <div class="col-md-6">
+                        <div class="text-right">
+                            <a href="#">Ver todos</a>
+                        </div>
+                    </div>
+                    <!-- END DIV COL-6 -->
+                    </div>
+            </div>
+            <!-- END 2ª linea -->
+        </div>
+
+        <div class="col-md-8">
+
+            <div class="container container-desc">
+                <div class="col-12 text-center">
+                    <h2>{{event.sport | uppercase}} {{event.address | uppercase }}</h2>
+                </div>
+
+                <div class="row mt-5">
+                    <div class="col-md-6">
+                        <p><span class="titulo">Fecha de inicio:</span> {{ event.startDate | date : 'dd-MM-yyyy' }}<span *ngIf="!event.startDate">Sin fecha</span></p>
+                        <p><span class="titulo">Hora:</span> {{ event.time }}<span *ngIf="!event.time">Sin hora</span></p>
+                        <p><span class="titulo">Máximo de participantes:</span> {{ event.maxParticipants }}</p>
+                        <p><span class="titulo">Precio:</span> {{ event.price}} </p>
+                        <p><span class="titulo">Comentarios:</span> {{event.comments}}<span *ngIf="!event.comments">Sin comentarios</span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><span class="titulo">Edad mínima:</span> {{event.requirement.minAge}}</p>
+                        <p><span class="titulo">Edad máxima:</span> {{event.requirement.maxAge}}</p>
+                        <p><span class="titulo">Género:</span> {{event.requirement.gender}}</p>
+                        <p><span class="titulo">Puntuación requerida:</span> {{event.requirement.score}}<span *ngIf="!event.requirement.score">0</span></p>
                     </div>
                 </div>
             </div>
-
-            <h4>Participantes</h4>
-            <div class="participantes" *ngFor="let participant of event.participants">
-                <div class="participante">
-                    <img [src]="getUserPicture(participant.picture)" class="img-profile rounded"/>
-                    <p>{{ participant.firstName }}</p>
-                </div>
-            
-            </div>
             
         </div>
-
+        <!-- END DIV COL-8 -->
     </div>
-</div>
 
+    <div class="row mt-3">
+        <div class="col-12">
+            <div class="form-group">
+                <label>Comentarios</label>
+                <textarea class="form-control" rows="3"></textarea>
+                <div class="text-right mt-2">
+                    <button class="btn btn-primary">Enviar</button>
+                </div>
+              </div>
+              
+        </div>
+    </div>
+
+</div>

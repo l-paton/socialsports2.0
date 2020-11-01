@@ -34,11 +34,4 @@ export class HeaderComponent implements OnInit {
     this.tokenStorage.logout();
   }
 
-  getProfilePicture(): string {
-    if (this.picture == null || this.picture.length <= 0) {
-      return "http://placehold.it/45x45";
-    }
-    return this.picture;
-  }
-
 }

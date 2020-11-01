@@ -10,4 +10,5 @@ export class User{
     created_at:Date;
     picture:string;
     description:string;
+    address:string;
 }

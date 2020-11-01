@@ -41,7 +41,7 @@ public class EventController {
 	@PostMapping("/create")
 	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event, Errors errors){
 		User user = getUser();
-		System.out.println(event.toString());
+		
 		if(!errors.hasErrors() && user != null) {
 			try{
 				event.setOrganizer(user);

@@ -89,4 +89,36 @@ export class EventsComponent implements OnInit {
     }
     return picture;
   }
+
+  cumplesLosRequisitos(id: number){
+    var evento = this.events.find(o => o.id == id);
+    var age = this.calculateAge();
+
+    if(evento.requirement.minAge > 0 && age < evento.requirement.minAge){
+      return false;
+    }
+    if(evento.requirement.maxAge > 0 && age > evento.requirement.maxAge){
+      return false;
+    }
+    if(evento.requirement.gender != null && evento.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()){
+      return false;
+    }
+
+    //comprobar reputacion
+
+    return true;
+    
+  }
+
+  calculateAge(): number{
+    const today = new Date();
+    const birthday = new Date(this.tokenStorageService.getUser().user.birthday);
+    
+    let age = today.getFullYear() - birthday.getFullYear();
+    const m = today.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+    }
+    return age;
+  }
 }

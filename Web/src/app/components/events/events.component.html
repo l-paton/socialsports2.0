@@ -65,13 +65,15 @@
             <td>{{evento.participants.length}}</td>
             <th><button class="btn btn-mostrar btn-sm" (click)="getEvent(evento.id)">Mostrar</button></th>
             <th>
+
               <button class="btn btn-danger btn-sm" *ngIf="id == evento.organizer.id"
                 (click)="deleteEvent(evento)">Eliminar</button>
+              <button class="btn btn-secondary btn-sm" *ngIf="!cumplesLosRequisitos(evento.id)" disabled>No cumples los requisitos</button>
               <button class="btn btn-warning btn-sm" *ngIf="id != evento.organizer.id && isInEventsApplied(evento.id)" 
                 (click)="cancelRequest(evento.id)">Cancelar solicitud</button>
               <button class="btn btn-danger btn-sm" *ngIf="id != evento.organizer.id && isInEventsJoined(evento.id)"
                 (click)="leave(evento.id)">Abandonar</button>
-              <button class="btn btn-success btn-sm" *ngIf="id != evento.organizer.id && !isInEventsJoined(evento.id) && !isInEventsApplied(evento.id)"
+              <button class="btn btn-success btn-sm" *ngIf="id != evento.organizer.id && !isInEventsJoined(evento.id) && !isInEventsApplied(evento.id) && cumplesLosRequisitos(evento.id)"
                 (click)="joinToEvent(evento)">Unirse</button>
             </th>
           </tr>

@@ -5,11 +5,30 @@
 }
 
 .participante{
-    width: 60px;
     float: left;
-    margin: 4px;
 }
 
-.solicitante{
-    
+.column-participants{    
+    border-radius: 4px;
+    width: 100%;
+    background-color: rgba(0,0,0,0.3);
+}
+
+.container-desc{
+    padding: 15px;
+    border-radius: 4px;
+    background-color: rgba(63, 139, 158, 0.3);
+}
+
+.titulo{
+    color: black;
+}
+
+h2{
+    border-radius: 4px;
+    background-color: rgba(0,0,0,0.8);
+}
+
+h4{
+    padding: 4px;
 }

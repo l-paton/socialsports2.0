@@ -6,7 +6,7 @@
                   <img class="img-user rounded mr-3" [src]="getUrlPictureUser(user)" alt="image">
                   <div class="media-body">
                     <h5 class="mt-0 mb-1">{{user.firstName}} {{user.lastName}}</h5>
-                    {{user.description}}
+                    {{user.description | slice:0:20 }}
                     <p *ngIf="user.description == null">Sin descripción</p>
                     <div class="text-left">
                         <span class="fa fa-star unchecked" id="one"></span>

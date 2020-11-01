@@ -2,5 +2,5 @@ package tfg.dam.socialsports;
 
 public class IP {
 
-    public static String getIp = "192.168.1.177";
+    public static String getIp = "10.0.2.2";
 }
