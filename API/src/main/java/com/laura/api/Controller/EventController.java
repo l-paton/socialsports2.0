@@ -1,6 +1,7 @@
 package com.laura.api.Controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -104,7 +105,7 @@ public class EventController {
 	@PostMapping("/join/{id}")
 	public ResponseEntity<?> joinToEvent(@PathVariable("id") long id){
 		try{
-			if(eventService.joinToEvent(id, getUser()) != null) {
+			if(eventService.sendRequestToJoinEvent(id, getUser()) != null) {
 				return ResponseEntity.noContent().build();
 			}
 
@@ -125,6 +126,16 @@ public class EventController {
 			
 			return ResponseEntity.noContent().build();
 
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/requests")
+	public ResponseEntity<?> getRequests(){
+		try{
+			HashMap<Long, User> map = eventService.getApplicantsToUserEvents(getUser());
+			return ResponseEntity.ok(map);
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}

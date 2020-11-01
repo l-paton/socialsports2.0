@@ -1,5 +1,7 @@
 package com.laura.api.Service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class EventService {
 		repository.delete(event);
 	}
 	
-	public Event joinToEvent(long id, User user) {
+	public Event sendRequestToJoinEvent(long id, User user) {
 		Event event = repository.findById(id).orElse(null);
 		
 		if(event != null) {
@@ -78,13 +80,37 @@ public class EventService {
 		return null;
 	}
 
-	
-	public void acceptApplicant(){
-		
+	public HashMap<Long, User> getApplicantsToUserEvents(User user){
+		List<Event> listEvent = repository.findByOrganizer(user);
+		HashMap<Long, User> map = new HashMap<>();
+
+		for(Event event : listEvent){
+			if(event.getApplicants().size() > 0){
+				for(User applicant : event.getApplicants()){
+					map.put(event.getId(), applicant);
+				}
+			}
+		}
+		return map;
 	}
 
-	public void denyApplicant(){
+	
+	public void acceptApplicant(long id, User user){
+		Event event = repository.findById(id).orElse(null);
 		
+		if(event != null) {
+			Set<User> set = event.getParticipants();
+			set.add(user);
+			event.setParticipants(set);
+			
+			if(repository.save(event) != null){
+				cancelRequest(id, user);
+			}
+		}
+	}
+
+	public void denyApplicant(long id, User user){
+		cancelRequest(id, user);
 	}
 
 	public Iterable<Event> getEventsNotFinished(){

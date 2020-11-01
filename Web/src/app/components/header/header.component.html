@@ -25,6 +25,15 @@
         <button class="btn-main btn btn-info my-sm-0 border-0" type="submit"><i class="fas fa-search"></i></button>
       </form>
 
+      <li class="dropdown mr-5 mt-2">
+        <a href="#" data-toggle="dropdown"><i class="fas fa-bell"></i><span class="ml-1 badge badge-secondary" *ngIf="jsonNotifications" [notification]="showNotifications()">{{notifications}}</span></a>
+        <ul class="dropdown-menu dropdown-menu-right">
+          <div *ngIf="arrNotifications">
+            <a href="#" class="dropdown-item"><li>Viendo</li></a>
+          </div>
+        </ul>
+      </li>
+
       <li class="dropdown mr-2">
         <a href="#" data-toggle="dropdown" role="button">
           <img [src]="picture" *ngIf="picture" class="profile-img">

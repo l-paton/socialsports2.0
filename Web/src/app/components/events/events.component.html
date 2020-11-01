@@ -68,7 +68,7 @@
 
               <button class="btn btn-danger btn-sm" *ngIf="id == evento.organizer.id"
                 (click)="deleteEvent(evento)">Eliminar</button>
-              <button class="btn btn-secondary btn-sm" *ngIf="!cumplesLosRequisitos(evento.id)" disabled>No cumples los requisitos</button>
+              <button class="btn btn-secondary btn-sm" *ngIf="id != evento.organizer.id && !cumplesLosRequisitos(evento.id)" disabled>No cumples los requisitos</button>
               <button class="btn btn-warning btn-sm" *ngIf="id != evento.organizer.id && isInEventsApplied(evento.id)" 
                 (click)="cancelRequest(evento.id)">Cancelar solicitud</button>
               <button class="btn btn-danger btn-sm" *ngIf="id != evento.organizer.id && isInEventsJoined(evento.id)"

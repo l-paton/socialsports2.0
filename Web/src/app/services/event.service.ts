@@ -55,4 +55,10 @@ export class EventService {
     return this.http.get<Event>(EVENT_API + '/get/' + id, {headers});
   }
 
+  getRequests(): Observable<any>{
+    let headers = new HttpHeaders();
+    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    return this.http.get<any>(EVENT_API + '/requests', {headers});
+  }
+
 }
