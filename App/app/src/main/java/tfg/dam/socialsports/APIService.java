@@ -95,10 +95,10 @@ public interface APIService {
     @GET("user/events/joined/finished")
     Call<ArrayList<Event>> myEventsJoinedFinished(@Header("Authorization") String authHeader);
 
-    @GET("eventos/buscar")
+    @GET("event/search")
     Call<ArrayList<Event>> buscarEventos(@Header("Authorization") String authHeader,
-                                         @Query("deporte") String deporte, @Query("fecha") String fecha,
-                                         @Query("hora") String hora, @Query("reputacion") float reputacion);
+                                         @Query("sport") String sport, @Query("startDate") String startDate,
+                                         @Query("time") String time /*,@Query("reputation") float reputacion*/);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/fecha")

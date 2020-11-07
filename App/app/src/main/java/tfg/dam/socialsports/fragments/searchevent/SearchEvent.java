@@ -130,41 +130,41 @@ public class SearchEvent extends Fragment {
             service.buscarEventos("Bearer " + LoginActivity.token,
                     filtro.getSport(),
                     Funcionalidades.dateToString2(filtro.getStartAt()),
-                    filtro.getTime(),
-                    filtro.getReputation()).enqueue(new Callback<ArrayList<Event>>() {
+                    filtro.getTime()).enqueue(new Callback<ArrayList<Event>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Event>> call, Response<ArrayList<Event>> response) {
                     if (response.isSuccessful()) {
 
                         ArrayList<Event> listaEvents = response.body();
+
                         int edad = Funcionalidades.calcularEdad(LoginActivity.user.getBirthday());
 
                         for (Event event : listaEvents) {
 
                             //eventosNoCumploRequisitoEdadMaxima
-                            if (event.getRequirement().getMaxAge() != -1 && edad > event.getRequirement().getMaxAge()) {
+                            if (event.getRequirement().getMaxAge() != 0 && edad > event.getRequirement().getMaxAge()) {
                                 listaEvents.remove(event);
                                 break;
                             }
                             //eventosNoCumploRequisitoEdadMinima
-                            if (event.getRequirement().getMinAge() != -1 && edad < event.getRequirement().getMinAge()) {
+                            if (event.getRequirement().getMinAge() != 0 && edad < event.getRequirement().getMinAge()) {
                                 listaEvents.remove(event);
                                 break;
                             }
                             //eventosNoCumploRequisitoDeGenero
-                            if (!event.getRequirement().getGender().equals("")) {
+                            if (event.getRequirement().getGender() != null && !event.getRequirement().getGender().equals("")) {
                                 if (!event.getRequirement().getGender().equals(LoginActivity.user.getGender())) {
                                     listaEvents.remove(event);
                                     break;
                                 }
                             }
                             //eventosNoCumploRequisitoReputacion
-                            if (LoginActivity.user.getUserScore() < event.getRequirement().getReputation() && event.getRequirement().getReputation() != -1) {
+                            /*if (LoginActivity.user.getUserScore() < event.getRequirement().getReputation() && event.getRequirement().getReputation() != -1) {
                                 listaEvents.remove(event);
                                 break;
-                            }
+                            }*/
 
-                            if (event.getMaxParticipants() != -1 && event.getMaxParticipants() <= event.getParticipants().size()) {
+                            if (event.getMaxParticipants() != 0 && event.getMaxParticipants() <= event.getParticipants().size()) {
                                 listaEvents.remove(event);
                             }
                         }
@@ -185,7 +185,7 @@ public class SearchEvent extends Fragment {
 
     private EventFilter obtenerFiltros() {
         EventFilter filtro = new EventFilter();
-        filtro.setSport(searchEventsFilters.getEditDeporte().toUpperCase());
+        filtro.setSport(searchEventsFilters.getEditDeporte());
         filtro.setStartAt(searchEventsFilters.getFecha());
         filtro.setTime(searchEventsFilters.getEditHora());
         if (searchEventsFilters.getCheckReputation())

@@ -46,11 +46,13 @@ public class EventService {
 	public Event sendRequestToJoinEvent(long id, User user) {
 		Event event = repository.findById(id).orElse(null);
 		
-		if(event != null) {
-			Set<User> set = event.getApplicants();
-			set.add(user);
-			event.setApplicants(set);;
-			return repository.save(event);
+		if(event.getMaxParticipants() == 0 || event.getMaxParticipants() > event.getParticipants().size()){
+			if(event != null) {
+				Set<User> set = event.getApplicants();
+				set.add(user);
+				event.setApplicants(set);;
+				return repository.save(event);
+			}
 		}
 		
 		return null;
@@ -134,8 +136,9 @@ public class EventService {
 
 		if(searchRequest.getstartDate() != null){
 			System.out.println(searchRequest.getstartDate());
-			Set<Event> findByStartAt = (HashSet<Event>)repository.findByStartDate(searchRequest.getstartDate());
-			if(findByStartAt != null && findByStartAt.size() > 0) events.addAll(findByStartAt);
+			Set<Event> findByStartDate = (HashSet<Event>)repository.findByStartDate(searchRequest.getstartDate());
+			System.out.println(findByStartDate.size());
+			if(findByStartDate != null && findByStartDate.size() > 0) events.addAll(findByStartDate);
 		}
 		if(searchRequest.getTime() != null && searchRequest.getTime() != ""){
 			Set<Event> findByTime = (HashSet<Event>)repository.findByTime(searchRequest.getTime());

@@ -21,7 +21,7 @@ public interface EventRepository extends CrudRepository<Event, Long>{
 
 	Set<Event> findByAddress(String address);
 
-	Set<Event> findByStartDate(Date startAt);
+	Set<Event> findByStartDate(Date startDate);
 
 	Set<Event> findByTime(String time);
 }

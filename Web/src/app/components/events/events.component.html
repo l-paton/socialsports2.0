@@ -62,7 +62,10 @@
             <td>{{evento.address | uppercase}}</td>
             <td>{{evento.startDate | date : 'dd-MM-yyyy'}} {{ evento.time }}</td>
             <td>{{evento.price | currency:'EUR'}}</td>
-            <td>{{evento.participants.length}}</td>
+            <td>
+              <div *ngIf="eventIsFull(evento)" class="text-danger">LLENO</div>
+              <div *ngIf="!eventIsFull(evento)">{{evento.participants.length}}</div>
+            </td>  
             <th><button class="btn btn-mostrar btn-sm" (click)="getEvent(evento.id)">Mostrar</button></th>
             <th>
 
@@ -73,7 +76,7 @@
                 (click)="cancelRequest(evento.id)">Cancelar solicitud</button>
               <button class="btn btn-danger btn-sm" *ngIf="id != evento.organizer.id && isInEventsJoined(evento.id)"
                 (click)="leave(evento.id)">Abandonar</button>
-              <button class="btn btn-success btn-sm" *ngIf="id != evento.organizer.id && !isInEventsJoined(evento.id) && !isInEventsApplied(evento.id) && cumplesLosRequisitos(evento.id)"
+              <button class="btn btn-success btn-sm" *ngIf="id != evento.organizer.id && !isInEventsJoined(evento.id) && !eventIsFull(evento) && !isInEventsApplied(evento.id) && cumplesLosRequisitos(evento.id)"
                 (click)="joinToEvent(evento)">Unirse</button>
             </th>
           </tr>

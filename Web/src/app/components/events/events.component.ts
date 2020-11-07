@@ -84,7 +84,17 @@ export class EventsComponent implements OnInit {
   }
 
   buscar(){
-    
+    console.log("se mete");
+    if(this.sport || this.startDate || this.time){
+      this.eventService
+        .searchEvents(this.sport, this.startDate, this.time)
+        .subscribe(data => 
+          {
+            if(data.length > 0){
+              this.events = data
+            }
+          });
+    }
   }
 
   getUserPicture(picture) {
@@ -112,6 +122,13 @@ export class EventsComponent implements OnInit {
 
     return true;
     
+  }
+
+  eventIsFull(event : Event): boolean{
+    if(event.maxParticipants > 0 && event.maxParticipants === event.participants.length){
+      return true;
+    }
+    else false;
   }
 
   calculateAge(): number{
