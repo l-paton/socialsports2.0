@@ -84,13 +84,14 @@ public class User {
 		
 	}
 	
-	public User(String email, String firstname, String lastname, String password, String gender, Date createAt) {
+	public User(String email, String firstname, String lastname, String password, String gender, Date createAt, Date birthday) {
 		this.email = email;
 		this.firstName = firstname;
 		this.lastName = lastname;
 		this.password = password;
 		this.gender = gender;
 		this.createdAt =  createAt;
+		this.birthday = birthday;
 	}
 	
 	public long getId() {

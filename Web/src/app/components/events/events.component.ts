@@ -16,9 +16,9 @@ export class EventsComponent implements OnInit {
   events: Event[] = [];
   eventsJoined: Event[] = [];
   id: number;
-  sport: string;
-  startDate: Date;
-  time: string;
+  sport: string = '';
+  startDate: string = '';
+  time: string = '';
 
   constructor(
     private eventService: EventService,
@@ -81,6 +81,10 @@ export class EventsComponent implements OnInit {
       }
     }
     return false;
+  }
+
+  buscar(){
+    
   }
 
   getUserPicture(picture) {

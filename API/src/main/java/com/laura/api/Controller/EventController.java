@@ -26,6 +26,7 @@ import com.laura.api.Service.EventService;
 import com.laura.api.Service.UserService;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
+import com.laura.api.payload.SearchRequest;
 
 
 @RestController
@@ -130,13 +131,24 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
-
+	
 	@GetMapping("/requests")
 	public ResponseEntity<?> getRequests(){
 		try{
 			HashMap<Long, User> map = eventService.getApplicantsToUserEvents(getUser());
 			return ResponseEntity.ok(map);
 		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/search")
+	public ResponseEntity<?> searchEvents(@RequestBody(required=false) SearchRequest searchRequest){
+		try{
+			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
+			return ResponseEntity.ok(events);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}

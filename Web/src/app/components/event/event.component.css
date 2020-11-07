@@ -9,15 +9,17 @@
 }
 
 .column-participants{    
-    border-radius: 4px;
+    box-shadow: 0 0 2px black;
+    border-radius: 2px;
     width: 100%;
-    background-color: rgba(0,0,0,0.3);
+    background-color: rgba(0,0,0,0.6);
 }
 
 .container-desc{
+    box-shadow: 0 0 2px 1px black;
     padding: 15px;
-    border-radius: 4px;
-    background-color: rgba(63, 139, 158, 0.3);
+    border-radius: 2px;
+    background-color: rgba(35, 102, 114, 0.6);
 }
 
 .titulo{
@@ -25,8 +27,8 @@
 }
 
 h2{
-    border-radius: 4px;
-    background-color: rgba(0,0,0,0.8);
+    font-weight: bolder;
+    color: black;
 }
 
 h4{

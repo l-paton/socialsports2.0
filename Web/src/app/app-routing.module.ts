@@ -15,13 +15,13 @@ import { AuthGuard } from './_helpers/auth.guard';
 const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'signup', component: SignupComponent},
-  { path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  { path: 'home', component: EventsComponent, canActivate: [AuthGuard]},
   { path: 'event', component: EventsComponent, canActivate: [AuthGuard] },
   { path: 'event/:id', component: EventComponent, canActivate: [AuthGuard] },
   { path: 'eventform', component: EventFormComponent, canActivate: [AuthGuard] },
   { path: 'community', component: CommunityComponent, canActivate: [AuthGuard] },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '', component: EventsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

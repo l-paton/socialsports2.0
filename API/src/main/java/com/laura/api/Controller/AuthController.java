@@ -81,7 +81,7 @@ public class AuthController {
 					.body(new MessageResponse("Ese email ya está en uso"));
 		}
 		
-		User user = new User(signUpRequest.getEmail(), signUpRequest.getFirstname(), signUpRequest.getLastname(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), new Date(System.currentTimeMillis()));
+		User user = new User(signUpRequest.getEmail(), signUpRequest.getFirstname(), signUpRequest.getLastname(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), new Date(System.currentTimeMillis()), signUpRequest.getBirthday());
 		
 		userRepository.save(user);
 

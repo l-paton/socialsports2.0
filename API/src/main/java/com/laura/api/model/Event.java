@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="SPORT_EVENTS")
 public class Event {
@@ -64,6 +66,7 @@ public class Event {
 	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> participants;
 
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "applicants_event",
 		joinColumns = @JoinColumn(name = "event_id"), 

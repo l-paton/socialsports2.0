@@ -26,6 +26,7 @@ export class SignupComponent implements OnInit {
         email: new FormControl('', [Validators.required]),
         password: new FormControl('', [Validators.required]),
         repeatPassword: new FormControl('', [Validators.required]),
+        birthday: new FormControl('', []),
       }
     );
   }
@@ -35,13 +36,14 @@ export class SignupComponent implements OnInit {
   get email() { return this.signUpForm.get('email') }
   get password() { return this.signUpForm.get('password') }
   get repeatPassword() { return this.signUpForm.get('repeatPassword') }
+  get birthday() { return this.signUpForm.get('birthday') }
 
   onSubmit(): void {
 
     if (!this.signUpForm.invalid) {
 
       if (this.password.value === this.repeatPassword.value) {
-        this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value, this.gender).subscribe(
+        this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value, this.gender, this.birthday.value).subscribe(
           () => {
             this.isSuccessful = true;
             this.isSignUpFailed = false;

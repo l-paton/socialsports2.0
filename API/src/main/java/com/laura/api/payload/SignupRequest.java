@@ -1,5 +1,7 @@
 package com.laura.api.payload;
 
+import java.util.Date;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -13,6 +15,8 @@ public class SignupRequest {
     private String firstname;
     
     private String lastname;
+
+    private Date birthday;
     
     @NotBlank
     @Size(min = 6, max = 64)
@@ -60,9 +64,18 @@ public class SignupRequest {
       this.gender = gender;
     }
 
+    public Date getBirthday() {
+      return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+      this.birthday = birthday;
+    }
+
     @Override
     public String toString() {
-      return "SignupRequest [email=" + email + ", firstname=" + firstname + ", gender=" + gender + ", lastname="
-          + lastname + ", password=" + password + "]";
+      return "SignupRequest [birthday=" + birthday + ", email=" + email + ", firstname=" + firstname + ", gender="
+          + gender + ", lastname=" + lastname + ", password=" + password + "]";
     }
+
 }

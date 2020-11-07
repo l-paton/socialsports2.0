@@ -7,13 +7,13 @@
 
   <div class="collapse navbar-collapse" id="navbarToggler">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      <li class="nav-item">
+      <li class="nav-item" [ngClass]="{ active: isActive('/')}">
         <a class="nav-link" [routerLink]="['/home']" href="#">Inicio</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/event']" href="#">Eventos</a>
+        <a class="nav-link disabled" [routerLink]="['/event']" href="#">Mis eventos</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" [ngClass]="{ active: isActive('/community')}">
         <a class="nav-link" [routerLink]="['/community']" href="#">Comunidad</a>
       </li>
     </ul>
@@ -26,10 +26,13 @@
       </form>
 
       <li class="dropdown mr-5 mt-2">
-        <a href="#" data-toggle="dropdown"><i class="fas fa-bell"></i><span class="ml-1 badge badge-secondary" *ngIf="jsonNotifications" [notification]="showNotifications()">{{notifications}}</span></a>
+        <a href="#" data-toggle="dropdown"><i class="fas fa-bell"></i><span class="ml-1 badge badge-secondary"
+            *ngIf="jsonNotifications">{{notifications}}</span></a>
         <ul class="dropdown-menu dropdown-menu-right">
-          <div *ngIf="arrNotifications">
-            <a href="#" class="dropdown-item"><li>Viendo</li></a>
+          <div *ngFor="let applicant of applicants">
+            <a href="#" class="dropdown-item">
+              <li>{{ applicant.firstName }}</li>
+            </a>
           </div>
         </ul>
       </li>
@@ -37,11 +40,16 @@
       <li class="dropdown mr-2">
         <a href="#" data-toggle="dropdown" role="button">
           <img [src]="picture" *ngIf="picture" class="profile-img">
-          <img src="../../../assets/images/45x45.png" *ngIf="picture == null || this.picture.length <= 0" class="profile-img">
+          <img src="../../../assets/images/45x45.png" *ngIf="picture == null || this.picture.length <= 0"
+            class="profile-img">
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
-          <a href="#" class="dropdown-item" [routerLink]="['/profile']"><li>Perfil</li></a>
-          <a href="#" class="dropdown-item" (click)="logout()"><li>Salir</li></a>
+          <a href="#" class="dropdown-item" [routerLink]="['/profile']">
+            <li>Perfil</li>
+          </a>
+          <a href="#" class="dropdown-item" (click)="logout()">
+            <li>Salir</li>
+          </a>
         </ul>
       </li>
     </ul>

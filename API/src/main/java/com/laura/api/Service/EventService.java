@@ -1,8 +1,9 @@
 package com.laura.api.Service;
 
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.laura.api.Repository.EventRepository;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
+import com.laura.api.payload.SearchRequest;
 
 @Service
 public class EventService {
@@ -81,7 +83,7 @@ public class EventService {
 	}
 
 	public HashMap<Long, User> getApplicantsToUserEvents(User user){
-		List<Event> listEvent = repository.findByOrganizer(user);
+		Set<Event> listEvent = (HashSet<Event>)repository.findByOrganizer(user);
 		HashMap<Long, User> map = new HashMap<>();
 
 		for(Event event : listEvent){
@@ -113,7 +115,35 @@ public class EventService {
 		cancelRequest(id, user);
 	}
 
-	public Iterable<Event> getEventsNotFinished(){
+	public Set<Event> getEventsNotFinished(){
 		return repository.findByFinish(false);
+	}
+
+	public Set<Event> searchEvents(SearchRequest searchRequest){
+		
+		Set<Event> events = new HashSet<>();
+
+		if(searchRequest.getSport() != null && searchRequest.getSport() != ""){
+			Set<Event> findBySport = (HashSet<Event>)repository.findBySport(searchRequest.getSport());
+			if(findBySport != null && findBySport.size() > 0) events.addAll(findBySport);
+		}
+		if(searchRequest.getAddress() != null && searchRequest.getAddress() != ""){
+			Set<Event> findByAddress = (HashSet<Event>)repository.findByAddress(searchRequest.getAddress());
+			if(findByAddress != null && findByAddress.size() > 0) events.addAll(findByAddress);
+		}
+
+		if(searchRequest.getstartDate() != null){
+			System.out.println(searchRequest.getstartDate());
+			Set<Event> findByStartAt = (HashSet<Event>)repository.findByStartDate(searchRequest.getstartDate());
+			if(findByStartAt != null && findByStartAt.size() > 0) events.addAll(findByStartAt);
+		}
+		if(searchRequest.getTime() != null && searchRequest.getTime() != ""){
+			Set<Event> findByTime = (HashSet<Event>)repository.findByTime(searchRequest.getTime());
+			if(findByTime != null && findByTime.size() > 0) events.addAll(findByTime);
+		}
+
+		events = events.stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
+		
+		return events;
 	}
 }
