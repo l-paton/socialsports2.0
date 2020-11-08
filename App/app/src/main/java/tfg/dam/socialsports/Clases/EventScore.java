@@ -5,13 +5,13 @@ import java.io.Serializable;
 public class EventScore implements Serializable {
 
     private String idUser;
-    private String idEvent;
+    private Long idEvent;
     private float score;
 
     public EventScore() {
     }
 
-    public EventScore(String idUser, String idEvent, float score) {
+    public EventScore(String idUser, Long idEvent, float score) {
         this.idUser = idUser;
         this.idEvent = idEvent;
         this.score = score;
@@ -25,11 +25,11 @@ public class EventScore implements Serializable {
         this.idUser = idUser;
     }
 
-    public String getIdEvent() {
+    public Long getIdEvent() {
         return idEvent;
     }
 
-    public void setIdEvent(String idEvent) {
+    public void setIdEvent(Long idEvent) {
         this.idEvent = idEvent;
     }
 

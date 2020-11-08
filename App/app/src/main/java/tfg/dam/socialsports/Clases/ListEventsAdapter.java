@@ -40,6 +40,7 @@ public class ListEventsAdapter extends ArrayAdapter<Event> {
         View raw = inflater.inflate(layoutFila, parent, false);
 
         TextView sport = raw.findViewById(R.id.textItemEventoDeporte);
+        TextView address = raw.findViewById(R.id.textItemEventoLocalidad);
         TextView startAt = raw.findViewById(R.id.textItemEventoFecha);
         TextView price = raw.findViewById(R.id.textItemEventoPrecio);
         TextView organizer = raw.findViewById(R.id.textItemEventoOrganizador);
@@ -47,6 +48,7 @@ public class ListEventsAdapter extends ArrayAdapter<Event> {
         Event event = getItem(position);
 
         sport.setText(event.getSport().toUpperCase());
+        if(event.getAddress() != null) address.setText(event.getAddress().toUpperCase());
         if (event.getStartDate() != null)
             startAt.setText(Funcionalidades.dateToString(event.getStartDate()));
         else

@@ -46,7 +46,7 @@ export class EventFormComponent implements OnInit {
     let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments, this.requirement);
     console.log(e);
     this.eventService.createEvent(e).subscribe(() => {
-      this.router.navigateByUrl('/event');
+      this.router.navigateByUrl('/');
     });
   }
 

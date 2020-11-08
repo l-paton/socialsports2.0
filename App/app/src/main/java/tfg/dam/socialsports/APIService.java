@@ -86,11 +86,11 @@ public interface APIService {
 
     /************************EVENTOS************************/
 
-    @GET("user/events/joined")
-    Call<ArrayList<Event>> myEventsJoined(@Header("Authorization") String authHeader);
-
     @GET("event/list")
     Call<ArrayList<Event>> listEvents(@Header("Authorization") String authHeader);
+
+    @GET("user/events/joined/notfinished")
+    Call<ArrayList<Event>> myEventsJoined(@Header("Authorization") String authHeader);
 
     @GET("user/events/joined/finished")
     Call<ArrayList<Event>> myEventsJoinedFinished(@Header("Authorization") String authHeader);
@@ -101,24 +101,24 @@ public interface APIService {
                                          @Query("time") String time /*,@Query("reputation") float reputacion*/);
 
     @FormUrlEncoded
-    @PUT("eventos/actualizar/fecha")
-    Call<ResponseBody> actualizarFechaEvento(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("fecha") String fecha);
+    @PUT("event/edit/startdate")
+    Call<ResponseBody> editStartDateEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("startDate") String startDate);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/hora")
-    Call<ResponseBody> actualizarHoraEvento(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("hora") String hora);
+    Call<ResponseBody> actualizarHoraEvento(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("hora") String hora);
 
     @FormUrlEncoded
-    @PUT("eventos/actualizar/direccion")
-    Call<ResponseBody> actualizarDireccionEvento(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("direccion") String direccion);
+    @PUT("event/edit/address/{id}")
+    Call<ResponseBody> editAddressEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("address") String address);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/maximoparticipantes")
-    Call<ResponseBody> actualizarMaxParticipantesEvento(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("maxParticipantes") int maxParticipantes);
+    Call<ResponseBody> actualizarMaxParticipantesEvento(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("maxParticipantes") int maxParticipantes);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/terminado")
-    Call<ResponseBody> actualizarTerminarEvento(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("terminado") boolean terminado);
+    Call<ResponseBody> actualizarTerminarEvento(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("terminado") boolean terminado);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/reserva")
@@ -126,7 +126,7 @@ public interface APIService {
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/coste")
-    Call<ResponseBody> actualizarCoste(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("coste") float coste);
+    Call<ResponseBody> actualizarCoste(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("coste") float coste);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/precio")
@@ -134,43 +134,42 @@ public interface APIService {
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/comentarios")
-    Call<ResponseBody> actualizarComentarios(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("comentarios") String comentarios);
+    Call<ResponseBody> actualizarComentarios(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("comentarios") String comentarios);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/edadminima")
-    Call<ResponseBody> actualizarEdadMinima(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("edad") int edad);
+    Call<ResponseBody> actualizarEdadMinima(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("edad") int edad);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/edadmaxima")
-    Call<ResponseBody> actualizarEdadMaxima(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("edad") int edad);
+    Call<ResponseBody> actualizarEdadMaxima(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("edad") int edad);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/genero")
-    Call<ResponseBody> actualizarGenero(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("genero") String genero);
+    Call<ResponseBody> actualizarGenero(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("genero") String genero);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/reputacion")
-    Call<ResponseBody> actualizarReputacion(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("reputacion") float reputacion);
+    Call<ResponseBody> actualizarReputacion(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("reputacion") float reputacion);
 
     @DELETE("eventos/eliminarparticipante/{idEvento}/{correo}")
-    Call<ResponseBody> eliminarParticipante(@Header("Authorization") String authHeader, @Path("idEvento") String idEvento, @Path("correo") String correo);
+    Call<ResponseBody> eliminarParticipante(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento, @Path("correo") String correo);
 
-    @FormUrlEncoded
-    @POST("eventos/insertarparticipante")
-    Call<ResponseBody> insertarParticipante(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("correo") String correo);
+    @POST("event/accept/{idEvent}/{idUser}")
+    Call<ResponseBody> insertarParticipante(@Header("Authorization") String authHeader, @Path("idEvent") long idEvent, @Path("idUser") long idUser);
 
     @FormUrlEncoded
     @POST("eventos/insertarsolicitante")
-    Call<ResponseBody> insertarSolicitante(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("correo") String correo);
+    Call<ResponseBody> insertarSolicitante(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("correo") String correo);
 
     @DELETE("eventos/eliminarsolicitante/{idEvento}/{correo}")
-    Call<ResponseBody> eliminarSolicitante(@Header("Authorization") String authHeader, @Path("idEvento") String idEvento, @Path("correo") String correo);
+    Call<ResponseBody> eliminarSolicitante(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento, @Path("correo") String correo);
 
     @PUT("eventos/bloquearsolicitud/{idEvento}/{correo}")
     Call<ResponseBody> bloquearSolicitud(@Header("Authorization") String authHeader, @Path("idEvento") String idEvento, @Path("correo") String correo);
 
     @DELETE("eventos/eliminar/{idEvento}")
-    Call<ResponseBody> eliminarEvento(@Header("Authorization") String authHeader, @Path("idEvento") String idEvento);
+    Call<ResponseBody> eliminarEvento(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento);
 
     @GET("perfil/puntuacionparticipante/{correo}")
     Call<Float> getReputacionParticipante(@Header("Authorization") String authHeader, @Path("correo") String correo);
@@ -179,7 +178,7 @@ public interface APIService {
     Call<Float> getReputacionOrganizador(@Header("Authorization") String authHeader, @Path("correo") String correo);
 
     @GET("eventos/hasidopuntuado/{idevento}/{email}")
-    Call<Boolean> getHaSidoPuntuado(@Header("Authorization") String authHeader, @Path("idevento") String idevento, @Path("email") String email);
+    Call<Boolean> getHaSidoPuntuado(@Header("Authorization") String authHeader, @Path("idevento") Long idevento, @Path("email") String email);
 
     @POST("perfil/insertarpuntuacion")
     Call<ResponseBody> insertarPuntuacionParticipante(@Header("Authorization") String authHeader, @Body UserScore puntuacion);

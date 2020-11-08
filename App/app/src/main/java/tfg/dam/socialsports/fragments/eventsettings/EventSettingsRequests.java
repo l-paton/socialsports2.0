@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,17 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import tfg.dam.socialsports.APIService;
 import tfg.dam.socialsports.Clases.ListUsersAdapter;
 import tfg.dam.socialsports.Clases.User;
 import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
+import tfg.dam.socialsports.RETROFIT;
 
 
 public class EventSettingsRequests extends Fragment {
@@ -122,8 +130,25 @@ public class EventSettingsRequests extends Fragment {
     }
 
     private void aceptarSolicitud() {
-        //Funcionalidades.eliminarSolicitante(Funcionalidades.eventoSeleccionado,usuarioSeleccionado);
-        Funcionalidades.insertarParticipante(Funcionalidades.eventSeleccionado, userSeleccionado);
+        RETROFIT retrofit = new RETROFIT();
+        APIService service = retrofit.getAPIService();
+
+        service.insertarParticipante("Bearer " + LoginActivity.token,
+                Funcionalidades.eventSeleccionado.getId(),
+                userSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    Funcionalidades.eventSeleccionado.getApplicants().remove((userSeleccionado));
+                    Funcionalidades.eventSeleccionado.getParticipants().add(userSeleccionado);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     private void eliminarSolicitud() {

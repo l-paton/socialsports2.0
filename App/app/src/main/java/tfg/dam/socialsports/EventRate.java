@@ -145,7 +145,7 @@ public class EventRate extends AppCompatActivity {
         Funcionalidades.insertarAmigo(userSeleccionado);
     }
 
-    public void haSidoPuntuado(String idEvento, String email) {
+    public void haSidoPuntuado(Long idEvento, String email) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 

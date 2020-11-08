@@ -158,7 +158,7 @@ public class EventSettingsSettings extends Fragment {
         editFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Funcionalidades.eventSeleccionado.getOrganizer().getEmail().equals(LoginActivity.user.getEmail()))
+                if (Funcionalidades.eventSeleccionado.getId() == LoginActivity.user.getId())
                     dialogoCalendario.show();
                 Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
             }
@@ -166,7 +166,7 @@ public class EventSettingsSettings extends Fragment {
         editHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Funcionalidades.eventSeleccionado.getOrganizer().getEmail().equals(LoginActivity.user.getEmail()))
+                if (Funcionalidades.eventSeleccionado.getId() == LoginActivity.user.getId())
                     dialogoTime.show();
                 Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
             }

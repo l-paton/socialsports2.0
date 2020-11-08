@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Event implements Serializable {
-    private String id;
+    private Long id;
     private User organizer;
     private String sport;
     private String address;
@@ -31,11 +31,11 @@ public class Event implements Serializable {
         this.requirement = requirement;
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

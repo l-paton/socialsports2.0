@@ -6,13 +6,13 @@ public class UserScore implements Serializable {
 
     private String idUser;
     private String idRatedUser;
-    private String idEvent;
+    private Long idEvent;
     private float score;
 
     public UserScore() {
     }
 
-    public UserScore(String idUser, String idRatedUser, String idEvent, float score) {
+    public UserScore(String idUser, String idRatedUser, Long idEvent, float score) {
         this.idUser = idUser;
         this.idRatedUser = idRatedUser;
         this.idEvent = idEvent;
@@ -35,11 +35,11 @@ public class UserScore implements Serializable {
         this.idRatedUser = idRatedUser;
     }
 
-    public String getIdEvent() {
+    public Long getIdEvent() {
         return idEvent;
     }
 
-    public void setIdEvent(String idEvent) {
+    public void setIdEvent(Long idEvent) {
         this.idEvent = idEvent;
     }
 

@@ -17,6 +17,10 @@ public class UserService {
 	public User getUser(String email) {
 		return repository.findByEmail(email).orElse(null);
 	}
+
+	public User getUserById(long id){
+		return repository.findById(id).orElse(null);
+	}
 	
 	public User editUser(User user) {
 		return repository.save(user);

@@ -27,6 +27,14 @@ public class EventService {
 		return repository.findById(id).orElse(null);
 	}
 
+	public Set<Event> getEventsByOrganizer(User user){
+		return repository.findByOrganizer(user);
+	}
+
+	public Set<Event> getEventsNotFinished() {
+		return repository.findByFinish(false);
+	}
+
 	public Event createEvent(Event event) {
 		return repository.save(event);
 	}
@@ -65,19 +73,6 @@ public class EventService {
 		return null;
 	}
 
-	public Event cancelRequest(long id, User user) {
-		Event event = repository.findById(id).orElse(null);
-
-		if (event != null) {
-			Set<User> set = event.getApplicants();
-			set.remove(user);
-			event.setApplicants(set);
-			return repository.save(event);
-		}
-
-		return null;
-	}
-
 	public Event leaveEvent(long id, User user) {
 		Event event = repository.findById(id).orElse(null);
 
@@ -105,8 +100,7 @@ public class EventService {
 		return map;
 	}
 
-	public void acceptApplicant(long id, User user) {
-		Event event = repository.findById(id).orElse(null);
+	public void acceptApplicant(Event event, User user) {
 
 		if (event != null) {
 			Set<User> set = event.getParticipants();
@@ -114,17 +108,13 @@ public class EventService {
 			event.setParticipants(set);
 
 			if (repository.save(event) != null) {
-				cancelRequest(id, user);
+				cancelRequest(event.getId(), user);
 			}
 		}
 	}
 
 	public void denyApplicant(long id, User user) {
 		cancelRequest(id, user);
-	}
-
-	public Set<Event> getEventsNotFinished() {
-		return repository.findByFinish(false);
 	}
 
 	public Set<Event> searchEvents(SearchRequest searchRequest) {
@@ -160,7 +150,20 @@ public class EventService {
 		return events;
 	}
 
-	public Set<Event> getEventsByOrganizer(User user){
-		return repository.findByOrganizer(user);
+	public Event cancelRequest(long id, User user) {
+		Event event = repository.findById(id).orElse(null);
+
+		if (event != null) {
+			Set<User> set = event.getApplicants();
+			set.remove(user);
+			event.setApplicants(set);
+			return repository.save(event);
+		}
+
+		return null;
+	}
+
+	public Event editEvent(Event event){
+		return repository.save(event);
 	}
 }

@@ -34,19 +34,18 @@ public class EventSettings extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabsEventSettings);
         navigationView = findViewById(R.id.navigationEventSettings);
         toolbar = findViewById(R.id.toolbarEventSettings);
-        //toolbar.setTitle(Funcionalidades.eventoSeleccionado.getSport()+" - "+Funcionalidades.eventoSeleccionado.getLocalidad());
+        toolbar.setTitle(Funcionalidades.eventSeleccionado.getSport()+" - "+Funcionalidades.eventSeleccionado.getAddress());
         eventSettingsSettings = new EventSettingsSettings();
         eventSettingsParticipants = new EventSettingsParticipants();
         eventSettingsRequests = new EventSettingsRequests();
 
-        /*if (!Funcionalidades.eventoSeleccionado.getOrganizer().getEmail().equals(LoginActivity.usuario.getEmail())) {
-            if (!Funcionalidades.eresSolicitante(Funcionalidades.eventoSeleccionado)
-                    && !Funcionalidades.eresParticipante(Funcionalidades.eventoSeleccionado)
-                    && !Funcionalidades.estasBaneado(Funcionalidades.eventoSeleccionado,this)) {
+        if (Funcionalidades.eventSeleccionado.getOrganizer().getId() != LoginActivity.user.getId()) {
+            if (!Funcionalidades.eresSolicitante(Funcionalidades.eventSeleccionado)
+                    && !Funcionalidades.eresParticipante(Funcionalidades.eventSeleccionado)) {
                 toolbar.inflateMenu(R.menu.event_subscribe_menu);
                 navigationView.inflateMenu(R.menu.event_subscribe_menu);
             }
-            else if (!Funcionalidades.estasBaneado(Funcionalidades.eventoSeleccionado,this)) {
+            else {
                 toolbar.inflateMenu(R.menu.event_unsubscribe_menu);
                 navigationView.inflateMenu(R.menu.event_unsubscribe_menu);
             }
@@ -54,7 +53,7 @@ public class EventSettings extends AppCompatActivity {
         else {
             toolbar.inflateMenu(R.menu.event_organizer_menu);
             navigationView.inflateMenu(R.menu.event_organizer_menu);
-        }*/
+        }
         Funcionalidades.showSelectedFragment(R.id.containerEventSettings,getSupportFragmentManager(),eventSettingsSettings);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

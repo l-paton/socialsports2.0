@@ -7,6 +7,7 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -93,6 +95,27 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 		}	
 	}
+
+	@PostMapping("/accept/{idEvent}/{idUser}")
+	public ResponseEntity<?> acceptApplicantRequest(@PathVariable("idEvent") long idEvent, @PathVariable("idUser") long idUser){
+
+		try{
+			Event event = eventService.getEvent(idEvent);
+
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				User user = userService.getUserById(idUser);
+				if(user != null){
+					eventService.acceptApplicant(event, user);
+					return ResponseEntity.ok().build();
+				}
+			}
+
+			return ResponseEntity.badRequest().build();
+			
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
 	
 	@DeleteMapping("/cancel/{id}")
 	public ResponseEntity<?> cancelRequest(@PathVariable("id") long id){
@@ -165,6 +188,36 @@ public class EventController {
 	public ResponseEntity<?> getEventsCreatedByUser(){
 		try{
 			return ResponseEntity.ok(eventService.getEventsByOrganizer(getUser()));
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/address")
+	public ResponseEntity<?> editAddress(@RequestParam("id") long id, @RequestParam String address){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				event.setAddress(address);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/startdate")
+	public ResponseEntity<?> editStartDate(@RequestParam("id") long id, @RequestParam Date startDate){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				event.setStartDate(startDate);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}

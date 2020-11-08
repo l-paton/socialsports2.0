@@ -146,28 +146,28 @@ public class Funcionalidades extends AppCompatActivity {
         return finalizados;
     }
 
-    /*public static boolean eresSolicitante(Evento ev) {
-        for (Usuario usuario: ev.getListaSolicitantes()) {
-            if (usuario.getEmail().equals(LoginActivity.usuario.getEmail()))
+    public static boolean eresSolicitante(Event ev) {
+        for (User user: ev.getApplicants()) {
+            if (user.getId() == LoginActivity.user.getId())
                 return true;
         }
         return false;
-    }*/
+    }
 
     public static boolean eresParticipante(Event ev) {
         for (User user : ev.getParticipants()) {
-            if (user.getEmail().equals(LoginActivity.user.getEmail()))
+            if (user.getId() == LoginActivity.user.getId())
                 return true;
         }
         return false;
     }
 
     public static boolean eresOrganizador(Event ev) {
-        return LoginActivity.user.getEmail().equals(ev.getOrganizer().getEmail());
+        return LoginActivity.user.getId() == ev.getOrganizer().getId();
     }
 
     public static boolean soyYo(User user) {
-        return LoginActivity.user.getEmail().equals(user.getEmail());
+        return LoginActivity.user.getId() == user.getId();
     }
 
     public static int calcularEdad(Date fecha) {
@@ -176,7 +176,7 @@ public class Funcionalidades extends AppCompatActivity {
         return (int) (((new Date().getTime() - fecha.getTime()) / 86400000) / 365);
     }
 
-    public static void actualizarTerminarEvento(String idEvento, boolean terminado) {
+    public static void actualizarTerminarEvento(Long idEvento, boolean terminado) {
         RETROFIT retrofit = new RETROFIT();
         retrofit.getAPIService().actualizarTerminarEvento("Bearer " + LoginActivity.token, idEvento, terminado).enqueue(new Callback<ResponseBody>() {
             @Override
@@ -206,7 +206,7 @@ public class Funcionalidades extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                t.printStackTrace();
             }
         });
     }
@@ -283,10 +283,10 @@ public class Funcionalidades extends AppCompatActivity {
                 });
     }
 
-    public static void actualizarFechaEvento(String idEvento, Date fecha) {
+    public static void actualizarFechaEvento(Long idEvento, Date fecha) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.actualizarFechaEvento("Bearer " + LoginActivity.token, idEvento, dateToString2(fecha)).enqueue(new Callback<ResponseBody>() {
+        service.editStartDateEvent("Bearer " + LoginActivity.token, idEvento, dateToString2(fecha)).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -299,7 +299,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarHoraEvento(String idEvento, String hora) {
+    public static void actualizarHoraEvento(Long idEvento, String hora) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.actualizarHoraEvento("Bearer " + LoginActivity.token, idEvento, hora).enqueue(new Callback<ResponseBody>() {
@@ -315,10 +315,10 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarDireccionEvento(String idEvento, String direccion) {
+    public static void actualizarDireccionEvento(Long idEvento, String direccion) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.actualizarDireccionEvento("Bearer " + LoginActivity.token, idEvento, direccion).enqueue(new Callback<ResponseBody>() {
+        service.editAddressEvent("Bearer " + LoginActivity.token, idEvento, direccion).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -331,7 +331,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarMaxParticipantesEvento(String idEvento, int maxParticipants) {
+    public static void actualizarMaxParticipantesEvento(Long idEvento, int maxParticipants) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.actualizarMaxParticipantesEvento("Bearer " + LoginActivity.token, idEvento, maxParticipants).enqueue(new Callback<ResponseBody>() {
@@ -377,7 +377,7 @@ public class Funcionalidades extends AppCompatActivity {
         }
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.insertarParticipante("Bearer " + LoginActivity.token, event.getId(), user.getEmail()).enqueue(new Callback<ResponseBody>() {
+        service.insertarParticipante("Bearer " + LoginActivity.token, event.getId(), user.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -390,7 +390,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarCosteEvento(String idEvento, float coste) {
+    public static void actualizarCosteEvento(Long idEvento, float coste) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.actualizarCoste("Bearer " + LoginActivity.token, idEvento, coste).enqueue(new Callback<ResponseBody>() {
@@ -422,7 +422,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarComentariosEvento(String idEvento, String comment) {
+    public static void actualizarComentariosEvento(Long idEvento, String comment) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.actualizarComentarios("Bearer " + LoginActivity.token, idEvento, comment).enqueue(new Callback<ResponseBody>() {
@@ -438,7 +438,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarEdadMinEvento(String idEvento, int edad) {
+    public static void actualizarEdadMinEvento(Long idEvento, int edad) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.actualizarEdadMinima("Bearer " + LoginActivity.token, idEvento, edad).enqueue(new Callback<ResponseBody>() {
@@ -454,7 +454,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarEdadMaxEvento(String idEvento, int edad) {
+    public static void actualizarEdadMaxEvento(Long idEvento, int edad) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.actualizarEdadMaxima("Bearer " + LoginActivity.token, idEvento, edad).enqueue(new Callback<ResponseBody>() {
@@ -470,7 +470,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarGeneroEvento(String idEvento, String genero) {
+    public static void actualizarGeneroEvento(Long idEvento, String genero) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.actualizarGenero("Bearer " + LoginActivity.token, idEvento, genero).enqueue(new Callback<ResponseBody>() {
@@ -486,7 +486,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarReputacionEvento(String idEvento, float reputacion) {
+    public static void actualizarReputacionEvento(Long idEvento, float reputacion) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.actualizarReputacion("Bearer " + LoginActivity.token, idEvento, reputacion).enqueue(new Callback<ResponseBody>() {
