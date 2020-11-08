@@ -30,8 +30,8 @@
                                         content.
                                     </p>
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-sm btn-primary mr-3">Editar</a>
-                                        <a href="#" class="btn btn-sm btn-danger">Eliminar</a>
+                                        <a class="btn btn-sm btn-primary mr-3">Editar</a>
+                                        <a class="btn btn-sm btn-danger" (click)="deleteEvent(evento.id)">Eliminar</a>
                                     </div>
                                 </div>
                             </div>
@@ -52,7 +52,7 @@
                                         content.
                                     </p>
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-sm btn-danger mr-3">Cancelar</a>
+                                        <a class="btn btn-sm btn-danger mr-3" *ngIf="evento.organizer.id != id" (click)="leaveEvent(evento.id)">Cancelar</a>
                                     </div>
                                 </div>
                             </div>
@@ -72,7 +72,7 @@
                                         content.
                                     </p>
                                     <div class="text-right">
-                                        <a href="#" class="btn btn-sm btn-warning mr-3">Cancelar solicitud</a>
+                                        <a class="btn btn-sm btn-warning mr-3" (click)="cancelRequest(evento.id)">Cancelar solicitud</a>
                                     </div>
                                 </div>
                             </div>
