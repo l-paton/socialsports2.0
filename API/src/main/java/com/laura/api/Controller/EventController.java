@@ -160,6 +160,15 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+
+	@GetMapping("/created")
+	public ResponseEntity<?> getEventsCreatedByUser(){
+		try{
+			return ResponseEntity.ok(eventService.getEventsByOrganizer(getUser()));
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
 	
 	private User getUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

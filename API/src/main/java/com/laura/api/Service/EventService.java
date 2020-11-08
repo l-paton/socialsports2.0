@@ -15,53 +15,56 @@ import com.laura.api.payload.SearchRequest;
 
 @Service
 public class EventService {
-	
+
 	@Autowired
 	EventRepository repository;
-	
-	public Iterable<Event> getEvents(){
+
+	public Iterable<Event> getEvents() {
 		return repository.findAll();
 	}
-	
+
 	public Event getEvent(long id) {
 		return repository.findById(id).orElse(null);
 	}
-	
+
 	public Event createEvent(Event event) {
 		return repository.save(event);
 	}
-	
+
 	public void deleteEvent(Event event) {
 
 		Set<User> set = event.getParticipants();
 
-		for(User u : set){
+		for (User u : set) {
 			event = leaveEvent(event.getId(), u);
 			System.out.println(event.toString());
 		}
 
 		repository.delete(event);
 	}
-	
+
 	public Event sendRequestToJoinEvent(long id, User user) {
 		Event event = repository.findById(id).orElse(null);
 		
-		if(event.getMaxParticipants() == 0 || event.getMaxParticipants() > event.getParticipants().size()){
-			if(event != null) {
+		if (event != null) {
+
+			if (event.getMaxParticipants() == 0 || event.getMaxParticipants() > event.getParticipants().size()) {
+
 				Set<User> set = event.getApplicants();
 				set.add(user);
-				event.setApplicants(set);;
+				event.setApplicants(set);
+				
 				return repository.save(event);
 			}
 		}
-		
+
 		return null;
 	}
 
-	public Event cancelRequest(long id, User user){
+	public Event cancelRequest(long id, User user) {
 		Event event = repository.findById(id).orElse(null);
 
-		if(event != null){
+		if (event != null) {
 			Set<User> set = event.getApplicants();
 			set.remove(user);
 			event.setApplicants(set);
@@ -71,10 +74,10 @@ public class EventService {
 		return null;
 	}
 
-	public Event leaveEvent(long id, User user){
+	public Event leaveEvent(long id, User user) {
 		Event event = repository.findById(id).orElse(null);
 
-		if(event != null){
+		if (event != null) {
 			Set<User> set = event.getParticipants();
 			set.remove(user);
 			event.setParticipants(set);
@@ -84,13 +87,13 @@ public class EventService {
 		return null;
 	}
 
-	public HashMap<Long, User> getApplicantsToUserEvents(User user){
-		Set<Event> listEvent = (HashSet<Event>)repository.findByOrganizer(user);
+	public HashMap<Long, User> getApplicantsToUserEvents(User user) {
+		Set<Event> listEvent = (HashSet<Event>) repository.findByOrganizer(user);
 		HashMap<Long, User> map = new HashMap<>();
 
-		for(Event event : listEvent){
-			if(event.getApplicants().size() > 0){
-				for(User applicant : event.getApplicants()){
+		for (Event event : listEvent) {
+			if (event.getApplicants().size() > 0) {
+				for (User applicant : event.getApplicants()) {
 					map.put(event.getId(), applicant);
 				}
 			}
@@ -98,55 +101,62 @@ public class EventService {
 		return map;
 	}
 
-	
-	public void acceptApplicant(long id, User user){
+	public void acceptApplicant(long id, User user) {
 		Event event = repository.findById(id).orElse(null);
-		
-		if(event != null) {
+
+		if (event != null) {
 			Set<User> set = event.getParticipants();
 			set.add(user);
 			event.setParticipants(set);
-			
-			if(repository.save(event) != null){
+
+			if (repository.save(event) != null) {
 				cancelRequest(id, user);
 			}
 		}
 	}
 
-	public void denyApplicant(long id, User user){
+	public void denyApplicant(long id, User user) {
 		cancelRequest(id, user);
 	}
 
-	public Set<Event> getEventsNotFinished(){
+	public Set<Event> getEventsNotFinished() {
 		return repository.findByFinish(false);
 	}
 
-	public Set<Event> searchEvents(SearchRequest searchRequest){
-		
+	public Set<Event> searchEvents(SearchRequest searchRequest) {
+
 		Set<Event> events = new HashSet<>();
 
-		if(searchRequest.getSport() != null && searchRequest.getSport() != ""){
-			Set<Event> findBySport = (HashSet<Event>)repository.findBySport(searchRequest.getSport());
-			if(findBySport != null && findBySport.size() > 0) events.addAll(findBySport);
+		if (searchRequest.getSport() != null && searchRequest.getSport() != "") {
+			Set<Event> findBySport = (HashSet<Event>) repository.findBySport(searchRequest.getSport());
+			if (findBySport != null && findBySport.size() > 0)
+				events.addAll(findBySport);
 		}
-		if(searchRequest.getAddress() != null && searchRequest.getAddress() != ""){
-			Set<Event> findByAddress = (HashSet<Event>)repository.findByAddress(searchRequest.getAddress());
-			if(findByAddress != null && findByAddress.size() > 0) events.addAll(findByAddress);
+		if (searchRequest.getAddress() != null && searchRequest.getAddress() != "") {
+			Set<Event> findByAddress = (HashSet<Event>) repository.findByAddress(searchRequest.getAddress());
+			if (findByAddress != null && findByAddress.size() > 0)
+				events.addAll(findByAddress);
 		}
 
-		if(searchRequest.getstartDate() != null){
+		if (searchRequest.getstartDate() != null) {
 			System.out.println(searchRequest.getstartDate());
-			Set<Event> findByStartDate = (HashSet<Event>)repository.findByStartDate(searchRequest.getstartDate());
+			Set<Event> findByStartDate = (HashSet<Event>) repository.findByStartDate(searchRequest.getstartDate());
 			System.out.println(findByStartDate.size());
-			if(findByStartDate != null && findByStartDate.size() > 0) events.addAll(findByStartDate);
+			if (findByStartDate != null && findByStartDate.size() > 0)
+				events.addAll(findByStartDate);
 		}
-		if(searchRequest.getTime() != null && searchRequest.getTime() != ""){
-			Set<Event> findByTime = (HashSet<Event>)repository.findByTime(searchRequest.getTime());
-			if(findByTime != null && findByTime.size() > 0) events.addAll(findByTime);
+		if (searchRequest.getTime() != null && searchRequest.getTime() != "") {
+			Set<Event> findByTime = (HashSet<Event>) repository.findByTime(searchRequest.getTime());
+			if (findByTime != null && findByTime.size() > 0)
+				events.addAll(findByTime);
 		}
 
 		events = events.stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
-		
+
 		return events;
+	}
+
+	public Set<Event> getEventsByOrganizer(User user){
+		return repository.findByOrganizer(user);
 	}
 }

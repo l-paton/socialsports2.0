@@ -1,5 +1,6 @@
 package com.laura.api.Controller;
 
+import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.ResponseEntity;
@@ -130,6 +131,15 @@ public class UserController {
 	@GetMapping("/events/joined")
 	public ResponseEntity<?> getEventsJoined(){
 		try{
+			return ResponseEntity.ok(getUser().getEventsJoined());
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/events/joined/notfinished")
+	public ResponseEntity<?> getEventsJoinedNotFinished(){
+		try{
 			return ResponseEntity.ok(getUser().getEventsJoined().stream().filter(o -> !o.isFinish()));
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
@@ -140,6 +150,15 @@ public class UserController {
 	public ResponseEntity<?> getEventsJoinedFinished(){
 		try{
 			return ResponseEntity.ok(getUser().getEventsJoined().stream().filter(o -> o.isFinish()));
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/events/applied")
+	public ResponseEntity<?> getEventsApplied(){
+		try{
+			return ResponseEntity.ok(getUser().getEventsApplied());
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}

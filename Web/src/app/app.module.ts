@@ -15,6 +15,7 @@ import { EventFormComponent } from './components/event-form/event-form.component
 import { CommunityComponent } from './components/community/community.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EventComponent } from './components/event/event.component';
+import { MyeventsComponent } from './components/myevents/myevents.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { EventComponent } from './components/event/event.component';
     EventFormComponent,
     CommunityComponent,
     ProfileComponent,
-    EventComponent
+    EventComponent,
+    MyeventsComponent
   ],
   imports: [
     BrowserModule,

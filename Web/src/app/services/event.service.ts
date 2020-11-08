@@ -62,4 +62,9 @@ export class EventService {
     return this.http.get<Event[]>(EVENT_API + '/search', { headers: headers, params: params });
   }
 
+  getEventsByOrganizer(): Observable<Event[]>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.get<Event[]>(EVENT_API + '/created', {headers});
+  }
+
 }

@@ -14,11 +14,6 @@ export class UserService {
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
 
-  getEventsJoined(): Observable<Event[]> {
-    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<Event[]>(USER_API + '/events/joined', { headers });
-  }
-
   getProfilePicture(): Observable<any> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     return this.http.get(USER_API + '/picture', { headers, responseType: 'text' });
@@ -47,5 +42,15 @@ export class UserService {
   modifyDescription(description: string): Observable<any> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     return this.http.put(USER_API + '/edit/description', description, { headers });
+  }
+
+  getEventsJoined(): Observable<Event[]> {
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.get<Event[]>(USER_API + '/events/joined', { headers });
+  }
+
+  getEventsApplied(): Observable<Event[]>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.get<Event[]>(USER_API + '/events/applied', {headers});
   }
 }

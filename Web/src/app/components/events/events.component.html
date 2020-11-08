@@ -63,7 +63,7 @@
             <td>{{evento.startDate | date : 'dd-MM-yyyy'}} {{ evento.time }}</td>
             <td>{{evento.price | currency:'EUR'}}</td>
             <td>
-              <div *ngIf="eventIsFull(evento)" class="text-danger">LLENO</div>
+              <div *ngIf="eventIsFull(evento)" class="text-danger"><span class="badge badge-danger badge-pill">Lleno</span></div>
               <div *ngIf="!eventIsFull(evento)">{{evento.participants.length}}</div>
             </td>  
             <th><button class="btn btn-mostrar btn-sm" (click)="getEvent(evento.id)">Mostrar</button></th>

@@ -1,0 +1,8 @@
+.container-fluid{
+    height: 100%;
+}
+
+.list-group-item, .card{
+    background-color: rgba(0,0,0,0.3);
+    color: white;
+}

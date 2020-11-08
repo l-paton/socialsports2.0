@@ -10,8 +10,8 @@
       <li class="nav-item" [ngClass]="{ active: isActive('/')}">
         <a class="nav-link" [routerLink]="['/home']" href="#">Inicio</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" [routerLink]="['/event']" href="#">Mis eventos</a>
+      <li class="nav-item" [ngClass]="{ active: isActive('/myevents')}">
+        <a class="nav-link" [routerLink]="['/myevents']" href="#">Mis eventos</a>
       </li>
       <li class="nav-item" [ngClass]="{ active: isActive('/community')}">
         <a class="nav-link" [routerLink]="['/community']" href="#">Comunidad</a>
