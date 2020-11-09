@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Requirement } from 'src/app/models/Requirement';
 import{ Event } from '../../models/Event';
 import { EventService } from './../../services/event.service';
+import { TokenStorageService } from './../../services/token-storage.service';
 
 @Component({
   selector: 'app-event',
@@ -11,25 +11,28 @@ import { EventService } from './../../services/event.service';
 })
 export class EventComponent implements OnInit {
 
-  id: string;
+  idEvent: string;
+  idUser: number;
   event: Event;
   requirements: string[] = [];
+  editar: boolean = false;
 
-  constructor(private route: ActivatedRoute, private eventService: EventService) { }
+  constructor(
+    private route: ActivatedRoute, 
+    private eventService: EventService, 
+    private tokenStorageService: TokenStorageService,
+    ) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.idUser = this.tokenStorageService.getUser().user.id;
+    this.idEvent = this.route.snapshot.paramMap.get('id');
     this.getEvent();
   }
 
   getEvent(){
-    if(this.id != undefined && this.id != null){
-      this.eventService.getEvent(this.id).subscribe(data => this.event = data);
+    if(this.idEvent != undefined && this.idEvent != null){
+      this.eventService.getEvent(this.idEvent).subscribe(data => this.event = data);
     }
-  }
-
-  isOrganizer(): boolean{
-    return true;
   }
 
   getUserPicture(picture) {
@@ -44,6 +47,17 @@ export class EventComponent implements OnInit {
       this.requirements.push(r);
     }
     return this.requirements;
+  }
+
+  isOrganizer(): boolean{
+    if(this.event.organizer.id === this.idUser){
+      return true;
+    }
+    else true;
+  }
+
+  editEvent(){
+    this.editar = !this.editar;
   }
 
 }

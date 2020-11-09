@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { EventService } from '../../services/event.service';
 import { TokenStorageService } from '../../services/token-storage.service';
@@ -16,7 +17,11 @@ export class MyeventsComponent implements OnInit {
   eventsCreated: Event[];
   id: number;
 
-  constructor(private userService: UserService, private eventService: EventService, private tokenStorageService: TokenStorageService) { }
+  constructor(
+    private userService: UserService, 
+    private eventService: EventService, 
+    private tokenStorageService: TokenStorageService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.id = this.tokenStorageService.getUser().user.id;
@@ -35,6 +40,10 @@ export class MyeventsComponent implements OnInit {
 
   deleteEvent(id: number){
     this.eventService.deleteEvent(id).subscribe(() => this.ngOnInit());
+  }
+
+  getEvent(id: number) {
+    this.router.navigateByUrl('/event/' + id);
   }
 
 }

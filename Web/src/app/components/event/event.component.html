@@ -35,10 +35,13 @@
 
             <div class="container container-desc">
                 <div class="col-12 text-center">
+                    <div class="text-right" *ngIf="isOrganizer()"> 
+                        <button class="btn btn-sm btn-light" (click)="editEvent()">Editar</button>
+                    </div>
                     <h2>{{event.sport | uppercase}} {{event.address | uppercase }}</h2>
                 </div>
 
-                <div class="row mt-5">
+                <div class="row mt-5" *ngIf="!editar">
                     <div class="col-md-6">
                         <p class="desc"><span class="titulo">Fecha de inicio:</span> {{ event.startDate | date : 'dd-MM-yyyy' }} {{ event.time }} <span
                                 *ngIf="!event.startDate" class="desc">Sin fecha</span></p>
@@ -55,6 +58,44 @@
                         <p class="desc"><span class="titulo">Género:</span> {{event.requirement.gender}}</p>
                         <p class="desc"><span class="titulo">Puntuación requerida:</span> {{event.requirement.score}}<span
                                 *ngIf="!event.requirement.score" class="desc">0</span></p>
+                    </div>
+                </div>
+                <div class="row mt-5" *ngIf="editar && isOrganizer()">
+                    <div class="col-md-6">
+                        <p class="desc"><span class="titulo">Fecha de inicio:</span>
+                            <input type="date" class="form-control">
+                        <p class="desc"><span class="titulo">Hora:</span> 
+                            <input type="time" class="form-control">
+                        </p>
+                        <p class="desc"><span class="titulo">Máximo de participantes:</span> 
+                            <input type="number" class="form-control" placeholder="{{ event.maxParticipants }}">
+                        </p>
+                        <p class="desc"><span class="titulo">Precio:</span> 
+                            <input type="number" class="form-control" min="0.00" step="0.01" placeholder="{{ event.price }}">
+                        </p>
+                        <p class="desc"><span class="titulo">Comentarios:</span> 
+                            <textarea rows="2" class="form-control" placeholder="{{event.comments}}"></textarea>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="desc"><span class="titulo">Edad mínima:</span> 
+                            <input type="number" class="form-control" min="0" step="1" placeholder="{{event.requirement.minAge}}">
+                        </p>
+                        <p class="desc"><span class="titulo">Edad máxima:</span> 
+                            <input type="number" class="form-control" min="0" step="1" placeholder="{{event.requirement.maxAge}}">
+                        </p>
+                        <p class="desc"><span class="titulo">Género:</span> 
+                            <input type="text" class="form-control" placeholder="{{event.requirement.gender}}">
+                        </p>
+                        <p class="desc"><span class="titulo">Puntuación requerida:</span> 
+                            <input type="time" class="form-control" placeholder="{{event.requirement.score}}">
+                        </p>
+
+                        <div class="text-center">
+                            <br>
+                            <br>
+                            <button class="btn btn-sm btn-dark">Aceptar cambios</button>
+                        </div>
                     </div>
                 </div>
             </div>
