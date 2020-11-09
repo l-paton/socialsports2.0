@@ -40,21 +40,21 @@
 
                 <div class="row mt-5">
                     <div class="col-md-6">
-                        <p><span class="titulo">Fecha de inicio:</span> {{ event.startDate | date : 'dd-MM-yyyy' }}<span
-                                *ngIf="!event.startDate">Sin fecha</span></p>
-                        <p><span class="titulo">Hora:</span> {{ event.time }}<span *ngIf="!event.time">Sin hora</span>
+                        <p class="desc"><span class="titulo">Fecha de inicio:</span> {{ event.startDate | date : 'dd-MM-yyyy' }}<span
+                                *ngIf="!event.startDate" class="desc">Sin fecha</span></p>
+                        <p class="desc"><span class="titulo">Hora:</span> {{ event.time }}<span *ngIf="!event.time" class="desc">Sin hora</span>
                         </p>
-                        <p><span class="titulo">Máximo de participantes:</span> {{ event.maxParticipants }}</p>
-                        <p><span class="titulo">Precio:</span> {{ event.price}} </p>
-                        <p><span class="titulo">Comentarios:</span> {{event.comments}}<span *ngIf="!event.comments">Sin
+                        <p class="desc"><span class="titulo">Máximo de participantes:</span> {{ event.maxParticipants }}</p>
+                        <p class="desc"><span class="titulo">Precio:</span> {{ event.price}} </p>
+                        <p class="desc"><span class="titulo">Comentarios:</span> {{event.comments}}<span *ngIf="!event.comments" class="desc">Sin
                                 comentarios</span></p>
                     </div>
                     <div class="col-md-6">
-                        <p><span class="titulo">Edad mínima:</span> {{event.requirement.minAge}}</p>
-                        <p><span class="titulo">Edad máxima:</span> {{event.requirement.maxAge}}</p>
-                        <p><span class="titulo">Género:</span> {{event.requirement.gender}}</p>
-                        <p><span class="titulo">Puntuación requerida:</span> {{event.requirement.score}}<span
-                                *ngIf="!event.requirement.score">0</span></p>
+                        <p class="desc"><span class="titulo">Edad mínima:</span> {{event.requirement.minAge}}</p>
+                        <p class="desc"><span class="titulo">Edad máxima:</span> {{event.requirement.maxAge}}</p>
+                        <p class="desc"><span class="titulo">Género:</span> {{event.requirement.gender}}</p>
+                        <p class="desc"><span class="titulo">Puntuación requerida:</span> {{event.requirement.score}}<span
+                                *ngIf="!event.requirement.score" class="desc">0</span></p>
                     </div>
                 </div>
             </div>

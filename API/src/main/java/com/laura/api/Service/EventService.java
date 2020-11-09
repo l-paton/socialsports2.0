@@ -86,18 +86,9 @@ public class EventService {
 		return null;
 	}
 
-	public HashMap<Long, User> getApplicantsToUserEvents(User user) {
-		Set<Event> listEvent = (HashSet<Event>) repository.findByOrganizer(user);
-		HashMap<Long, User> map = new HashMap<>();
-
-		for (Event event : listEvent) {
-			if (event.getApplicants().size() > 0) {
-				for (User applicant : event.getApplicants()) {
-					map.put(event.getId(), applicant);
-				}
-			}
-		}
-		return map;
+	public Set<Event> getApplicantsToUserEvents(User user) {
+		return repository.findByOrganizer(user).stream().filter(o -> o.getApplicants().size() > 0).collect(Collectors.toSet());
+	
 	}
 
 	public void acceptApplicant(Event event, User user) {

@@ -16,19 +16,25 @@
 }
 
 .container-desc{
-    box-shadow: 0 0 2px 1px black;
+    box-shadow: 0 0 2px 1px rgba(35, 102, 114, 0.6);;
     padding: 15px;
     border-radius: 2px;
-    background-color: rgba(35, 102, 114, 0.6);
+    /*background-color: rgba(35, 102, 114, 0.6);*/
+    background-color: rgba(255,255,255,0.1);
 }
 
 .titulo{
-    color: black;
+    font-weight: 600;
+    color: black !important;
 }
 
 h2{
+    font-family: 'Graduate', cursive;   
     font-weight: bolder;
-    color: black;
+    color: white;
+    text-shadow: 2px 2px 4px black;
+    border-radius: 2px;
+    padding: 4px;
 }
 
 h4{

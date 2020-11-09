@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { EventService } from '../../services/event.service';
 import { User } from 'src/app/models/User';
+import { Event } from 'src/app/models/Event';
 
 @Component({
   selector: 'app-header',
@@ -16,7 +17,8 @@ export class HeaderComponent implements OnInit {
   picture: string;
   notifications: number = 0;
   jsonNotifications: JSON;
-  applicants: User[] = [];
+  events: Event[];
+  applicants: string[];
 
   constructor(
     private router: Router,
@@ -38,23 +40,18 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  ngAfterViewChecked(){
-    this.showNotifications();
-    this.cdRef.detectChanges();
-  }
-
   getNotifications(){
-    this.eventService.getRequests().subscribe(data => {this.jsonNotifications = data});
+    this.eventService.getRequests().subscribe(data => {this.events = data});
   }
 
   showNotifications(): number{
     var n = 0;
-    this.applicants = [];
 
-    for(let key in this.jsonNotifications){  
-      this.applicants.push(this.jsonNotifications[key] as User);
-      n++;
-    }
+    this.events.forEach(o => {
+        n += o.applicants.length;
+      }
+    );
+
     this.notifications = n;
     return n;
   }
@@ -75,6 +72,10 @@ export class HeaderComponent implements OnInit {
     }
     
     return false;
+  }
+
+  acceptUserRequest(idEvent: string, idUser: string){
+    this.eventService.acceptUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
   }
 
 }

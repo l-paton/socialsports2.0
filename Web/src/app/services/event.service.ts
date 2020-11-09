@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
-import { Event } from '../../app/models/Event';
+import { Event } from '../models/Event';
+import { JsonPipe } from '@angular/common';
 
 const EVENT_API = 'http://localhost:8080/api/event';
 
@@ -51,9 +52,9 @@ export class EventService {
     return this.http.get<Event>(EVENT_API + '/get/' + id, { headers });
   }
 
-  getRequests(): Observable<any> {
+  getRequests(): Observable<Event[]> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<any>(EVENT_API + '/requests', { headers });
+    return this.http.get<Event[]>(EVENT_API + '/requests', { headers });
   }
 
   searchEvents(sport: string, startDate: string, time: string): Observable<Event[]> {
@@ -62,9 +63,14 @@ export class EventService {
     return this.http.get<Event[]>(EVENT_API + '/search', { headers: headers, params: params });
   }
 
-  getEventsByOrganizer(): Observable<Event[]>{
+  getEventsByOrganizer(): Observable<Event[]> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<Event[]>(EVENT_API + '/created', {headers});
+    return this.http.get<Event[]>(EVENT_API + '/created', { headers });
+  }
+  acceptUserRequest(idEvent, idUser) {
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append('idEvent', idEvent).append('idUser', idUser);
+    return this.http.post(EVENT_API + '/accept', params, { headers: headers });
   }
 
 }

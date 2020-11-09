@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { EventService } from '../../services/event.service';
 import { TokenStorageService } from '../../services/token-storage.service';
-import { Event } from './../../models/Event';
+import { Event } from '../../models/Event';
 
 @Component({
   selector: 'app-myevents',

@@ -96,8 +96,8 @@ public class EventController {
 		}	
 	}
 
-	@PostMapping("/accept/{idEvent}/{idUser}")
-	public ResponseEntity<?> acceptApplicantRequest(@PathVariable("idEvent") long idEvent, @PathVariable("idUser") long idUser){
+	@PostMapping("/accept")
+	public ResponseEntity<?> acceptApplicantRequest(@RequestParam("idEvent") long idEvent, @RequestParam("idUser") long idUser){
 
 		try{
 			Event event = eventService.getEvent(idEvent);
@@ -160,8 +160,8 @@ public class EventController {
 	@GetMapping("/requests")
 	public ResponseEntity<?> getRequests(){
 		try{
-			HashMap<Long, User> map = eventService.getApplicantsToUserEvents(getUser());
-			return ResponseEntity.ok(map);
+			Set<Event> events = eventService.getApplicantsToUserEvents(getUser());
+			return ResponseEntity.ok(events);
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}

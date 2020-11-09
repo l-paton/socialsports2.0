@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Event } from '../../app/models/Event';
+import { Event } from '../models/Event';
 import { TokenStorageService } from './token-storage.service';
 import { User } from '../models/User';
 

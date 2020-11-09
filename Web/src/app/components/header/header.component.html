@@ -25,14 +25,25 @@
         <button class="btn-main btn btn-info my-sm-0 border-0" type="submit"><i class="fas fa-search"></i></button>
       </form>
 
-      <li class="dropdown mr-5 mt-2">
-        <a href="#" data-toggle="dropdown"><i class="fas fa-bell"></i><span class="ml-1 badge badge-secondary"
-            *ngIf="jsonNotifications">{{notifications}}</span></a>
+      <li class="dropdown mr-5 mt-2" *ngIf="events">
+        <a href="#" data-toggle="dropdown"><i class="fas fa-bell"></i><span class="ml-1 badge badge-secondary">{{showNotifications()}}</span></a>
         <ul class="dropdown-menu dropdown-menu-right">
-          <div *ngFor="let applicant of applicants">
-            <a href="#" class="dropdown-item">
-              <li>{{ applicant.firstName }}</li>
-            </a>
+          <div *ngFor="let e of events">
+            <div *ngFor="let applicant of e.applicants">
+              <a href="#" class="dropdown-item">
+                <li>
+                  <div class="row">
+                      {{ applicant.firstName }} quiere unirse a {{ e.sport }} {{ e.address }}
+                  </div>
+                  
+                  <div class="mt-2 row">
+                      <button class="btn btn-sm btn-success ml-2" (click)="acceptUserRequest(e.id, applicant.id)">Acceptar</button> 
+                      <button class="btn btn-sm btn-danger ml-2">Cancelar</button>    
+                  </div>
+                  
+                  </li> 
+              </a>
+            </div>
           </div>
         </ul>
       </li>

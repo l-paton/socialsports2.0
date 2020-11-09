@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Requirement } from 'src/app/models/Requirement';
-import{ Event } from './../../models/Event';
+import{ Event } from '../../models/Event';
 import { EventService } from './../../services/event.service';
 
 @Component({
