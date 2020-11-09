@@ -116,6 +116,27 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+
+	@PostMapping("/deny")
+	public ResponseEntity<?> denyApplicantRequest(@RequestParam("idEvent") long idEvent, @RequestParam("idUser") long idUser){
+
+		try{
+			Event event = eventService.getEvent(idEvent);
+
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				User user = userService.getUserById(idUser);
+				if(user != null){
+					eventService.cancelRequest(idEvent, user);
+					return ResponseEntity.ok().build();
+				}
+			}
+
+			return ResponseEntity.badRequest().build();
+			
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
 	
 	@DeleteMapping("/cancel/{id}")
 	public ResponseEntity<?> cancelRequest(@PathVariable("id") long id){
@@ -130,6 +151,7 @@ public class EventController {
 
 	@PostMapping("/join/{id}")
 	public ResponseEntity<?> joinToEvent(@PathVariable("id") long id){
+		System.out.println(id);
 		try{
 			if(eventService.sendRequestToJoinEvent(id, getUser()) != null) {
 				return ResponseEntity.noContent().build();

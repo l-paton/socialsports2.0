@@ -3,7 +3,7 @@ import { Requirement } from './Requirement';
 
 export class Event{
 
-    constructor(sport:string, address:string, startDate:string, maxParticipants:number, price:number, comments:string, requirement: Requirement){
+    constructor(sport:string, address:string, startDate:string, maxParticipants:number, price:number, comments:string, requirement: Requirement, time: string){
         this.sport = sport;
         this.address = address;
         this.startDate = startDate;
@@ -11,6 +11,7 @@ export class Event{
         this.price = price;
         this.comments = comments;
         this.requirement = requirement;
+        this.time = time;
     }
 
     id: number;
@@ -26,4 +27,5 @@ export class Event{
     participants: User[];
     applicants: User[];
     requirement: Requirement;
+    time: string;
 }

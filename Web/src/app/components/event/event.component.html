@@ -40,7 +40,7 @@
 
                 <div class="row mt-5">
                     <div class="col-md-6">
-                        <p class="desc"><span class="titulo">Fecha de inicio:</span> {{ event.startDate | date : 'dd-MM-yyyy' }}<span
+                        <p class="desc"><span class="titulo">Fecha de inicio:</span> {{ event.startDate | date : 'dd-MM-yyyy' }} {{ event.time }} <span
                                 *ngIf="!event.startDate" class="desc">Sin fecha</span></p>
                         <p class="desc"><span class="titulo">Hora:</span> {{ event.time }}<span *ngIf="!event.time" class="desc">Sin hora</span>
                         </p>

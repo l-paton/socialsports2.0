@@ -158,9 +158,8 @@ public interface APIService {
     @POST("event/accept/{idEvent}/{idUser}")
     Call<ResponseBody> insertarParticipante(@Header("Authorization") String authHeader, @Path("idEvent") long idEvent, @Path("idUser") long idUser);
 
-    @FormUrlEncoded
-    @POST("eventos/insertarsolicitante")
-    Call<ResponseBody> insertarSolicitante(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("correo") String correo);
+    @POST("/join/{id}")
+    Call<ResponseBody> insertarSolicitante(@Header("Authorization") String authHeader, @Path("id") Long idEvent);
 
     @DELETE("eventos/eliminarsolicitante/{idEvento}/{correo}")
     Call<ResponseBody> eliminarSolicitante(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento, @Path("correo") String correo);

@@ -195,7 +195,7 @@ public class EventSettings extends AppCompatActivity {
     }
 
     private void mandarSolicitud() {
-        Funcionalidades.insertarSolicitante(Funcionalidades.eventSeleccionado,LoginActivity.user);
+        Funcionalidades.insertarSolicitante(Funcionalidades.eventSeleccionado);
         Funcionalidades.mostrarMensaje(getResources().getString(R.string.messaje_request_sent),getApplicationContext());
         toolbar.inflateMenu(R.menu.event_unsubscribe_menu);
         tabLayout.getTabAt(2).select();

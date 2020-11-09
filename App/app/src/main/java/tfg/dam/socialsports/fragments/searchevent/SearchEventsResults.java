@@ -1,5 +1,6 @@
 package tfg.dam.socialsports.fragments.searchevent;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 
 import tfg.dam.socialsports.Clases.ListEventsAdapter;
 import tfg.dam.socialsports.Clases.Event;
+import tfg.dam.socialsports.EventSettings;
+import tfg.dam.socialsports.Funcionalidades;
 import tfg.dam.socialsports.R;
 
 public class SearchEventsResults extends Fragment {
@@ -60,6 +63,10 @@ public class SearchEventsResults extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Event event = listaEventosFiltrados.get(position);
+
+                Intent intent = new Intent(getContext(), EventSettings.class);
+                Funcionalidades.eventSeleccionado = event;
+                startActivity(intent);
 
             }
         });

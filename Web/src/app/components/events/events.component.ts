@@ -97,6 +97,10 @@ export class EventsComponent implements OnInit {
     }
   }
 
+  limpiar(){
+    this.ngOnInit();
+  }
+
   getUserPicture(picture) {
     if (picture == null) {
       return "http://placehold.it/45x45";

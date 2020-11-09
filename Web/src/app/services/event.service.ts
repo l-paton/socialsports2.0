@@ -73,4 +73,10 @@ export class EventService {
     return this.http.post(EVENT_API + '/accept', params, { headers: headers });
   }
 
+  cancelUserRequest(idEvent, idUser){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append('idEvent', idEvent).append('idUser', idUser);
+    return this.http.post(EVENT_API + '/deny', params, { headers: headers });
+  }
+
 }

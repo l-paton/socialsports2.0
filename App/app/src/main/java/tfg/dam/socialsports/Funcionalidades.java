@@ -502,15 +502,14 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void insertarSolicitante(Event event, User user) {
+    public static void insertarSolicitante(Event event) {
         /*if (!evento.getListaSolicitantes().contains(usuario)) {
             evento.getListaSolicitantes().add(usuario);
         }*/
 
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.insertarSolicitante("Bearer " + LoginActivity.token,
-                event.getId(), user.getEmail()).enqueue(new Callback<ResponseBody>() {
+        service.insertarSolicitante("Bearer " + LoginActivity.token, event.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 

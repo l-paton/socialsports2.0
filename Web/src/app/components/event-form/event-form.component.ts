@@ -21,6 +21,7 @@ export class EventFormComponent implements OnInit {
   maxParticipants : number;
   price : number;
   comments:string;
+  time: string;
 
   constructor(private eventService : EventService, private router: Router) { 
   }
@@ -43,7 +44,7 @@ export class EventFormComponent implements OnInit {
     this.requirement = new Requirement(this.minAge, this.maxAge, this.gender, this.reputation);
 
     console.log(this.requirement);
-    let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments, this.requirement);
+    let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments, this.requirement, this.time);
     console.log(e);
     this.eventService.createEvent(e).subscribe(() => {
       this.router.navigateByUrl('/');

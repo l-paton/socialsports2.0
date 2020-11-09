@@ -78,4 +78,8 @@ export class HeaderComponent implements OnInit {
     this.eventService.acceptUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
   }
 
+  cancelUserRequest(idEvent: string, idUser: string){
+    this.eventService.cancelUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
+  }
+
 }
