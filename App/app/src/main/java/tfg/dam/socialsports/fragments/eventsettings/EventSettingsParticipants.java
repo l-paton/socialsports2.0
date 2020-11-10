@@ -133,6 +133,6 @@ public class EventSettingsParticipants extends Fragment {
 
     private void agregarAmigo() {
         Funcionalidades.eliminarBloqueoPermanentemente(userSeleccionado);
-        Funcionalidades.insertarAmigo(userSeleccionado);
+        Funcionalidades.addFriend(userSeleccionado);
     }
 }

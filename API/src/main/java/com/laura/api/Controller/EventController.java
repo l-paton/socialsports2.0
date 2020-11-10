@@ -137,19 +137,8 @@ public class EventController {
 		}
 	}
 	
-	@DeleteMapping("/cancel/{id}")
-	public ResponseEntity<?> cancelRequest(@PathVariable("id") long id){
-		try{
-			eventService.cancelRequest(id, getUser());
-			return ResponseEntity.noContent().build();
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
-	@PostMapping("/join/{id}")
-	public ResponseEntity<?> joinToEvent(@PathVariable("id") long id){
+	@PostMapping("/join")
+	public ResponseEntity<?> joinToEvent(@RequestParam("id") long id){
 		System.out.println(id);
 		try{
 			if(eventService.sendRequestToJoinEvent(id, getUser()) != null) {
@@ -159,6 +148,17 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 
 		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@DeleteMapping("/cancel/{id}")
+	public ResponseEntity<?> cancelRequest(@PathVariable("id") long id){
+		try{
+			eventService.cancelRequest(id, getUser());
+			return ResponseEntity.noContent().build();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -244,6 +244,52 @@ public class EventController {
 		}
 	}
 	
+	@PutMapping("/edit/time")
+	public ResponseEntity<?> editTime(@RequestParam("id") long id, @RequestParam String time){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				event.setTime(time);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/maxparticipants")
+	public ResponseEntity<?> editMaxParticipants(@RequestParam("id") long id, @RequestParam int maxParticipants){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				event.setMaxParticipants(maxParticipants);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/finish")
+	public ResponseEntity<?> editFinish(@RequestParam("id") long id){
+		System.out.println("se mete");
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				event.setFinish(true);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 	private User getUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return userService.getUser(auth.getName());

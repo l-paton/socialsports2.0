@@ -27,9 +27,10 @@ export class EventService {
     return this.http.post<Response>(EVENT_API + '/create', event, { headers });
   }
 
-  joinToEvent(id: number) {
+  joinToEvent(id) {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.post(EVENT_API + '/join/' + id, { headers: headers });
+    let params = new HttpParams().set('id', id);
+    return this.http.post(EVENT_API + '/join/', params, { headers: headers });
   }
 
   cancelRequest(id: number) {
@@ -83,6 +84,18 @@ export class EventService {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     let params = new HttpParams().set('id', id).set('startDate', startDate);
     return this.http.put(EVENT_API + '/edit/startdate', params, {headers: headers});
+  }
+
+  editTime(id, time){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('time', time);
+    return this.http.put(EVENT_API + '/edit/time', params, {headers: headers});
+  }
+
+  editMaxParticipants(id, maxParticipants){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('maxParticipants', maxParticipants);
+    return this.http.put(EVENT_API + '/edit/maxparticipants', params, {headers: headers});
   }
 
 }

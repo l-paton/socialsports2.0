@@ -105,24 +105,20 @@ public interface APIService {
     Call<ResponseBody> editStartDateEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("startDate") String startDate);
 
     @FormUrlEncoded
-    @PUT("eventos/actualizar/hora")
-    Call<ResponseBody> actualizarHoraEvento(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("hora") String hora);
+    @PUT("event/edit/time")
+    Call<ResponseBody> editTimeEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("time") String time);
 
     @FormUrlEncoded
-    @PUT("event/edit/address/{id}")
+    @PUT("event/edit/address")
     Call<ResponseBody> editAddressEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("address") String address);
 
     @FormUrlEncoded
-    @PUT("eventos/actualizar/maximoparticipantes")
-    Call<ResponseBody> actualizarMaxParticipantesEvento(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("maxParticipantes") int maxParticipantes);
+    @PUT("event/edit/maxparticipants")
+    Call<ResponseBody> editMaxParticipantsEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("maxParticipants") int maxParticipants);
 
     @FormUrlEncoded
-    @PUT("eventos/actualizar/terminado")
-    Call<ResponseBody> actualizarTerminarEvento(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("terminado") boolean terminado);
-
-    @FormUrlEncoded
-    @PUT("eventos/actualizar/reserva")
-    Call<ResponseBody> actualizarReserva(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("reserva") boolean reserva);
+    @PUT("event/finish")
+    Call<ResponseBody> finishEvent(@Header("Authorization") String authHeader, @Field("id") Long id);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/coste")
@@ -155,14 +151,17 @@ public interface APIService {
     @DELETE("eventos/eliminarparticipante/{idEvento}/{correo}")
     Call<ResponseBody> eliminarParticipante(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento, @Path("correo") String correo);
 
-    @POST("event/accept/{idEvent}/{idUser}")
-    Call<ResponseBody> insertarParticipante(@Header("Authorization") String authHeader, @Path("idEvent") long idEvent, @Path("idUser") long idUser);
+    @FormUrlEncoded
+    @POST("event/accept")
+    Call<ResponseBody> acceptApplicantRequest(@Header("Authorization") String authHeader, @Field("idEvent") long idEvent, @Field("idUser") long idUser);
 
-    @POST("/join/{id}")
-    Call<ResponseBody> insertarSolicitante(@Header("Authorization") String authHeader, @Path("id") Long idEvent);
+    @FormUrlEncoded
+    @POST("event/deny")
+    Call<ResponseBody> denyApplicantRequest(@Header("Authorization") String authHeader, @Field("idEvent") Long idEvent, @Field("idUser") Long idUser);
 
-    @DELETE("eventos/eliminarsolicitante/{idEvento}/{correo}")
-    Call<ResponseBody> eliminarSolicitante(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento, @Path("correo") String correo);
+    @FormUrlEncoded
+    @POST("event/join")
+    Call<ResponseBody> insertarSolicitante(@Header("Authorization") String authHeader, @Field("id") Long id);
 
     @PUT("eventos/bloquearsolicitud/{idEvento}/{correo}")
     Call<ResponseBody> bloquearSolicitud(@Header("Authorization") String authHeader, @Path("idEvento") String idEvento, @Path("correo") String correo);
@@ -186,6 +185,6 @@ public interface APIService {
     Call<ResponseBody> insertarPuntuacionEvento(@Header("Authorization") String authHeader, @Body EventScore puntuacion);
 
     @Multipart
-    @POST("imagenes/upload/{correo}")
-    Call<ResponseBody> subirImagen(@Header("Authorization") String authHeader, @Part MultipartBody.Part filePart, @Part("filename") RequestBody name, @Path("correo") String correo);
+    @POST("images/upload")
+    Call<ResponseBody> subirImagen(@Header("Authorization") String authHeader, @Part MultipartBody.Part filePart, @Part("file") RequestBody name);
 }

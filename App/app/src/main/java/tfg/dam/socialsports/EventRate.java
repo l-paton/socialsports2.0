@@ -61,7 +61,7 @@ public class EventRate extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationEventRate);
         toolbar = findViewById(R.id.toolbarEventRate);
         toolbar.setTitle(Funcionalidades.eventSeleccionado.getSport()+" - "+Funcionalidades.eventSeleccionado.getAddress());
-        if (Funcionalidades.eventSeleccionado.getOrganizer().getEmail().equals(LoginActivity.user.getEmail())) {
+        if (Funcionalidades.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId()) {
             ratingBarOrganizer.setVisibility(View.GONE);
             ratingBarOrganizer.setEnabled(false);
             textOrganizer.setVisibility(View.GONE);
@@ -142,7 +142,7 @@ public class EventRate extends AppCompatActivity {
 
     private void agregarAmigo() {
         //Funcionalidades.eliminarBloqueoPermanentemente(usuarioSeleccionado);
-        Funcionalidades.insertarAmigo(userSeleccionado);
+        Funcionalidades.addFriend(userSeleccionado);
     }
 
     public void haSidoPuntuado(Long idEvento, String email) {

@@ -75,10 +75,10 @@ export class EventComponent implements OnInit {
       this.eventService.editStartDate(this.event.id, this.editStartDate).subscribe();
     }
     if(this.editTime){
-      
+      this.eventService.editTime(this.event.id, this.editTime).subscribe();
     }
     if(this.editMaxParticipants){
-      
+      this.eventService.editMaxParticipants(this.event.id, this.editMaxParticipants).subscribe();
     }
     
   }

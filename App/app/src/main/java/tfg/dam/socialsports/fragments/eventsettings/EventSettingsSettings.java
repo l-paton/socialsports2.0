@@ -41,8 +41,6 @@ public class EventSettingsSettings extends Fragment {
     private EditText editHora;
     private EditText participantes;
     private EditText direccion;
-    private CheckBox reserva;
-    private EditText coste;
     private EditText precio;
     private CheckBox notParticipant;
     private EditText comentarios;
@@ -91,8 +89,6 @@ public class EventSettingsSettings extends Fragment {
         editHora = getActivity().findViewById(R.id.editSettingsTime);
         participantes = getActivity().findViewById(R.id.editSettingsParticipants);
         direccion = getActivity().findViewById(R.id.editSettingsAddress);
-        reserva = getActivity().findViewById(R.id.checkSettingsReserved);
-        coste = getActivity().findViewById(R.id.editSettingsCost);
         precio = getActivity().findViewById(R.id.editSettingsPrice);
         notParticipant = getActivity().findViewById(R.id.checkSettingsNoParticipant);
         comentarios = getActivity().findViewById(R.id.editSettingsComments);
@@ -158,7 +154,7 @@ public class EventSettingsSettings extends Fragment {
         editFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Funcionalidades.eventSeleccionado.getId() == LoginActivity.user.getId())
+                if (Funcionalidades.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId())
                     dialogoCalendario.show();
                 Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
             }
@@ -166,7 +162,7 @@ public class EventSettingsSettings extends Fragment {
         editHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Funcionalidades.eventSeleccionado.getId() == LoginActivity.user.getId())
+                if (Funcionalidades.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId())
                     dialogoTime.show();
                 Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
             }
@@ -183,12 +179,7 @@ public class EventSettingsSettings extends Fragment {
                 Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
-        coste.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
-            }
-        });
+
         precio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -201,16 +192,7 @@ public class EventSettingsSettings extends Fragment {
                 Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
-        reserva.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
-                if (isChecked)
-                    coste.setVisibility(View.VISIBLE);
-                else
-                    coste.setVisibility(View.INVISIBLE);
-            }
-        });
+
         notParticipant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -350,14 +332,6 @@ public class EventSettingsSettings extends Fragment {
         return direccion.getText().toString().toUpperCase();
     }
 
-    public float getCosteReserva() {
-        if (reserva.isChecked()) {
-            if (coste.length()>0)
-                return Float.parseFloat(coste.getText().toString());
-        }
-        return 0;
-    }
-
     public String getComentarios() {
         return comentarios.getText().toString().toUpperCase();
     }
@@ -398,8 +372,6 @@ public class EventSettingsSettings extends Fragment {
         if (Funcionalidades.eventSeleccionado.getOrganizer().getId() != LoginActivity.user.getId()) {
             participantes.setFocusable(false);
             direccion.setFocusable(false);
-            reserva.setClickable(false);
-            coste.setFocusable(false);
             precio.setFocusable(false);
             notParticipant.setClickable(false);
             comentarios.setFocusable(false);
@@ -422,8 +394,6 @@ public class EventSettingsSettings extends Fragment {
         if (Funcionalidades.eventSeleccionado.getMaxParticipants() > 0)
             participantes.setText(Integer.toString(Funcionalidades.eventSeleccionado.getMaxParticipants()));
         direccion.setText(Funcionalidades.eventSeleccionado.getAddress());
-        if (Funcionalidades.eventSeleccionado.getPrice() > 0)
-            coste.setText(Float.toString(Funcionalidades.eventSeleccionado.getPrice()));
         notParticipant.setChecked(!Funcionalidades.eventSeleccionado.getParticipants().contains(Funcionalidades.eventSeleccionado.getOrganizer()));
         comentarios.setText(Funcionalidades.eventSeleccionado.getComments());
         if (Funcionalidades.eventSeleccionado.getRequirement().getMinAge() > NewEventRequirements.MinAge) {

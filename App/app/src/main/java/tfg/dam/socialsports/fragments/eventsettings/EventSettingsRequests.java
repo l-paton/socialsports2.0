@@ -1,13 +1,13 @@
 package tfg.dam.socialsports.fragments.eventsettings;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +23,7 @@ import retrofit2.Response;
 import tfg.dam.socialsports.APIService;
 import tfg.dam.socialsports.Clases.ListUsersAdapter;
 import tfg.dam.socialsports.Clases.User;
+import tfg.dam.socialsports.EventSettings;
 import tfg.dam.socialsports.Funcionalidades;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
@@ -31,14 +32,14 @@ import tfg.dam.socialsports.RETROFIT;
 
 public class EventSettingsRequests extends Fragment {
 
-    private User userSeleccionado;
-    private ListView listViewSolicitudes;
-    private ArrayList<User> listaSolicitantes;
-    private AlertDialog.Builder menuOpciones;
-    private String[] opciones;
+    private User selectedUser;
+    private ListView listViewRequests;
+    private ArrayList<User> listApplicants;
+    private AlertDialog.Builder manuOptions;
+    private String[] options;
 
     public EventSettingsRequests() {
-        listaSolicitantes = new ArrayList<>();
+        listApplicants = new ArrayList<>();
     }
 
     @Override
@@ -51,96 +52,88 @@ public class EventSettingsRequests extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (Funcionalidades.eresOrganizador(Funcionalidades.eventSeleccionado)) {
-            opciones = new String[]{getResources().getString(R.string.opcion_aceptar_solicitud)
+            options = new String[]{getResources().getString(R.string.opcion_aceptar_solicitud)
                     , getResources().getString(R.string.opcion_rechazar_solicitud)
-                    , getResources().getString(R.string.opcion_bloqueo_de_evento)
-                    , getResources().getString(R.string.opcion_bloqueo_permanente)
                     , getResources().getString(R.string.opcion_solicitud_de_amistad)};
         }
         else {
-            opciones = new String[]{getResources().getString(R.string.opcion_solicitud_de_amistad)};
+            options = new String[]{getResources().getString(R.string.opcion_solicitud_de_amistad)};
         }
-        menuOpciones = new AlertDialog.Builder(getContext());
+        manuOptions = new AlertDialog.Builder(getContext());
         if (Funcionalidades.eresOrganizador(Funcionalidades.eventSeleccionado)) {
-            menuOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            manuOptions.setItems(options, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case 0:
-                            aceptarSolicitud();
+                            acceptApplicantRequest();
                             break;
                         case 1:
-                            eliminarSolicitud();
+                            denyApplicantRequest();
                             break;
                         case 2:
-                            bloquearSolicitud();
-                            break;
-                        case 3:
-                            bloquearSolicitantePermanentemente();
-                            break;
-                        case 4:
-                            agregarAmigo();
+                            addFriend();
                             break;
                     }
-                    if (listaSolicitantes != null)
-                        mostrarListaUsuarios(listaSolicitantes);
+                    if (listApplicants != null)
+                        showUserList(listApplicants);
                 }
             });
         }
         else {
-            menuOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            manuOptions.setItems(options, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
                         case 0:
-                            agregarAmigo();
+                            addFriend();
                             break;
                     }
                 }
             });
         }
-        listViewSolicitudes = getActivity().findViewById(R.id.listEventSettingsRequest);
-        listaSolicitantes = Funcionalidades.eventSeleccionado.getApplicants();
-        if (listaSolicitantes != null)
-            mostrarListaUsuarios(listaSolicitantes);
+        listViewRequests = getActivity().findViewById(R.id.listEventSettingsRequest);
+        listApplicants = Funcionalidades.eventSeleccionado.getApplicants();
+        if (listApplicants != null)
+            showUserList(listApplicants);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (listaSolicitantes != null)
-            mostrarListaUsuarios(listaSolicitantes);
+        if (listApplicants != null)
+            showUserList(listApplicants);
     }
 
-    private void mostrarListaUsuarios(ArrayList<User> arrayList) {
+    private void showUserList(ArrayList<User> arrayList) {
         ListUsersAdapter adapter = new ListUsersAdapter(getContext(), R.layout.item_lista_usuarios,
                 R.id.textItemUsuarioNombre, arrayList);
-        listViewSolicitudes.setAdapter(adapter);
-        listViewSolicitudes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listViewRequests.setAdapter(adapter);
+        listViewRequests.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                userSeleccionado = listaSolicitantes.get(position);
-                if (!Funcionalidades.soyYo(userSeleccionado)) {
-                    menuOpciones.setTitle(userSeleccionado.getFirstName() +
-                            " " + userSeleccionado.getLastName());
-                    menuOpciones.show();
+                selectedUser = listApplicants.get(position);
+                if (!Funcionalidades.soyYo(selectedUser)) {
+                    manuOptions.setTitle(selectedUser.getFirstName() +
+                            " " + selectedUser.getLastName());
+                    manuOptions.show();
                 }
             }
         });
     }
 
-    private void aceptarSolicitud() {
+    private void acceptApplicantRequest() {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.insertarParticipante("Bearer " + LoginActivity.token,
+        service.acceptApplicantRequest("Bearer " + LoginActivity.token,
                 Funcionalidades.eventSeleccionado.getId(),
-                userSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
+                selectedUser.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    Funcionalidades.eventSeleccionado.getApplicants().remove((userSeleccionado));
-                    Funcionalidades.eventSeleccionado.getParticipants().add(userSeleccionado);
+                    Funcionalidades.eventSeleccionado.getParticipants().add(selectedUser);
+                    Funcionalidades.eventSeleccionado.getApplicants().remove(selectedUser);
                 }
             }
 
@@ -151,22 +144,31 @@ public class EventSettingsRequests extends Fragment {
         });
     }
 
-    private void eliminarSolicitud() {
-        Funcionalidades.eliminarSolicitante(Funcionalidades.eventSeleccionado, userSeleccionado);
+    private void denyApplicantRequest() {
+        RETROFIT retrofit = new RETROFIT();
+        APIService service = retrofit.getAPIService();
+        service.denyApplicantRequest("Bearer " + LoginActivity.token, Funcionalidades.eventSeleccionado.getId(), selectedUser.getId())
+                .enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+
+                    for(User u : Funcionalidades.eventSeleccionado.getApplicants()){
+                        if(u.getId() == selectedUser.getId()){
+                            Funcionalidades.eventSeleccionado.getApplicants().remove(u);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
-    private void bloquearSolicitud() {
-        Funcionalidades.eliminarSolicitante(Funcionalidades.eventSeleccionado, userSeleccionado);
-    }
-
-    private void bloquearSolicitantePermanentemente() {
-        Funcionalidades.eliminarSolicitante(Funcionalidades.eventSeleccionado, userSeleccionado);
-        Funcionalidades.bloquearUsuarioPermanentemente(userSeleccionado);
-        Funcionalidades.eliminarAmigo(userSeleccionado);
-    }
-
-    private void agregarAmigo() {
-        //Funcionalidades.eliminarBloqueoPermanentemente(usuarioSeleccionado);
-        Funcionalidades.insertarAmigo(userSeleccionado);
+    private void addFriend() {
+        Funcionalidades.addFriend(selectedUser);
     }
 }

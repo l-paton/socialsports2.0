@@ -3,6 +3,7 @@ package tfg.dam.socialsports;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -122,7 +123,7 @@ public class Funcionalidades extends AppCompatActivity {
                         pendientes.add(event);
                     else {
                         event.setFinish(true);
-                        actualizarTerminarEvento(event.getId(), true);
+                        finishEvent(event.getId());
                     }
                 }
             }
@@ -139,7 +140,7 @@ public class Funcionalidades extends AppCompatActivity {
                 else if (event.getStartDate() != null && event.getStartDate().before(new Date())) {
                     finalizados.add(event);
                     event.setFinish(true);
-                    actualizarTerminarEvento(event.getId(), true);
+                    finishEvent(event.getId());
                 }
             }
         }
@@ -176,9 +177,9 @@ public class Funcionalidades extends AppCompatActivity {
         return (int) (((new Date().getTime() - fecha.getTime()) / 86400000) / 365);
     }
 
-    public static void actualizarTerminarEvento(Long idEvento, boolean terminado) {
+    public static void finishEvent(Long idEvento) {
         RETROFIT retrofit = new RETROFIT();
-        retrofit.getAPIService().actualizarTerminarEvento("Bearer " + LoginActivity.token, idEvento, terminado).enqueue(new Callback<ResponseBody>() {
+        retrofit.getAPIService().finishEvent("Bearer " + LoginActivity.token, idEvento).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -261,11 +262,7 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void insertarAmigo(User user) {
-        if (!LoginActivity.user.getListaAmigos().contains(user)) {
-            LoginActivity.user.getListaAmigos().add(user);
-            LoginActivity.user.getListaBloqueados().remove(user);
-        }
+    public static void addFriend(final User user) {
 
         RETROFIT retrofit = new RETROFIT();
         retrofit.getAPIService().addFriend("Bearer " + LoginActivity.token,
@@ -273,7 +270,12 @@ public class Funcionalidades extends AppCompatActivity {
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                        if(response.isSuccessful()){
+                            if (!LoginActivity.user.getListaAmigos().contains(user)) {
+                                LoginActivity.user.getListaAmigos().add(user);
+                                LoginActivity.user.getListaBloqueados().remove(user);
+                            }
+                        }
                     }
 
                     @Override
@@ -283,10 +285,10 @@ public class Funcionalidades extends AppCompatActivity {
                 });
     }
 
-    public static void actualizarFechaEvento(Long idEvento, Date fecha) {
+    public static void editStartDate(Long idEvent, Date startDate) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.editStartDateEvent("Bearer " + LoginActivity.token, idEvento, dateToString2(fecha)).enqueue(new Callback<ResponseBody>() {
+        service.editStartDateEvent("Bearer " + LoginActivity.token, idEvent, dateToString2(startDate)).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -299,10 +301,12 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void actualizarHoraEvento(Long idEvento, String hora) {
+    public static void editEventTime(Long id, String hora) {
+
+        Log.e("HORA", hora);
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.actualizarHoraEvento("Bearer " + LoginActivity.token, idEvento, hora).enqueue(new Callback<ResponseBody>() {
+        service.editTimeEvent("Bearer " + LoginActivity.token, id, hora).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -334,7 +338,7 @@ public class Funcionalidades extends AppCompatActivity {
     public static void actualizarMaxParticipantesEvento(Long idEvento, int maxParticipants) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.actualizarMaxParticipantesEvento("Bearer " + LoginActivity.token, idEvento, maxParticipants).enqueue(new Callback<ResponseBody>() {
+        service.editMaxParticipantsEvent("Bearer " + LoginActivity.token, idEvento, maxParticipants).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -377,7 +381,7 @@ public class Funcionalidades extends AppCompatActivity {
         }
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.insertarParticipante("Bearer " + LoginActivity.token, event.getId(), user.getId()).enqueue(new Callback<ResponseBody>() {
+        service.acceptApplicantRequest("Bearer " + LoginActivity.token, event.getId(), user.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -522,28 +526,4 @@ public class Funcionalidades extends AppCompatActivity {
         });
 
     }
-
-    public static void eliminarSolicitante(Event event, User user) {
-        /*for (int i = 0; i < evento.getListaSolicitantes().size(); i++) {
-            if (evento.getListaSolicitantes().get(i).getEmail().equals(usuario.getEmail())) {
-                evento.getListaSolicitantes().remove(i);
-                break;
-            }
-        }*/
-            RETROFIT retrofit = new RETROFIT();
-            APIService service = retrofit.getAPIService();
-            service.eliminarSolicitante("Bearer " + LoginActivity.token, event.getId(), user.getEmail()).enqueue(new Callback<ResponseBody>() {
-                @Override
-                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-                }
-
-                @Override
-                public void onFailure(Call<ResponseBody> call, Throwable t) {
-
-                }
-            });
-    }
-
-
 }

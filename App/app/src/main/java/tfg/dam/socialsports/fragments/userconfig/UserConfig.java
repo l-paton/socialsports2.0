@@ -368,7 +368,7 @@ public class UserConfig extends Fragment {
         MultipartBody.Part body = MultipartBody.Part.createFormData("file" , LoginActivity.user.getEmail().replace(".","") + "." + type ,requestFile);
         RETROFIT retrofit = new RETROFIT();
 
-        retrofit.getAPIService().subirImagen("Bearer " + LoginActivity.token, body, requestFile, LoginActivity.user.getEmail()).enqueue(new Callback<ResponseBody>() {
+        retrofit.getAPIService().subirImagen("Bearer " + LoginActivity.token, body, requestFile).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){

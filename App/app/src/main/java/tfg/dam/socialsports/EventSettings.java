@@ -114,7 +114,7 @@ public class EventSettings extends AppCompatActivity {
             case R.id.itemMenuEventFinalize:
                 Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
                 Funcionalidades.eventSeleccionado.setFinish(true);
-                Funcionalidades.actualizarTerminarEvento(Funcionalidades.eventSeleccionado.getId(),true);
+                Funcionalidades.finishEvent(Funcionalidades.eventSeleccionado.getId());
                 finish();
                 Funcionalidades.mostrarMensaje("Evento Finalizado",this);
                 break;
@@ -134,13 +134,13 @@ public class EventSettings extends AppCompatActivity {
             if (Funcionalidades.eventSeleccionado.getStartDate() == null ||
                     eventSettingsSettings.getFechaEvento().compareTo(Funcionalidades.eventSeleccionado.getStartDate()) != 0) {
                 Funcionalidades.eventSeleccionado.setStartDate(eventSettingsSettings.getFechaEvento());
-                Funcionalidades.actualizarFechaEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getFechaEvento());
+                Funcionalidades.editStartDate(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getFechaEvento());
             }
         }
 
         if (!eventSettingsSettings.getHoraEvento().equals(Funcionalidades.eventSeleccionado.getTime())) {
             Funcionalidades.eventSeleccionado.setTime(eventSettingsSettings.getHoraEvento());
-            Funcionalidades.actualizarHoraEvento(Funcionalidades.eventSeleccionado.getId(), eventSettingsSettings.getHoraEvento());
+            Funcionalidades.editEventTime(Funcionalidades.eventSeleccionado.getId(), eventSettingsSettings.getHoraEvento());
         }
 
         if (!eventSettingsSettings.getDireccion().equals(Funcionalidades.eventSeleccionado.getAddress())) {
@@ -159,11 +159,6 @@ public class EventSettings extends AppCompatActivity {
                 Funcionalidades.insertarParticipante(Funcionalidades.eventSeleccionado,Funcionalidades.eventSeleccionado.getOrganizer());
             else
                 Funcionalidades.eliminarParticipante(Funcionalidades.eventSeleccionado,Funcionalidades.eventSeleccionado.getOrganizer());
-        }
-
-        if (eventSettingsSettings.getCosteReserva() != Funcionalidades.eventSeleccionado.getPrice()) {
-            Funcionalidades.eventSeleccionado.setPrice(eventSettingsSettings.getCosteReserva());
-            Funcionalidades.actualizarCosteEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getCosteReserva());
         }
 
         if (!eventSettingsSettings.getComentarios().equals(Funcionalidades.eventSeleccionado.getComments())) {
