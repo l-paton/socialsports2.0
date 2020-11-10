@@ -79,4 +79,10 @@ export class EventService {
     return this.http.post(EVENT_API + '/deny', params, { headers: headers });
   }
 
+  editStartDate(id, startDate){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('startDate', startDate);
+    return this.http.put(EVENT_API + '/edit/startdate', params, {headers: headers});
+  }
+
 }

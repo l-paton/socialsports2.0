@@ -39,14 +39,14 @@ public class FileSystemStorageService implements StorageService{
 	}
 
 	@Override
-	public String store(MultipartFile file) {
+	public String store(MultipartFile file, String id) {
 		String filename = StringUtils.cleanPath(file.getOriginalFilename());
+		filename = filename.replace(filename.substring(0, filename.lastIndexOf(".")), id);
 		try {
 			if (file.isEmpty()) {
 				throw new StorageException("Failed to store empty file " + filename);
 			}
 			if (filename.contains("..")) {
-				// This is a security check
 				throw new StorageException(
 						"Cannot store file with relative path outside current directory " + filename);
 			}

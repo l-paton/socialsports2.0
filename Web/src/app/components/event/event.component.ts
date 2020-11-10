@@ -17,6 +17,15 @@ export class EventComponent implements OnInit {
   requirements: string[] = [];
   editar: boolean = false;
 
+  editStartDate: string;
+  editTime: string;
+  editMaxParticipants: number;
+  editPrice: number;
+  editComments: string;
+  editMinAge: number;
+  editMaxAge: number;
+  editGender: string;
+
   constructor(
     private route: ActivatedRoute, 
     private eventService: EventService, 
@@ -60,4 +69,17 @@ export class EventComponent implements OnInit {
     this.editar = !this.editar;
   }
 
+  acceptChanges(){
+
+    if(this.editStartDate){
+      this.eventService.editStartDate(this.event.id, this.editStartDate).subscribe();
+    }
+    if(this.editTime){
+      
+    }
+    if(this.editMaxParticipants){
+      
+    }
+    
+  }
 }

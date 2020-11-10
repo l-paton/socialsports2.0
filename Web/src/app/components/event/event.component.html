@@ -63,29 +63,29 @@
                 <div class="row mt-5" *ngIf="editar && isOrganizer()">
                     <div class="col-md-6">
                         <p class="desc"><span class="titulo">Fecha de inicio:</span>
-                            <input type="date" class="form-control">
+                            <input type="date" class="form-control" [(ngModel)]="editStartDate">
                         <p class="desc"><span class="titulo">Hora:</span> 
-                            <input type="time" class="form-control">
+                            <input type="time" class="form-control" [(ngModel)]="editTime">
                         </p>
                         <p class="desc"><span class="titulo">Máximo de participantes:</span> 
-                            <input type="number" class="form-control" placeholder="{{ event.maxParticipants }}">
+                            <input type="number" class="form-control" placeholder="{{ event.maxParticipants }}" [(ngModel)]="editMaxParticipants">
                         </p>
                         <p class="desc"><span class="titulo">Precio:</span> 
-                            <input type="number" class="form-control" min="0.00" step="0.01" placeholder="{{ event.price }}">
+                            <input type="number" class="form-control" min="0.00" step="0.01" placeholder="{{ event.price }}" [(ngModel)]="editPrice">
                         </p>
                         <p class="desc"><span class="titulo">Comentarios:</span> 
-                            <textarea rows="2" class="form-control" placeholder="{{event.comments}}"></textarea>
+                            <textarea rows="2" class="form-control" placeholder="{{event.comments}}" [(ngModel)]="editComments"></textarea>
                         </p>
                     </div>
                     <div class="col-md-6">
                         <p class="desc"><span class="titulo">Edad mínima:</span> 
-                            <input type="number" class="form-control" min="0" step="1" placeholder="{{event.requirement.minAge}}">
+                            <input type="number" class="form-control" min="0" step="1" placeholder="{{event.requirement.minAge}}" [(ngModel)]="editMinAge">
                         </p>
                         <p class="desc"><span class="titulo">Edad máxima:</span> 
-                            <input type="number" class="form-control" min="0" step="1" placeholder="{{event.requirement.maxAge}}">
+                            <input type="number" class="form-control" min="0" step="1" placeholder="{{event.requirement.maxAge}}" [(ngModel)]="editMaxAge">
                         </p>
                         <p class="desc"><span class="titulo">Género:</span> 
-                            <input type="text" class="form-control" placeholder="{{event.requirement.gender}}">
+                            <input type="text" class="form-control" placeholder="{{event.requirement.gender}}" [(ngModel)]="editGender">
                         </p>
                         <p class="desc"><span class="titulo">Puntuación requerida:</span> 
                             <input type="time" class="form-control" placeholder="{{event.requirement.score}}">
@@ -94,7 +94,7 @@
                         <div class="text-center">
                             <br>
                             <br>
-                            <button class="btn btn-sm btn-dark">Aceptar cambios</button>
+                            <button class="btn btn-sm btn-dark" (click)="acceptChanges()">Aceptar cambios</button>
                         </div>
                     </div>
                 </div>

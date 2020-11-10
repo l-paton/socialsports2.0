@@ -103,7 +103,7 @@ export class EventsComponent implements OnInit {
 
   getUserPicture(picture) {
     if (picture == null) {
-      return "http://placehold.it/45x45";
+      return "http://localhost:8080/api/images/users/45x45.png";
     }
     return picture;
   }

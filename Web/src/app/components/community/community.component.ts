@@ -53,7 +53,7 @@ export class CommunityComponent implements OnInit {
 
   getUrlPictureUser(user: User): string {
     if (user.picture == null || user.picture.length <= 0) {
-      return "http://placehold.it/95x95";
+      return "http://localhost:8080/api/images/users/95x95.png";
     }
     return user.picture;
   }

@@ -51,8 +51,8 @@ public class FileUploadController {
 
             User user = getUser();
 
-            String name = storageService.store(file);
-
+            String name = storageService.store(file, String.valueOf(getUser().getId()));
+            
             String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
                     .path("/api/images/users/")
                     .path(name)

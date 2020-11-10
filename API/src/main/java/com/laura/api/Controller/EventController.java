@@ -1,7 +1,6 @@
 package com.laura.api.Controller;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -231,7 +230,7 @@ public class EventController {
 	}
 
 	@PutMapping("/edit/startdate")
-	public ResponseEntity<?> editStartDate(@RequestParam("id") long id, @RequestParam Date startDate){
+	public ResponseEntity<?> editStartDate(@RequestParam("id") long id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){

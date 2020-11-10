@@ -26,8 +26,7 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional
-                                        content.
+                                    <p class="card-text">{{evento.address}} {{evento.startDate | date: 'dd-MM-yyyy'}} {{evento.time}}
                                     </p>
                                     <div class="text-right">
                                         <a class="btn btn-sm btn-primary mr-3" (click)="getEvent(evento.id)">Editar</a>
@@ -48,8 +47,7 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional
-                                        content.
+                                    <p class="card-text">{{evento.address}} {{evento.startDate | date : 'dd-MM-yyyy'}} {{evento.time}}
                                     </p>
                                     <div class="text-right">
                                         <a class="btn btn-sm btn-danger mr-3" *ngIf="evento.organizer.id != id" (click)="leaveEvent(evento.id)">Cancelar</a>
@@ -68,8 +66,7 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <p class="card-text">With supporting text below as a natural lead-in to additional
-                                        content.
+                                    <p class="card-text">{{evento.address}} {{evento.startDate | date : 'dd-MM-yyyy'}} {{evento.time}}
                                     </p>
                                     <div class="text-right">
                                         <a class="btn btn-sm btn-warning mr-3" (click)="cancelRequest(evento.id)">Cancelar solicitud</a>
