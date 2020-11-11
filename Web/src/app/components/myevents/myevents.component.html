@@ -21,15 +21,18 @@
                         <div *ngFor="let evento of eventsCreated">
                             <div class="card mb-2">
                                 <div class="card-header">
-                                    {{evento.sport}}
+                                    {{evento.sport}} {{evento.address}}
                                     <small class="float-right">{{evento.createdAt | date : 'dd-MM-yyyy'}}</small>
                                 </div>
 
                                 <div class="card-body">
-                                    <p class="card-text">{{evento.address}} {{evento.startDate | date: 'dd-MM-yyyy'}} {{evento.time}}
-                                    </p>
+                                    <div class="card-text">
+                                        <div *ngIf="evento.finish" class="titulo-finalizado">Finalizado</div>
+                                        <div *ngIf="!evento.finish" class="titulo-en-proceso">En proceso</div>
+                                    </div>
                                     <div class="text-right">
-                                        <a class="btn btn-sm btn-primary mr-3" (click)="getEvent(evento.id)">Editar</a>
+                                        <a class="btn btn-sm btn-warning mr-3" *ngIf="!evento.finish" (click)="finishEvent(evento.id)">Finalizar</a>
+                                        <a class="btn btn-sm btn-primary mr-3" *ngIf="!evento.finish" (click)="getEvent(evento.id)">Editar</a>
                                         <a class="btn btn-sm btn-danger" (click)="deleteEvent(evento.id)">Eliminar</a>
                                     </div>
                                 </div>

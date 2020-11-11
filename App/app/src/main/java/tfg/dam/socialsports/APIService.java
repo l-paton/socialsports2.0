@@ -68,21 +68,11 @@ public interface APIService {
     @GET("user/friends")
     Call<ArrayList<User>> listaAmigos(@Header("Authorization") String authHeader);
 
-    @GET("perfil/bloqueados/{correo}")
-    Call<ArrayList<User>> listaBloqueados(@Header("Authorization") String authHeader, @Path("correo") String correo);
-
-    @POST("add/friend/{id}")
+    @POST("user/add/friend/{id}")
     Call<ResponseBody> addFriend(@Header("Authorization") String authHeader, @Path("id") long id);
 
-    @DELETE("delete/friend/{id}")
+    @DELETE("user/delete/friend/{id}")
     Call<ResponseBody> deleteFriend(@Header("Authorization") String authHeader, @Path("id") long id);
-
-    @POST("perfil/bloquearusuario/{correo}/{correoBloqueado}")
-    Call<ResponseBody> bloquearUsuario(@Header("Authorization") String authHeader, @Path("correo") String correo, @Path("correoBloqueado") String correoBloqueado);
-
-    @DELETE("perfil/quitarbloqueo/{correo}/{correoBloqueado}")
-    Call<ResponseBody> quitarBloqueo(@Header("Authorization") String authHeader, @Path("correo") String correo, @Path("correoBloqueado") String correoBloqueado);
-
 
     /************************EVENTOS************************/
 

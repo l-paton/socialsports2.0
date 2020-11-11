@@ -47,17 +47,13 @@ public class UserConfigBanned extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        opcionesBloqueados = new String[]{getResources().getString(R.string.opcion_desbloquear)
-                ,getResources().getString(R.string.opcion_solicitud_de_amistad)};
+        opcionesBloqueados = new String[]{getResources().getString(R.string.opcion_solicitud_de_amistad)};
         menuOpciones = new AlertDialog.Builder(getContext());
         menuOpciones.setItems(opcionesBloqueados, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        desbloquear();
-                        break;
-                    case 1:
                         agregarAmigo();
                         break;
                 }
@@ -65,13 +61,6 @@ public class UserConfigBanned extends Fragment {
             }
         });
         listViewBloqueados = getActivity().findViewById(R.id.listUserConfigBanned);
-        obtenerListaBloqueados(LoginActivity.user.getEmail());
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        obtenerListaBloqueados(LoginActivity.user.getEmail());
     }
 
     private void mostrarListaBloqueados(final ArrayList<User> arrayList)
@@ -86,26 +75,6 @@ public class UserConfigBanned extends Fragment {
                 menuOpciones.setTitle(userSeleccionado.getFirstName() +
                         " " + userSeleccionado.getLastName());
                 menuOpciones.show();
-            }
-        });
-    }
-
-    private void desbloquear() {
-        RETROFIT retrofit = new RETROFIT();
-        APIService service = retrofit.getAPIService();
-        service.quitarBloqueo("Bearer " + LoginActivity.token,
-                LoginActivity.user.getEmail(),
-                userSeleccionado.getEmail()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.isSuccessful()) {
-                    LoginActivity.user.getListaBloqueados().remove(userSeleccionado);
-                    mostrarListaBloqueados(LoginActivity.user.getListaBloqueados());
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
             }
         });
     }
@@ -129,27 +98,5 @@ public class UserConfigBanned extends Fragment {
                         t.printStackTrace();
                     }
                 });
-    }
-    private void obtenerListaBloqueados(String correo) {
-        RETROFIT retrofit = new RETROFIT();
-        APIService service = retrofit.getAPIService();
-        service.listaBloqueados("Bearer " + LoginActivity.token, correo).enqueue(new Callback<ArrayList<User>>() {
-            @Override
-            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
-
-                if (response.isSuccessful()) {
-                    LoginActivity.user.setListaBloqueados(new ArrayList<User>());
-                    for(User user : response.body()){
-                        LoginActivity.user.getListaBloqueados().add(user);
-                    }
-                    mostrarListaBloqueados(LoginActivity.user.getListaBloqueados());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
     }
 }

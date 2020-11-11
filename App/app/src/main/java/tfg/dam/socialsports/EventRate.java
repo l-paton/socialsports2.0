@@ -87,7 +87,6 @@ public class EventRate extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        bloquearSolicitantePermanentemente();
                         break;
                     case 1:
                         agregarAmigo();
@@ -132,12 +131,6 @@ public class EventRate extends AppCompatActivity {
         navigationView.setVisibility(View.GONE);
         textOrganizer.setText(getResources().getString(R.string.organizer_has_been_rated));
         textParticipants.setText(getResources().getString(R.string.participants_has_been_rated));
-    }
-
-    private void bloquearSolicitantePermanentemente() {
-        Funcionalidades.bloquearUsuarioPermanentemente(userSeleccionado);
-        //Funcionalidades.eliminarAmigo(usuarioSeleccionado);
-
     }
 
     private void agregarAmigo() {

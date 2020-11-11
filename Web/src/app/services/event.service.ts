@@ -98,4 +98,9 @@ export class EventService {
     return this.http.put(EVENT_API + '/edit/maxparticipants', params, {headers: headers});
   }
 
+  finishEvent(id){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id);
+    return this.http.put(EVENT_API + '/finish', params, {headers: headers});
+  }
 }

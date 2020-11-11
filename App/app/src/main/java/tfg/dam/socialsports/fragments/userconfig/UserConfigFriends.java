@@ -46,8 +46,7 @@ public class UserConfigFriends extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        opcionesAmigos = new String[]{getResources().getString(R.string.opcion_eliminar_amigo)
-                ,getResources().getString(R.string.opcion_bloqueo_permanente)};
+        opcionesAmigos = new String[]{getResources().getString(R.string.opcion_eliminar_amigo)};
         menuOpciones = new AlertDialog.Builder(getContext());
         menuOpciones.setItems(opcionesAmigos, new DialogInterface.OnClickListener() {
             @Override
@@ -55,9 +54,6 @@ public class UserConfigFriends extends Fragment {
                 switch (which) {
                     case 0:
                         eliminarAmigo();
-                        break;
-                    case 1:
-                        bloqueaoPermanebte();
                         break;
                 }
                 mostrarListaAmigos(LoginActivity.user.getListaAmigos());
@@ -94,32 +90,11 @@ public class UserConfigFriends extends Fragment {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
         service.deleteFriend("Bearer " + LoginActivity.token,
-                LoginActivity.user.getId()).enqueue(new Callback<ResponseBody>() {
+                userSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 204){
                     LoginActivity.user.getListaAmigos().remove(userSeleccionado);
-                    mostrarListaAmigos(LoginActivity.user.getListaAmigos());
-                }
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
-
-    private void bloqueaoPermanebte() {
-        RETROFIT retrofit = new RETROFIT();
-        APIService service = retrofit.getAPIService();
-        service.bloquearUsuario("Bearer " + LoginActivity.token,
-                LoginActivity.user.getEmail(),
-                userSeleccionado.getEmail()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 204){
-                    LoginActivity.user.getListaAmigos().remove(userSeleccionado);
-                    LoginActivity.user.getListaBloqueados().add(userSeleccionado);
                     mostrarListaAmigos(LoginActivity.user.getListaAmigos());
                 }
             }

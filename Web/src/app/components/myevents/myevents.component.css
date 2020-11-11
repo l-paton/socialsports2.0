@@ -6,3 +6,11 @@
     background-color: rgba(0,0,0,0.3);
     color: white;
 }
+
+.titulo-en-proceso{
+    color: #00ffea;
+}
+
+.titulo-finalizado{
+    color: brown;
+}

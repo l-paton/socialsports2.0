@@ -192,26 +192,6 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void bloquearUsuarioPermanentemente(User user) {
-        if (!LoginActivity.user.getListaBloqueados().contains(user)) {
-            LoginActivity.user.getListaBloqueados().add(user);
-            LoginActivity.user.getListaAmigos().remove(user);
-        }
-        RETROFIT retrofit = new RETROFIT();
-        APIService service = retrofit.getAPIService();
-        service.bloquearUsuario("Bearer " + LoginActivity.token, LoginActivity.user.getEmail(), user.getEmail()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-    }
-
     public static boolean usuarioBloqueadoPermanentemente(String emailUsuario, String emailOrganizador, Context c) {
         //TODO Consultar si un usuario esta en la listaBloqueados de un usuarioOrganizador. devolver true o false.
         /**
@@ -238,26 +218,6 @@ public class Funcionalidades extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 t.printStackTrace();
-            }
-        });
-    }
-
-    public static void eliminarBloqueoPermanentemente(User user) {
-        if (LoginActivity.user.getListaBloqueados().contains(user))
-            LoginActivity.user.getListaBloqueados().remove(user);
-
-        RETROFIT retrofit = new RETROFIT();
-        APIService service = retrofit.getAPIService();
-        service.quitarBloqueo("Bearer " + LoginActivity.token,
-                LoginActivity.user.getEmail(), user.getEmail()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-
             }
         });
     }

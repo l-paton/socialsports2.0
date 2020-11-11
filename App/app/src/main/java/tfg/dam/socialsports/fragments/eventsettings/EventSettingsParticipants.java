@@ -44,8 +44,6 @@ public class EventSettingsParticipants extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (Funcionalidades.eresOrganizador(Funcionalidades.eventSeleccionado)) {
             opciones = new String[]{getResources().getString(R.string.opcion_eliminar_participante)
-                    , getResources().getString(R.string.opcion_bloqueo_de_evento)
-                    , getResources().getString(R.string.opcion_bloqueo_permanente)
                     , getResources().getString(R.string.opcion_solicitud_de_amistad)};
         }
         else {
@@ -60,13 +58,7 @@ public class EventSettingsParticipants extends Fragment {
                         case 0:
                             eliminarParticipante();
                             break;
-                        case 1:
-                            bloquearSolicitud();
-                            break;
                         case 2:
-                            bloquearSolicitantePermanentemente();
-                            break;
-                        case 3:
                             agregarAmigo();
                             break;
                     }
@@ -121,18 +113,7 @@ public class EventSettingsParticipants extends Fragment {
         Funcionalidades.eliminarParticipante(Funcionalidades.eventSeleccionado, userSeleccionado);
     }
 
-    private void bloquearSolicitud() {
-        Funcionalidades.eliminarParticipante(Funcionalidades.eventSeleccionado, userSeleccionado);
-    }
-
-    private void bloquearSolicitantePermanentemente() {
-        Funcionalidades.eliminarParticipante(Funcionalidades.eventSeleccionado, userSeleccionado);
-        Funcionalidades.bloquearUsuarioPermanentemente(userSeleccionado);
-        Funcionalidades.eliminarAmigo(userSeleccionado);
-    }
-
     private void agregarAmigo() {
-        Funcionalidades.eliminarBloqueoPermanentemente(userSeleccionado);
         Funcionalidades.addFriend(userSeleccionado);
     }
 }
