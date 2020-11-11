@@ -13,6 +13,7 @@ import { Event } from 'src/app/models/Event';
 })
 export class HeaderComponent implements OnInit {
 
+  id: number;
   showHead: boolean = false;
   picture: string;
   notifications: number = 0;
@@ -22,7 +23,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private cdRef: ChangeDetectorRef,
     private tokenStorage: TokenStorageService,
     private userService: UserService,
     private eventService: EventService) {
@@ -31,6 +31,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.forEach(() => {
       if (this.tokenStorage.isLoggedIn) {
+        this.id = this.tokenStorage.getUser().user.id;
         this.userService.getProfilePicture().subscribe(data => this.picture = data);
         this.getNotifications();
         this.showHead = true;
@@ -80,6 +81,10 @@ export class HeaderComponent implements OnInit {
 
   cancelUserRequest(idEvent: string, idUser: string){
     this.eventService.cancelUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
+  }
+
+  getProfile(id: number) {
+    this.router.navigate(['/profile', id]);
   }
 
 }

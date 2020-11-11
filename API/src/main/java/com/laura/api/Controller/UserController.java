@@ -100,7 +100,7 @@ public class UserController {
 	}
 
 	@PutMapping("/edit/gender")
-	public ResponseEntity<?> editGender(@RequestBody String gender){
+	public ResponseEntity<?> editGender(@RequestParam String gender){
 		User user = getUser();
 		user.setGender(gender);
 		try{
@@ -145,6 +145,19 @@ public class UserController {
 	public ResponseEntity<?> getFriends(){
 		try{
 			return ResponseEntity.ok(getUser().getFriends());
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/{id}/friends")
+	public ResponseEntity<?> getFriends(@PathVariable long id){
+		try{
+			User user = userService.getUserById(id);
+			if(user != null){
+				return ResponseEntity.ok(user.getFriends());
+			}
+			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
@@ -196,6 +209,19 @@ public class UserController {
 		return getUser();
 	}
 	
+	@GetMapping("/profile/{id}")
+	public ResponseEntity<?> getUserProfile(@PathVariable long id){
+		try{
+			User user = userService.getUserById(id);
+			if(user != null){
+				return ResponseEntity.ok(user);
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 	private User getUser() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		return userService.getUser(auth.getName());

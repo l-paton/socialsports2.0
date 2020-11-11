@@ -18,7 +18,7 @@
                     <div class="text-right">
                         <button class="btn btn-sm btn-success mr-1" *ngIf="user.id != id && !IsUserMyFriend(user.id)" (click)="addFriend(user.id)">Añadir amigo</button>
                         <button class="btn btn-sm btn-danger mr-1" *ngIf="IsUserMyFriend(user.id)" (click)="deleteFriend(user.id)">Eliminar amigo</button>
-                        <button class="btn btn-sm btn-info" *ngIf="user.id == id">Ver perfil</button>
+                        <button class="btn btn-sm btn-info" [routerLink]="['/profile/' + user.id]">Ver perfil</button>
                     </div>
                   </div>
                 </li>

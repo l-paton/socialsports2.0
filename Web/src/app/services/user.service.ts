@@ -24,9 +24,19 @@ export class UserService {
     return this.http.get<User>(USER_API + "/data", { headers });
   }
 
+  getUser(id): Observable<User>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.get<User>(USER_API + "/profile/" + id, { headers });
+  }
+
   getFriends(): Observable<User[]> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     return this.http.get<User[]>(USER_API + '/friends', { headers });
+  }
+
+  getFriendsFromUser(id): Observable<User[]>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.get<User[]>(USER_API + '/' + id + '/friends', { headers });
   }
 
   modifyFirstName(firstName: string): Observable<any> {
@@ -51,6 +61,12 @@ export class UserService {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     let params = new HttpParams().append('birthday', birthday);
     return this.http.put(USER_API + '/edit/birthday', params, { headers });
+  }
+
+  modifyGenre(gender): Observable<any>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append('gender', gender);
+    return this.http.put(USER_API + '/edit/gender', params, { headers });
   }
 
   modifyDescription(description: string): Observable<any> {

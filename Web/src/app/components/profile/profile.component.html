@@ -1,6 +1,70 @@
 <div class="container-fluid" *ngIf="user">
-    <div class="row text-center">
-        <div class="col-2 mt-5">
+    <div class="jumbotron">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-center">
+                    <div class="img-profile ">
+                        <img [src]="getPicture()" class="img-profile">
+                        <input *ngIf="editarUsuario" type="file" class="form-control mt-2" (change)="selectFile($event)">
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <h1 class="display-2">{{user.firstName}} {{user.lastName}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container mt-5">
+        <div class="text-right">
+            <button class="btn btn-light" *ngIf="user && isOrganizer()" (click)="editUser()">Editar</button>
+        </div>
+        <div class="row mb-2">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="container container-information">
+                        <h4 class="ml-3">Información</h4>
+                        <p *ngIf="!editarUsuario">Dirección: {{user.address}}</p>
+                        <p *ngIf="!editarUsuario">Cumpleaños: {{user.birthday |  date : 'dd-MM-yyyy'}}</p>
+                        <p *ngIf="!editarUsuario">Genero: {{user.gender}} </p>
+                        <!--EDIT USER-->
+                        <p *ngIf="editarUsuario">Dirección: <input type="text" class="form-control"
+                                placeholder={{user.address}} [(ngModel)]="address" name="address"></p>
+                        <p *ngIf="editarUsuario">Cumpleaños: <input type="date" [(ngModel)]="birthDay" name="birthDay"
+                                class="form-control"></p>
+                        <p *ngIf="editarUsuario">Genero: 
+                            <label>Género</label>
+                            <select class="form-control" (change)="selectChangeHandler($event)">
+                                <option></option>
+                                <option value="Mujer">Mujer</option>
+                                <option value="Hombre">Hombre</option>
+                                <option value="Otro">Otro</option>
+                            </select></p>
+                        <div class="text-right">
+                            <button *ngIf="editarUsuario" class="btn btn-light mb-2" (click)="modifyProfile()">Guardar</button>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="row mt-4 mb-2">
+                    <div class="container container-friends">
+                        <h4 class="ml-3">Amigos</h4>
+                        <div *ngFor="let friend of friends">
+                            <div class="friend ml-3">
+                                <img [src]="getFriendPicture(friend.picture)" class="img-profile-friend rounded" />
+                                <p>{{ friend.firstName }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  <div class="row text-center">
+        <div class="col-md-2 mt-5 mb-5">
 
             <div class="row">
                 <div class="col-5"></div>
@@ -15,9 +79,9 @@
                 </div>
                 <div class="col-5"></div>
             </div>
-        </div>
-        <!-- END COL-3 -->
-        <div class="col-10 mt-5">
+        </div>-->
+<!-- END COL-3 -->
+<!-- <div class="col-md-10 mt-5">
 
             <div class="container">
                 <form class="form-profile" *ngIf="user != undefined">
@@ -37,6 +101,14 @@
                         <label> Cumpleaños </label>
                         <input type="date" [(ngModel)]="birthDay" name="birthDay" class="form-control">
                       </div>
+                      <div class="form-group text-left">
+                        <label for="exampleFormControlSelect1">Género</label>
+                        <select class="form-control">
+                          <option>Mujer</option>
+                          <option>Hombre</option>
+                          <option>Otro</option>
+                        </select>
+                      </div>
                     <div class="form-group text-left">
                         <label class="col-form-label">Descripción</label>
                         <textarea class="form-control" placeholder={{user.description}} [(ngModel)]="description" name="description"></textarea>
@@ -46,8 +118,8 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <!-- END COL-9 -->
-    </div>
-    <!-- END ROW-->
-</div>
+        </div>-->
+<!-- END COL-9 -->
+<!--</div>-->
+<!-- END ROW-->
+<!--</div>-->

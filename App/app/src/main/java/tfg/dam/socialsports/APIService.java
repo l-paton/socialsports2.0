@@ -51,7 +51,7 @@ public interface APIService {
     Call<ResponseBody> editAddress(@Header("Authorization") String authHeader, @Field("address") String address);
 
     @FormUrlEncoded
-    @PUT("edit/gender")
+    @PUT("user/edit/gender")
     Call<ResponseBody> editGender(@Header("Authorization") String authHeader, @Field("gender") String gender);
 
     @FormUrlEncoded

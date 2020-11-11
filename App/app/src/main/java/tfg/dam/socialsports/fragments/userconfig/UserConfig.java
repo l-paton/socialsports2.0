@@ -180,7 +180,7 @@ public class UserConfig extends Fragment {
             }
         }
 
-        Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_finalizados),getContext()); //He cambiado el menssaje para que sea más genérico falle o no falle el guardado.
+        Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_finalizados),getContext());
     }
 
     private void logout() {
@@ -190,8 +190,6 @@ public class UserConfig extends Fragment {
     private void eliminarCuentaDelUsuario() {
         eliminararUsuarioBBDD(LoginActivity.user);
     }
-
-//------------- FUNCIONES PARA CONECTAR CON LA BBDD DEL SERVIDOR -------------------------------------------------------------------------------------
 
     public void editFirstName(final String name) {
         RETROFIT retrofit = new RETROFIT();

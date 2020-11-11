@@ -1,6 +1,22 @@
+
+.jumbotron{
+    background-color: rgba(255,255,255,0.6);
+    border-radius: 0;
+}
+
+.jumbotron h1{
+    color: black;
+}
+
 .img-profile{
-    width: 160px;
-    height: 160px;
+    border-radius: 180px;
+    width: 150px;
+    height: 150px;
+    margin: auto;
+}
+
+.column-friends{
+    padding: 8px;
 }
 
 .input-group{
@@ -12,6 +28,27 @@
     margin: auto;
 }
 
-.img-profile{
-    margin: auto;
+.img-profile-friend{
+    width: 60px;
+    height: 60px;
+}
+
+.friend{
+    float: left;
+}
+
+.container-information{
+    box-shadow: 0 0 2px black;
+    border-radius: 2px;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.container-friends{   
+    box-shadow: 0 0 2px black;
+    border-radius: 2px;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.container-friends > h4, .container-information > h4{
+    padding: 10px;
 }

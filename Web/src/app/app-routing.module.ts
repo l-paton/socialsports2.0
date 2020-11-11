@@ -13,6 +13,8 @@ import { AuthGuard } from './_helpers/auth.guard';
 
 
 const routes: Routes = [
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'profile/:id', component: ProfileComponent, canActivate: [AuthGuard]},
   { path: 'login', component: LoginComponent},
   { path: 'signup', component: SignupComponent},
   { path: 'home', component: EventsComponent, canActivate: [AuthGuard]},
@@ -20,8 +22,6 @@ const routes: Routes = [
   { path: 'event/:id', component: EventComponent, canActivate: [AuthGuard] },
   { path: 'eventform', component: EventFormComponent, canActivate: [AuthGuard] },
   { path: 'community', component: CommunityComponent, canActivate: [AuthGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: '', component: EventsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

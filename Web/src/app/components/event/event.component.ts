@@ -62,7 +62,7 @@ export class EventComponent implements OnInit {
     if(this.event.organizer.id === this.idUser){
       return true;
     }
-    else true;
+    else false;
   }
 
   editEvent(){
