@@ -47,5 +47,11 @@ public class SearchRequest {
     public void setTime(String time) {
         this.time = time;
     }
+
+    @Override
+    public String toString() {
+        return "SearchRequest [address=" + address + ", sport=" + sport + ", startDate=" + startDate + ", time=" + time
+                + "]";
+    }
     
 }

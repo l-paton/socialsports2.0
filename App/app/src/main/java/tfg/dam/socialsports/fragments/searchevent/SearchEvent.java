@@ -130,7 +130,8 @@ public class SearchEvent extends Fragment {
             service.buscarEventos("Bearer " + LoginActivity.token,
                     filtro.getSport(),
                     Funcionalidades.dateToString2(filtro.getStartAt()),
-                    filtro.getTime()).enqueue(new Callback<ArrayList<Event>>() {
+                    filtro.getTime(),
+                    filtro.getAddress()).enqueue(new Callback<ArrayList<Event>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Event>> call, Response<ArrayList<Event>> response) {
                     if (response.isSuccessful()) {

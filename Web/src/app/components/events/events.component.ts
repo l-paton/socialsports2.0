@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common'
 import { EventService } from '../../services/event.service';
 import { UserService } from '../../services/user.service';
 import { TokenStorageService } from '../../services/token-storage.service';
@@ -17,7 +18,8 @@ export class EventsComponent implements OnInit {
   eventsJoined: Event[] = [];
   id: number;
   sport: string = '';
-  startDate: string = '';
+  address: string = '';
+  startDate: Date;
   time: string = '';
 
   constructor(
@@ -84,10 +86,15 @@ export class EventsComponent implements OnInit {
   }
 
   buscar(){
-    console.log("se mete");
-    if(this.sport || this.startDate || this.time){
+    this.events = [];
+    let stringDate = '';
+    if(this.startDate){
+      stringDate = this.startDate.toString();
+    }
+
+    if(this.sport || this.startDate || this.time || this.address){
       this.eventService
-        .searchEvents(this.sport, this.startDate, this.time)
+        .searchEvents(this.sport, stringDate, this.time, this.address)
         .subscribe(data => 
           {
             if(data.length > 0){

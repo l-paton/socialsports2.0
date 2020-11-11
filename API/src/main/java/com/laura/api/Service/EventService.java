@@ -108,35 +108,34 @@ public class EventService {
 	}
 
 	public Set<Event> searchEvents(SearchRequest searchRequest) {
-
-		Set<Event> events = new HashSet<>();
+		System.out.println(searchRequest.toString());
+		Set<Event> events = (HashSet<Event>) repository.findAll();
 
 		if (searchRequest.getSport() != null && searchRequest.getSport() != "") {
 			Set<Event> findBySport = (HashSet<Event>) repository.findBySport(searchRequest.getSport());
 			if (findBySport != null && findBySport.size() > 0)
-				events.addAll(findBySport);
+				events.retainAll(findBySport);
 		}
 		if (searchRequest.getAddress() != null && searchRequest.getAddress() != "") {
 			Set<Event> findByAddress = (HashSet<Event>) repository.findByAddress(searchRequest.getAddress());
 			if (findByAddress != null && findByAddress.size() > 0)
-				events.addAll(findByAddress);
+				events.retainAll(findByAddress);
 		}
 
 		if (searchRequest.getstartDate() != null) {
-			System.out.println(searchRequest.getstartDate());
 			Set<Event> findByStartDate = (HashSet<Event>) repository.findByStartDate(searchRequest.getstartDate());
-			System.out.println(findByStartDate.size());
 			if (findByStartDate != null && findByStartDate.size() > 0)
-				events.addAll(findByStartDate);
+				events.retainAll(findByStartDate);
 		}
 		if (searchRequest.getTime() != null && searchRequest.getTime() != "") {
 			Set<Event> findByTime = (HashSet<Event>) repository.findByTime(searchRequest.getTime());
 			if (findByTime != null && findByTime.size() > 0)
-				events.addAll(findByTime);
+				events.retainAll(findByTime);
 		}
 
 		events = events.stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
 
+		System.out.println(events.size());
 		return events;
 	}
 

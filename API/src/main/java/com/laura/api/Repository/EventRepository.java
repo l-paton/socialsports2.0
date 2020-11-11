@@ -11,6 +11,10 @@ import com.laura.api.model.User;
 
 @Repository
 public interface EventRepository extends CrudRepository<Event, Long>{
+
+	@Override
+    Set<Event> findAll();
+
 	Set<Event> findByStartDateAfter(Date date);
 
 	Set<Event> findByFinish(boolean bool);

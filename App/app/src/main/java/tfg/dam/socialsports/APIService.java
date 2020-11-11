@@ -98,7 +98,7 @@ public interface APIService {
     @GET("event/search")
     Call<ArrayList<Event>> buscarEventos(@Header("Authorization") String authHeader,
                                          @Query("sport") String sport, @Query("startDate") String startDate,
-                                         @Query("time") String time /*,@Query("reputation") float reputacion*/);
+                                         @Query("time") String time, @Query("address") String address /*,@Query("reputation") float reputacion*/);
 
     @FormUrlEncoded
     @PUT("event/edit/startdate")
