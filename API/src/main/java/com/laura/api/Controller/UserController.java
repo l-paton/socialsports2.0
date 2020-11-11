@@ -1,7 +1,7 @@
 package com.laura.api.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Date;
 
 import com.laura.api.Service.UserService;
 import com.laura.api.model.User;
@@ -32,31 +35,38 @@ public class UserController {
 	}
 	
 	@PutMapping("/edit/firstname")
-	public ResponseEntity<?> editFirstName(@RequestBody String firstName){
-		
-		User user = getUser();
-		user.setFirstName(firstName);
-		if(userService.editUser(user) != null) {
-			return ResponseEntity.noContent().build();
+	public ResponseEntity<?> editFirstName(@RequestParam String firstName){
+		try{
+			User user = getUser();
+			user.setFirstName(firstName);
+			if(userService.editUser(user) != null) {
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.badRequest().build();
 	}
 	
 	@PutMapping("/edit/lastname")
-	public ResponseEntity<?> editLastName(@RequestBody String lastName){
-		User user = getUser();
-		user.setLastName(lastName);
-		if(userService.editUser(user) != null) {
-			return ResponseEntity.noContent().build();
+	public ResponseEntity<?> editLastName(@RequestParam String lastName){
+		try{
+			User user = getUser();
+			user.setLastName(lastName);
+			if(userService.editUser(user) != null) {
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
 		}
-		return ResponseEntity.badRequest().build();
 	}
 
 	@PutMapping("/edit/description")
-	public ResponseEntity<?> editDescription(@RequestBody String description){
-		User user = getUser();
-		user.setDescription(description);
+	public ResponseEntity<?> editDescription(@RequestParam String description){
 		try{
+			User user = getUser();
+			user.setDescription(description);
 			userService.editUser(user);
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
@@ -65,10 +75,23 @@ public class UserController {
 	}
 
 	@PutMapping("/edit/address")
-	public ResponseEntity<?> editAddress(@RequestBody String address){
-		User user = getUser();
-		user.setAddress(address);
+	public ResponseEntity<?> editAddress(@RequestParam String address){
+		System.out.println(address);
 		try{
+			User user = getUser();
+			user.setAddress(address);
+			userService.editUser(user);
+			return ResponseEntity.noContent().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/birthday")
+	public ResponseEntity<?> editBirthday(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date birthday){
+		try{
+			User user = getUser();
+			user.setBirthday(birthday);
 			userService.editUser(user);
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){

@@ -137,38 +137,38 @@ public class UserConfig extends Fragment {
         }
 
         String email = LoginActivity.user.getEmail();
-        String nombreNew = userConfigSettings.getNombre().toUpperCase();
-        String nombreOld = LoginActivity.user.getFirstName();
-        if (!nombreNew.equals(nombreOld)) {
-            actualizarNombreUsuarioBBDD(email,nombreNew);
+        String newName = userConfigSettings.getNombre();
+        String oldName = LoginActivity.user.getFirstName();
+        if (!newName.equals(oldName)) {
+            editFirstName(newName);
         }
 
-        String apellidosNew = userConfigSettings.getApellido().toUpperCase();
-        String apellidosOld = LoginActivity.user.getLastName();
-        if (!apellidosNew.equals(apellidosOld)) {
-            actualizarApellidosUsuarioBBDD(email,apellidosNew);
+        String newLastName = userConfigSettings.getApellido();
+        String oldLastName = LoginActivity.user.getLastName();
+        if (!newLastName.equals(oldLastName)) {
+            editLastName(newLastName);
         }
 
-        String direccionNew = userConfigSettings.getDireccion();
-        String direccionOld = LoginActivity.user.getAddress();
-        if (!direccionNew.equals(direccionOld)) {
-            actualizarDireccionUsuarioBBDD(direccionNew);
+        String newAddress = userConfigSettings.getDireccion();
+        String oldAddress = LoginActivity.user.getAddress();
+        if (!newAddress.equals(oldAddress)) {
+            editAddress(newAddress);
         }
 
         String generoNew = userConfigSettings.getGenero();
         String generoOld = LoginActivity.user.getGender();
         if (!generoNew.isEmpty() && !generoNew.equals(generoOld)) {
-            actualizarGeneroUsuarioBBDD(generoNew);
+            editGenre(generoNew);
         }
 
         if (!passwordNew.isEmpty()) {
             actualizarPasswordUsuarioBBDD(email,passwordNew);
         }
 
-        Date fechaNew = userConfigSettings.getBirthdate();
-        Date fechaOld = LoginActivity.user.getBirthday();
-        if (fechaNew != null && fechaNew != fechaOld) {
-            actualizarFechaNacimientoUsuarioBBDD(email,Funcionalidades.dateToString2(fechaNew));
+        Date newBirthday = userConfigSettings.getBirthdate();
+        Date oldBirthday = LoginActivity.user.getBirthday();
+        if (newBirthday != null && newBirthday != oldBirthday) {
+            editBirthDay(Funcionalidades.dateToString2(newBirthday));
         }
 
         if(userConfigSettings.getUri() != null){
@@ -193,19 +193,15 @@ public class UserConfig extends Fragment {
 
 //------------- FUNCIONES PARA CONECTAR CON LA BBDD DEL SERVIDOR -------------------------------------------------------------------------------------
 
-    public void actualizarNombreUsuarioBBDD(String email,String nombre) {
+    public void editFirstName(final String name) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.editFirstName("Bearer " + LoginActivity.token, nombre).enqueue(new Callback<ResponseBody>() {
+        service.editFirstName("Bearer " + LoginActivity.token, name).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200) {
-                    try {
-                        LoginActivity.user.setFirstName(response.body().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    LoginActivity.user.setFirstName(name);
                 }
                 else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }
@@ -217,19 +213,15 @@ public class UserConfig extends Fragment {
         });
     }
 
-    public void actualizarApellidosUsuarioBBDD(String email,String apellidos) {
+    public void editLastName(final String lastName) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.editLastName("Bearer " + LoginActivity.token, apellidos).enqueue(new Callback<ResponseBody>() {
+        service.editLastName("Bearer " + LoginActivity.token, lastName).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200) {
-                    try {
-                        LoginActivity.user.setLastName(response.body().string());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    LoginActivity.user.setLastName(lastName);
                 }
                 else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }
@@ -241,19 +233,15 @@ public class UserConfig extends Fragment {
         });
     }
 
-    public void actualizarDireccionUsuarioBBDD(String direccion) {
+    public void editAddress(final String address) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.editAddress("Bearer " + LoginActivity.token, direccion).enqueue(new Callback<ResponseBody>() {
+        service.editAddress("Bearer " + LoginActivity.token, address).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200) {
-                    try {
-                        LoginActivity.user.setAddress(response.body().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    LoginActivity.user.setAddress(address);
                 }
                 else{
                     Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
@@ -267,19 +255,15 @@ public class UserConfig extends Fragment {
         });
     }
 
-    public void actualizarGeneroUsuarioBBDD(String genero) {
+    public void editGenre(final String genre) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.editGender("Bearer " + LoginActivity.token, genero).enqueue(new Callback<ResponseBody>() {
+        service.editGender("Bearer " + LoginActivity.token, genre).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200) {
-                    try {
-                        LoginActivity.user.setGender(response.body().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    LoginActivity.user.setGender(genre);
                 }
                 else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }
@@ -291,20 +275,15 @@ public class UserConfig extends Fragment {
         });
     }
 
-    public void actualizarFechaNacimientoUsuarioBBDD(String email,String fecha) {
+    public void editBirthDay(final String birthday) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.putFechaNacimiento("Bearer " + LoginActivity.token, email, fecha).enqueue(new Callback<ResponseBody>() {
+        service.editBirthday("Bearer " + LoginActivity.token, birthday).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200) {
-                    try {
-                        String f = response.body().string();
-                        LoginActivity.user.setBirthday(Funcionalidades.StringToDate(f));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    LoginActivity.user.setBirthday(Funcionalidades.StringToDate(birthday));
                 }
                 else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }

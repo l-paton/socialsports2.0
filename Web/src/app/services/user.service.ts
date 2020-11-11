@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Event } from '../models/Event';
 import { TokenStorageService } from './token-storage.service';
@@ -31,12 +31,26 @@ export class UserService {
 
   modifyFirstName(firstName: string): Observable<any> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.put(USER_API + '/edit/firstname', firstName, { headers });
+    let params = new HttpParams().append('firstName', firstName);
+    return this.http.put(USER_API + '/edit/firstname', params, { headers });
   }
 
   modifyLastName(lastName: string): Observable<any> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.put(USER_API + '/edit/lastname', lastName, { headers });
+    let params = new HttpParams().append('lastName', lastName);
+    return this.http.put(USER_API + '/edit/lastname', params, { headers });
+  }
+
+  modifyAddress(address: string): Observable<any> {
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append('address', address);
+    return this.http.put(USER_API + '/edit/address', params, { headers });
+  }
+
+  modifyBirthday(birthday): Observable<any>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append('birthday', birthday);
+    return this.http.put(USER_API + '/edit/birthday', params, { headers });
   }
 
   modifyDescription(description: string): Observable<any> {
@@ -49,8 +63,8 @@ export class UserService {
     return this.http.get<Event[]>(USER_API + '/events/joined', { headers });
   }
 
-  getEventsApplied(): Observable<Event[]>{
+  getEventsApplied(): Observable<Event[]> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<Event[]>(USER_API + '/events/applied', {headers});
+    return this.http.get<Event[]>(USER_API + '/events/applied', { headers });
   }
 }

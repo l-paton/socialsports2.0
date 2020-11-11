@@ -111,9 +111,6 @@ public class UserConfigSettings extends Fragment {
         editNacimiento.setText(Funcionalidades.dateToString(LoginActivity.user.getBirthday()));
 
         if(LoginActivity.user.getPicture() != null && !LoginActivity.user.getPicture().equals("")){
-            /*byte[] data = Base64.decode(LoginActivity.usuario.getPicture().getBytes(), Base64.DEFAULT);
-            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            image.setImageBitmap(decodedBitmap);*/
             Glide.with(getContext())
                     .load(LoginActivity.user.getPicture().replace("localhost", IP.getIp))
                     .into(image);
@@ -148,10 +145,10 @@ public class UserConfigSettings extends Fragment {
 
     public String getGenero() {
         if (radioMale.isChecked())
-            return "MALE";
+            return "Hombre";
         else if (radioFemale.isChecked())
-            return "FEMALE";
-        return "";
+            return "Mujer";
+        return "Otro";
     }
 
     public Date getBirthdate() {
@@ -161,8 +158,6 @@ public class UserConfigSettings extends Fragment {
     public Uri getUri(){ return uri; }
 
     public InputStream getInputStream(){ return is; }
-
-    //Abre la galería, carga una imagen en el imageView y selecciona su URI y su InputStream
 
     public void abrirGaleria(){
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);

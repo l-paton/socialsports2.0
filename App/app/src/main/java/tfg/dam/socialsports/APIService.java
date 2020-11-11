@@ -40,14 +40,14 @@ public interface APIService {
 
     @FormUrlEncoded
     @PUT("user/edit/firstname")
-    Call<ResponseBody> editFirstName(@Header("Authorization") String authHeader, @Field("firstname") String firstname);
+    Call<ResponseBody> editFirstName(@Header("Authorization") String authHeader, @Field("firstName") String firstName);
 
     @FormUrlEncoded
     @PUT("user/edit/lastname")
-    Call<ResponseBody> editLastName(@Header("Authorization") String authHeader, @Field("lastname") String lastName);
+    Call<ResponseBody> editLastName(@Header("Authorization") String authHeader, @Field("lastName") String lastName);
 
     @FormUrlEncoded
-    @PUT("edit/address")
+    @PUT("user/edit/address")
     Call<ResponseBody> editAddress(@Header("Authorization") String authHeader, @Field("address") String address);
 
     @FormUrlEncoded
@@ -55,8 +55,8 @@ public interface APIService {
     Call<ResponseBody> editGender(@Header("Authorization") String authHeader, @Field("gender") String gender);
 
     @FormUrlEncoded
-    @PUT("perfil/nacimiento")
-    Call<ResponseBody> putFechaNacimiento(@Header("Authorization") String authHeader, @Field("correo") String correo, @Field("fecha") String fecha);
+    @PUT("user/edit/birthday")
+    Call<ResponseBody> editBirthday(@Header("Authorization") String authHeader, @Field("birthday") String birthday);
 
     @FormUrlEncoded
     @PUT("perfil/password")

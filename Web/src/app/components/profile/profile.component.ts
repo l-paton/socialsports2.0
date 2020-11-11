@@ -15,8 +15,10 @@ export class ProfileComponent implements OnInit {
   email: string;
   firstName: string;
   lastName: string;
+  address: string;
   description: string;
   selectedFiles: FileList;
+  birthDay: Date;
 
   constructor(private userService: UserService, private tokenStorage: TokenStorageService, private fileService: FileServiceService) {
   }
@@ -56,6 +58,14 @@ export class ProfileComponent implements OnInit {
 
     if (this.lastName != null && this.lastName != "") {
       this.userService.modifyLastName(this.lastName).subscribe();
+    }
+
+    if (this.address != null && this.address != "") {
+      this.userService.modifyAddress(this.address).subscribe();
+    }
+
+    if(this.birthDay){
+      this.userService.modifyBirthday(this.birthDay.toString()).subscribe();
     }
   }
 
