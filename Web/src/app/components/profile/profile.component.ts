@@ -68,27 +68,27 @@ export class ProfileComponent implements OnInit {
 
   modifyProfile() {
     if (this.description != null) {
-      this.userService.modifyDescription(this.description).subscribe();
+      this.userService.modifyDescription(this.description).subscribe(() => this.user.description = this.description);
     }
 
     if (this.firstName != null && this.firstName != "") {
-      this.userService.modifyFirstName(this.firstName).subscribe();
+      this.userService.modifyFirstName(this.firstName).subscribe(() => this.user.firstName = this.firstName);
     }
 
     if (this.lastName != null && this.lastName != "") {
-      this.userService.modifyLastName(this.lastName).subscribe();
+      this.userService.modifyLastName(this.lastName).subscribe(() => this.user.lastName = this.lastName);
     }
 
     if (this.address != null && this.address != "") {
-      this.userService.modifyAddress(this.address).subscribe();
+      this.userService.modifyAddress(this.address).subscribe(() => this.user.address = this.address);
     }
 
     if(this.birthDay){
-      this.userService.modifyBirthday(this.birthDay.toString()).subscribe();
+      this.userService.modifyBirthday(this.birthDay.toString()).subscribe(() => this.user.birthday = this.birthDay);
     }
 
     if(this.gender){
-      this.userService.modifyGenre(this.gender).subscribe();
+      this.userService.modifyGenre(this.gender).subscribe(() => this.user.gender = this.gender);
     }
 
     if (this.selectedFiles && this.selectedFiles.length > 0) {

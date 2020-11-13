@@ -103,8 +103,8 @@ public class UserConfigSettings extends Fragment {
         });
 
         textEmail.setText(LoginActivity.user.getEmail());
-        ratingBarUser.setRating(LoginActivity.user.getUserScore());
-        ratingBarOrganizer.setRating(LoginActivity.user.getOrganizerScore());
+        ratingBarUser.setRating(LoginActivity.user.getReputationParticipant());
+        ratingBarOrganizer.setRating(LoginActivity.user.getReputationOrganizer());
         editNombre.setText(LoginActivity.user.getFirstName());
         editApellido.setText(LoginActivity.user.getLastName());
         editDireccion.setText(LoginActivity.user.getAddress());

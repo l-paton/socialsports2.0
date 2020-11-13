@@ -73,7 +73,7 @@ public class EventRate extends AppCompatActivity {
                 if (menuItem.getItemId() == R.id.itemMenuRate) {
                     haSidoPuntuado = true;
                     deshabilitarPuntuar();
-                    enviarPuntuaciones();
+                    sendScores();
                 }
                 return true;
             }
@@ -89,14 +89,14 @@ public class EventRate extends AppCompatActivity {
                     case 0:
                         break;
                     case 1:
-                        agregarAmigo();
+                        addFriend();
                         break;
                 }
             }
         });
     }
 
-    private void mostrarListaParticipantes(ArrayList<User> arrayList)
+    private void showParticipants(ArrayList<User> arrayList)
     {
         ListUsersAdapter adapter = new ListUsersAdapter(this, R.layout.item_lista_usuarios,
                 R.id.textItemEventoDeporte, arrayList, haSidoPuntuado);
@@ -116,14 +116,14 @@ public class EventRate extends AppCompatActivity {
         }
     }
 
-    private void enviarPuntuaciones() {
+    private void sendScores() {
         if (ratingBarOrganizer.isEnabled()) {
-            EventScore eventScore = new EventScore(LoginActivity.user.getEmail(),
+            EventScore eventScore = new EventScore(LoginActivity.user.getId(),
                     Funcionalidades.eventSeleccionado.getId(), ratingBarOrganizer.getRating());
             enviarPuntuacionEvento(eventScore);
         }
         for (UserScore puntuacion: listaPuntuaciones) {
-            enviarPuntuacionParticipante(puntuacion);
+            rateParticipants(puntuacion);
         }
     }
 
@@ -133,8 +133,7 @@ public class EventRate extends AppCompatActivity {
         textParticipants.setText(getResources().getString(R.string.participants_has_been_rated));
     }
 
-    private void agregarAmigo() {
-        //Funcionalidades.eliminarBloqueoPermanentemente(usuarioSeleccionado);
+    private void addFriend() {
         Funcionalidades.addFriend(userSeleccionado);
     }
 
@@ -152,7 +151,7 @@ public class EventRate extends AppCompatActivity {
                 }
                 listaParticipantes = Funcionalidades.eventSeleccionado.getParticipants();
                 if (listaParticipantes != null)
-                    mostrarListaParticipantes(listaParticipantes);
+                    showParticipants(listaParticipantes);
             }
 
             @Override
@@ -162,23 +161,17 @@ public class EventRate extends AppCompatActivity {
         });
     }
 
-    public void enviarPuntuacionParticipante(UserScore puntuacion) {
+    public void rateParticipants(UserScore puntuacion) {
 
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.insertarPuntuacionParticipante("Bearer " + LoginActivity.token, puntuacion).enqueue(new Callback<ResponseBody>() {
+        service.rateParticipant("Bearer " + LoginActivity.token, puntuacion.getIdRatedUser(), puntuacion.getIdEvent(), puntuacion.getScore()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                if(response.code() == 201){
+                if(response.isSuccessful()){
 
-                }else{
-                    try {
-                        Log.e("MENSAJE-ERROR:", response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
 

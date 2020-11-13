@@ -1,6 +1,7 @@
 package tfg.dam.socialsports.Clases;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,12 +61,14 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
             user = getItem(position);
             RatingBar ratingBar = fila.findViewById(R.id.ratingItemUsuarioReputation);
             ratingBar.setIsIndicator(bloquearPuntuar);
-            if (bloquearPuntuar)
-                ratingBar.setRating(user.getUserScore());
-            else {
+
+            if (bloquearPuntuar) {
+                Log.e("REPUTACION: ", String.valueOf(user.getReputationParticipant()));
+                ratingBar.setRating(user.getReputationParticipant());
+            }else {
                 ratingBar.setNextFocusDownId(EventRate.listaPuntuaciones.size());
-                UserScore puntuacion = new UserScore(LoginActivity.user.getEmail(),
-                        user.getEmail(),Funcionalidades.eventSeleccionado.getId(),0f);
+                UserScore puntuacion = new UserScore(LoginActivity.user.getId(),
+                        user.getId(),Funcionalidades.eventSeleccionado.getId(),0f);
                 EventRate.listaPuntuaciones.add(puntuacion);
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
@@ -89,8 +92,9 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
                 edad = Funcionalidades.calcularEdad(user.getBirthday());
             if (edad != -1)
                 textEdad.setText(edad + " " + context.getResources().getString(R.string.years_old).toUpperCase());
-            else
+            else{
                 textEdad.setText(context.getResources().getString(R.string.unknow_age).toUpperCase());
+            }
 
             if(user.getPicture() != null && !user.getPicture().equals("")){
                 Glide.with(getContext())

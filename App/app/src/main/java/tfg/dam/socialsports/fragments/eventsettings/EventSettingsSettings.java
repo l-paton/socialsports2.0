@@ -384,7 +384,7 @@ public class EventSettingsSettings extends Fragment {
             radioMale.setEnabled(false);
             radioFemale.setEnabled(false);
             ratingReputation.setIsIndicator(true);
-            ratingBarOrganizer.setRating(Funcionalidades.eventSeleccionado.getOrganizer().getOrganizerScore());
+            ratingBarOrganizer.setRating(Funcionalidades.eventSeleccionado.getOrganizer().getReputationOrganizer());
         }else
             rowOrganizerReputation.setVisibility(View.GONE);
 

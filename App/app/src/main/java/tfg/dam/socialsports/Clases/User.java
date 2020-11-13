@@ -15,8 +15,8 @@ public class User implements Serializable {
     private String address;
     private Date birthday;
     private Date createdAt;
-    private float userScore;
-    private float organizerScore;
+    private float reputationParticipant;
+    private float reputationOrganizer;
     private String picture;
     private ArrayList<User> listaAmigos;
     private ArrayList<User> listaBloqueados;
@@ -96,20 +96,20 @@ public class User implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public float getUserScore() {
-        return userScore;
+    public float getReputationParticipant() {
+        return reputationParticipant;
     }
 
-    public void setUserScore(float userScore) {
-        this.userScore = userScore;
+    public void setReputationParticipant(float reputationParticipant) {
+        this.reputationParticipant = reputationParticipant;
     }
 
-    public float getOrganizerScore() {
-        return organizerScore;
+    public float getReputationOrganizer() {
+        return reputationOrganizer;
     }
 
-    public void setOrganizerScore(float organizerScore) {
-        this.organizerScore = organizerScore;
+    public void setReputationOrganizer(float reputationOrganizer) {
+        this.reputationOrganizer = reputationOrganizer;
     }
 
     public String getPicture() {
@@ -142,12 +142,12 @@ public class User implements Serializable {
                 ", nombreUsuario='" + firstName + '\'' +
                 ", apellidosUsuario='" + lastName + '\'' +
                 ", generoUsuario='" + gender + '\'' +
-                ", reputacionParticipanteUsuario=" + userScore +
+                ", reputacionParticipanteUsuario=" + reputationParticipant +
                 '}';
     }
 
     public void inicializarValoresNulos() {
-        if (email == null)
+        if(email == null)
             email = "";
         if (password == null)
             password = "";

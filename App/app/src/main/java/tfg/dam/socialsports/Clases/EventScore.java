@@ -4,24 +4,24 @@ import java.io.Serializable;
 
 public class EventScore implements Serializable {
 
-    private String idUser;
+    private Long idUser;
     private Long idEvent;
     private float score;
 
     public EventScore() {
     }
 
-    public EventScore(String idUser, Long idEvent, float score) {
+    public EventScore(Long idUser, Long idEvent, float score) {
         this.idUser = idUser;
         this.idEvent = idEvent;
         this.score = score;
     }
 
-    public String getIdUser() {
+    public Long getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
 

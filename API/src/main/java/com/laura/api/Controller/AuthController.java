@@ -82,7 +82,8 @@ public class AuthController {
 		}
 		
 		User user = new User(signUpRequest.getEmail(), signUpRequest.getFirstname(), signUpRequest.getLastname(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), new Date(System.currentTimeMillis()), signUpRequest.getBirthday());
-		
+		user.setReputationParticipant(0);
+		user.setReputationOrganizer(0);
 		userRepository.save(user);
 
 		return ResponseEntity.ok(new MessageResponse("User registered successfully!"));

@@ -64,6 +64,12 @@ public class User {
 	@Column(name="DESCRIPTION")
 	private String description; 
 
+	@Column(name="REPUTATION_PARTICIPANT")
+	private float reputationParticipant;
+
+	@Column(name="REPUTATION_ORGANIZER")
+	private float reputationOrganizer;
+
 	/*@JsonIgnore
 	@Column(name="ACTIVATED")
 	private boolean activated;*/
@@ -208,6 +214,22 @@ public class User {
 
 	public void setEventsApplied(Set<Event> eventsApplied) {
 		this.eventsApplied = eventsApplied;
+	}
+
+	public float getReputationParticipant() {
+		return reputationParticipant;
+	}
+
+	public void setReputationParticipant(float reputationParticipant) {
+		this.reputationParticipant = reputationParticipant;
+	}
+
+	public float getReputationOrganizer() {
+		return reputationOrganizer;
+	}
+
+	public void setReputationOrganizer(float reputationOrganizer) {
+		this.reputationOrganizer = reputationOrganizer;
 	}
 
 	/*public boolean isActivated() {

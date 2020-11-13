@@ -57,6 +57,7 @@ public class EventController {
 				event.setFinish(false);
 				return ResponseEntity.ok(eventService.createEvent(event));
 			}catch(Exception e){
+				e.printStackTrace();
 				return ResponseEntity.badRequest().build();
 			}
 		}else {
@@ -90,7 +91,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}	
 	}
@@ -112,6 +113,7 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 			
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -133,6 +135,7 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 			
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -148,6 +151,7 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -158,7 +162,7 @@ public class EventController {
 			eventService.cancelRequest(id, getUser());
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -174,6 +178,7 @@ public class EventController {
 			return ResponseEntity.noContent().build();
 
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -184,6 +189,7 @@ public class EventController {
 			Set<Event> events = eventService.getApplicantsToUserEvents(getUser());
 			return ResponseEntity.ok(events);
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -200,7 +206,7 @@ public class EventController {
 			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
 			return ResponseEntity.ok(events);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -210,6 +216,7 @@ public class EventController {
 		try{
 			return ResponseEntity.ok(eventService.getEventsByOrganizer(getUser()));
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -225,6 +232,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -240,6 +248,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -255,6 +264,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -270,6 +280,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -286,6 +297,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}

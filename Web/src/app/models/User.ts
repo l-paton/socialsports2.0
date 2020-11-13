@@ -11,4 +11,6 @@ export class User{
     picture:string;
     description:string;
     address:string;
+    reputationOrganizer: number;
+    reputationParticipant: number;
 }

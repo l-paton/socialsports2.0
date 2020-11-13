@@ -2,25 +2,25 @@
 
   <div class="row mt-4 mb-4">
 
-    <div class="col-10">
+    <div class="col-md-10">
       <div class="form-row">
-        <div class="form-group col-2">
+        <div class="form-group col-md-2">
           <label>Deporte </label>
           <input type="text" [(ngModel)]="sport" name="sport" class="form-control" placeholder="Nombre">
         </div>
-        <div class="form-group col-2">
+        <div class="form-group col-md-2">
           <label>Dirección </label>
           <input type="text" [(ngModel)]="address" name="address" class="form-control" placeholder="Direccion">
         </div>
-        <div class="form-group col-2">
+        <div class="form-group col-md-2">
           <label>Fecha </label>
           <input type="date" [(ngModel)]="startDate" name="startDate" class="form-control">
         </div>
-        <div class="form-group col-2">
+        <div class="form-group col-md-2">
           <label>Hora </label>
           <input type="time" [(ngModel)]="time" name="time" class="form-control">
         </div>
-        <div class="form-group col-2 text-center">
+        <div class="form-group col-md-2 text-center">
           <label>Reputación </label>
           <div class="text-center">
             <span class="fa fa-star unchecked" id="one"></span>
@@ -30,7 +30,7 @@
             <span class="fa fa-star unchecked" id="five"></span>                  
         </div>
         </div>
-        <div class="form-group col-2">
+        <div class="form-group col-md-2">
           <hr />
           <button class="btn btn-primary" (click)="buscar()">Buscar</button>
           <button class="btn btn-secondary ml-2" (click)="limpiar()">Limpiar</button>
@@ -38,7 +38,7 @@
       </div>
     </div>
 
-    <div class="col-2">
+    <div class="col-md-2">
       <hr />
       <button class="btn btn-primary float-right" routerLink="/eventform">Crear nuevo</button>
     </div>

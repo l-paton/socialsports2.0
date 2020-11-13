@@ -4,34 +4,34 @@ import java.io.Serializable;
 
 public class UserScore implements Serializable {
 
-    private String idUser;
-    private String idRatedUser;
+    private Long idUser;
+    private Long idRatedUser;
     private Long idEvent;
     private float score;
 
     public UserScore() {
     }
 
-    public UserScore(String idUser, String idRatedUser, Long idEvent, float score) {
+    public UserScore(Long idUser, Long idRatedUser, Long idEvent, float score) {
         this.idUser = idUser;
         this.idRatedUser = idRatedUser;
         this.idEvent = idEvent;
         this.score = score;
     }
 
-    public String getIdUser() {
+    public Long getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(String idUser) {
+    public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
 
-    public String getIdRatedUser() {
+    public Long getIdRatedUser() {
         return idRatedUser;
     }
 
-    public void setIdRatedUser(String idRatedUser) {
+    public void setIdRatedUser(Long idRatedUser) {
         this.idRatedUser = idRatedUser;
     }
 

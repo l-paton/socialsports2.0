@@ -293,7 +293,7 @@ public class UserConfig extends Fragment {
         });
     }
 
-    public void actualizarPasswordUsuarioBBDD(String email,String password) {
+    public void actualizarPasswordUsuarioBBDD(String email, String password) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
@@ -342,7 +342,7 @@ public class UserConfig extends Fragment {
     private void actualizarImagen(byte[] bytes , String type) {
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"),bytes);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file" , LoginActivity.user.getEmail().replace(".","") + "." + type ,requestFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("file" , LoginActivity.user.getId() + "." + type ,requestFile);
         RETROFIT retrofit = new RETROFIT();
 
         retrofit.getAPIService().subirImagen("Bearer " + LoginActivity.token, body, requestFile).enqueue(new Callback<ResponseBody>() {

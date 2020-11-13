@@ -1,6 +1,7 @@
 <div class="container-fluid" *ngIf="myFriends && users">
     <div class="row mt-5">
-        <div class="col-4" *ngFor="let user of users">
+        <div class="col-md-4" *ngFor="let user of users">
+
             <ul class="user-card list-unstyled">
                 <li class="media">
                   <img class="img-user rounded mr-3" [src]="getUrlPictureUser(user)" alt="image">
@@ -8,7 +9,7 @@
                     <h5 class="mt-0 mb-1">{{user.firstName}} {{user.lastName}}</h5>
                     <p *ngIf="user.address">{{ user.address }}</p>
                     <p *ngIf="user.address == null">Sin dirección</p>
-                    <div class="text-left">
+                    <div class="text-left mb-2">
                         <span class="fa fa-star unchecked" id="one"></span>
                         <span class="fa fa-star unchecked" id="two"></span>
                         <span class="fa fa-star unchecked" id="three"></span>
@@ -23,6 +24,7 @@
                   </div>
                 </li>
             </ul>
+
         </div>
     </div>
 </div>

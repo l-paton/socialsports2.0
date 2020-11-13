@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 import tfg.dam.socialsports.Clases.Event;
 import tfg.dam.socialsports.Clases.EventScore;
-import tfg.dam.socialsports.Clases.UserScore;
 import tfg.dam.socialsports.Clases.User;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -168,8 +167,9 @@ public interface APIService {
     @GET("eventos/hasidopuntuado/{idevento}/{email}")
     Call<Boolean> getHaSidoPuntuado(@Header("Authorization") String authHeader, @Path("idevento") Long idevento, @Path("email") String email);
 
-    @POST("perfil/insertarpuntuacion")
-    Call<ResponseBody> insertarPuntuacionParticipante(@Header("Authorization") String authHeader, @Body UserScore puntuacion);
+    @FormUrlEncoded
+    @POST("rate/participant")
+    Call<ResponseBody> rateParticipant(@Header("Authorization") String authHeader, @Field("idParticipant") long idParticipant, @Field("idEvent") long idEvent, @Field("score") float score);
 
     @POST("eventos/insertarpuntuacion")
     Call<ResponseBody> insertarPuntuacionEvento(@Header("Authorization") String authHeader, @Body EventScore puntuacion);

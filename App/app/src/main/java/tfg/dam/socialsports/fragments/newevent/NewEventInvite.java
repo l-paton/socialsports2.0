@@ -65,7 +65,7 @@ public class NewEventInvite extends Fragment {
             CheckBox checkBox = new CheckBox(getContext());
             checkBox.setId(i);
             checkBox.setText(LoginActivity.user.getListaAmigos().get(i).getFirstName());
-            checkBox.setHint(LoginActivity.user.getListaAmigos().get(i).getEmail());
+            checkBox.setHint(String.valueOf(LoginActivity.user.getListaAmigos().get(i).getId()));
             checkBox.setTextColor(getResources().getColor(R.color.colorElements));
             checkBox.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             checkBox.setButtonTintList(getResources().getColorStateList(R.color.colorElements));

@@ -48,7 +48,7 @@ public class Home extends Fragment {
         ratingBarUser = getActivity().findViewById(R.id.ratingUserHome);
         flipper = getActivity().findViewById(R.id.flipperHome);
         eventosPendientes();
-        ratingBarUser.setRating(LoginActivity.user.getUserScore());
+        ratingBarUser.setRating(LoginActivity.user.getReputationParticipant());
     }
 
     private int imagenAdecuada(String titulo) {
