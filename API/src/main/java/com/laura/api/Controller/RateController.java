@@ -1,8 +1,10 @@
 package com.laura.api.Controller;
 
+import com.laura.api.Service.RateOrganizerService;
 import com.laura.api.Service.RateParticipantService;
 import com.laura.api.Service.UserService;
 import com.laura.api.model.RateId;
+import com.laura.api.model.RateOrganizer;
 import com.laura.api.model.RateParticipant;
 import com.laura.api.model.User;
 
@@ -25,6 +27,9 @@ public class RateController {
     RateParticipantService rateParticipantService;
 
     @Autowired
+    RateOrganizerService rateOrganizerService;
+
+    @Autowired
     UserService userService;
 
     @PostMapping("/participant")
@@ -37,6 +42,27 @@ public class RateController {
                 User participant = userService.getUserById(idParticipant);
                 participant.setReputationParticipant(rateParticipantService.getScoreParticipant(idParticipant));
                 userService.editUser(participant);
+                return ResponseEntity.ok().build();
+            }
+
+            return ResponseEntity.badRequest().build();
+        }catch(Exception e){
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
+    }
+
+    
+    @PostMapping("/organizer")
+    public ResponseEntity<?> rateOrganizer(@RequestParam long idOrganizer, @RequestParam long idEvent, @RequestParam float score){
+        try{
+            RateId rateId = new RateId(idOrganizer, getUser().getId(), idEvent);
+            RateOrganizer rp = new RateOrganizer(rateId, score);
+
+            if(rateOrganizerService.insertVote(rp) != null){
+                User organizer = userService.getUserById(idOrganizer);
+                organizer.setReputationOrganizer(rateOrganizerService.getScoreOrganizer(idOrganizer));
+                userService.editUser(organizer);
                 return ResponseEntity.ok().build();
             }
 

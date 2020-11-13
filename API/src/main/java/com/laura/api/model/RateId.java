@@ -9,7 +9,7 @@ public class RateId implements Serializable{
     
     private static final long serialVersionUID = 1L;
 
-    private long idParticipant;
+    private long idVoted;
     private long idVoter;
     private long idEvent;
 
@@ -17,12 +17,22 @@ public class RateId implements Serializable{
         
     }
 
-    public long getIdParticipant() {
-        return idParticipant;
+    public RateId(long idVoted, long idVoter, long idEvent) {
+        this.idVoted = idVoted;
+        this.idVoter = idVoter;
+        this.idEvent = idEvent;
     }
 
-    public void setIdParticipant(long idParticipant) {
-        this.idParticipant = idParticipant;
+    public static long getSerialversionuid() {
+        return serialVersionUID;
+    }
+
+    public long getIdVoted() {
+        return idVoted;
+    }
+
+    public void setIdVoted(long idVoted) {
+        this.idVoted = idVoted;
     }
 
     public long getIdVoter() {
@@ -38,12 +48,6 @@ public class RateId implements Serializable{
     }
 
     public void setIdEvent(long idEvent) {
-        this.idEvent = idEvent;
-    }
-
-    public RateId(long idParticipant, long idVoter, long idEvent) {
-        this.idParticipant = idParticipant;
-        this.idVoter = idVoter;
         this.idEvent = idEvent;
     }
 }

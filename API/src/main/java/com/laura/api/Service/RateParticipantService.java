@@ -19,15 +19,16 @@ public class RateParticipantService {
     }
 
     public float getScoreParticipant(long idParticipant){
-        Set<RateParticipant> set = repository.findByRateIdIdParticipant(idParticipant);
+        Set<RateParticipant> set = repository.findByRateIdIdVoted(idParticipant);
 
         float finalScore = 0;
 
         for(RateParticipant rp : set){
             finalScore += rp.getScore();
         }
-        
-        return finalScore/set.size();
+
+        if(set.size() > 0) return finalScore/set.size();
+        else return 0;
         
     }
 }

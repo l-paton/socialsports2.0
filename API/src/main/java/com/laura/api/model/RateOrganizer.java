@@ -4,16 +4,16 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 
 @Entity
-public class RateParticipant {
+public class RateOrganizer {
     
     @EmbeddedId RateId rateId;
     private float score;
 
-    public RateParticipant(){
+    public RateOrganizer(){
         
     }
 
-    public RateParticipant(RateId rateId, float score) {
+    public RateOrganizer(RateId rateId, float score) {
         this.rateId = rateId;
         this.score = score;
     }
@@ -33,5 +33,4 @@ public class RateParticipant {
     public void setScore(float score) {
         this.score = score;
     }
-
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import tfg.dam.socialsports.Clases.Event;
-import tfg.dam.socialsports.Clases.EventScore;
 import tfg.dam.socialsports.Clases.User;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -158,12 +157,6 @@ public interface APIService {
     @DELETE("eventos/eliminar/{idEvento}")
     Call<ResponseBody> eliminarEvento(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento);
 
-    @GET("perfil/puntuacionparticipante/{correo}")
-    Call<Float> getReputacionParticipante(@Header("Authorization") String authHeader, @Path("correo") String correo);
-
-    @GET("perfil/puntuacionorganizador/{correo}")
-    Call<Float> getReputacionOrganizador(@Header("Authorization") String authHeader, @Path("correo") String correo);
-
     @GET("eventos/hasidopuntuado/{idevento}/{email}")
     Call<Boolean> getHaSidoPuntuado(@Header("Authorization") String authHeader, @Path("idevento") Long idevento, @Path("email") String email);
 
@@ -171,8 +164,9 @@ public interface APIService {
     @POST("rate/participant")
     Call<ResponseBody> rateParticipant(@Header("Authorization") String authHeader, @Field("idParticipant") long idParticipant, @Field("idEvent") long idEvent, @Field("score") float score);
 
-    @POST("eventos/insertarpuntuacion")
-    Call<ResponseBody> insertarPuntuacionEvento(@Header("Authorization") String authHeader, @Body EventScore puntuacion);
+    @FormUrlEncoded
+    @POST("rate/organizer")
+    Call<ResponseBody> rateOrganizer(@Header("Authorization") String authHeader, @Field("idOrganizer") long idOrganizer, @Field("idEvent") long idEvent, @Field("score") float score);
 
     @Multipart
     @POST("images/upload")

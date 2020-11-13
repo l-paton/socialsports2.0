@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,11 +16,9 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 import tfg.dam.socialsports.Clases.ListUsersAdapter;
-import tfg.dam.socialsports.Clases.EventScore;
 import tfg.dam.socialsports.Clases.UserScore;
 import tfg.dam.socialsports.Clases.User;
 import okhttp3.ResponseBody;
@@ -118,9 +115,9 @@ public class EventRate extends AppCompatActivity {
 
     private void sendScores() {
         if (ratingBarOrganizer.isEnabled()) {
-            EventScore eventScore = new EventScore(LoginActivity.user.getId(),
+            UserScore userScore = new UserScore(LoginActivity.user.getId(), Funcionalidades.eventSeleccionado.getOrganizer().getId(),
                     Funcionalidades.eventSeleccionado.getId(), ratingBarOrganizer.getRating());
-            enviarPuntuacionEvento(eventScore);
+            enviarPuntuacionEvento(userScore);
         }
         for (UserScore puntuacion: listaPuntuaciones) {
             rateParticipants(puntuacion);
@@ -183,24 +180,15 @@ public class EventRate extends AppCompatActivity {
 
     }
 
-    public void enviarPuntuacionEvento(EventScore puntuacion) {
+    public void enviarPuntuacionEvento(UserScore puntuacion) {
 
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.insertarPuntuacionEvento("Bearer " + LoginActivity.token, puntuacion).enqueue(new Callback<ResponseBody>() {
+        service.rateOrganizer("Bearer " + LoginActivity.token, puntuacion.getIdRatedUser(), puntuacion.getIdEvent(), puntuacion.getScore()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                if(response.code() == 201){
-
-                }else{
-                    try {
-                        Log.e("MENSAJE-ERROR:", response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
             }
 
             @Override

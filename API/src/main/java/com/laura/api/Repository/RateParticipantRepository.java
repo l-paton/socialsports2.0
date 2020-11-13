@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RateParticipantRepository extends CrudRepository<RateParticipant,Long>{
-    Set<RateParticipant> findByRateIdIdParticipant(long id);
+    Set<RateParticipant> findByRateIdIdVoted(long id);
 }
