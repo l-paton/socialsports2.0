@@ -82,4 +82,38 @@ export class EventComponent implements OnInit {
     }
     
   }
+
+  cumplesLosRequisitos(){
+    var age = this.calculateAge();
+
+    if(this.event.requirement.minAge > 0 && age < this.event.requirement.minAge){
+      console.log("min age");
+      return false;
+    }
+    if(this.event.requirement.maxAge > 0 && age > this.event.requirement.maxAge){
+      console.log("max age");
+      return false;
+    }
+    if(this.event.requirement.gender != null && this.event.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()){
+      console.log(this.tokenStorageService.getUser().user.gender.toUpperCase());
+      console.log("gender");
+      return false;
+    }
+    //comprobar reputacion
+    
+    return true;
+    
+  }
+
+  calculateAge(): number{
+    const today = new Date();
+    const birthday = new Date(this.tokenStorageService.getUser().user.birthday);
+    
+    let age = today.getFullYear() - birthday.getFullYear();
+    const m = today.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+    }
+    return age;
+  }
 }

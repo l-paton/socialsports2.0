@@ -110,7 +110,7 @@ public class EventSettingsParticipants extends Fragment {
     }
 
     private void eliminarParticipante() {
-        Funcionalidades.eliminarParticipante(Funcionalidades.eventSeleccionado, userSeleccionado);
+        Funcionalidades.removeParticipant(Funcionalidades.eventSeleccionado, userSeleccionado);
     }
 
     private void agregarAmigo() {

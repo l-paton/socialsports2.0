@@ -1,4 +1,4 @@
-<div class="container mt-4" *ngIf="event">
+<div class="container mt-4" *ngIf="event && !event.finish">
 
     <div class="row">
 
@@ -6,8 +6,8 @@
             <div class="col-12 column-participants">
                 <h4>Participantes</h4>
 
-                <div class="row">
-                    <div *ngFor="let participant of event.participants">
+                <div class="row mt-4 ml-1 mr-1">
+                    <div *ngFor="let participant of event.participants.slice(0, 8);">
                         <div class="participante ml-3">
                             <img [src]="getUserPicture(participant.picture)" class="img-profile rounded" />
                             <p>{{ participant.firstName }}</p>
@@ -19,16 +19,28 @@
                     <div class="col-md-6">
 
                     </div>
-                    <!-- END DIV COL-6 -->
                     <div class="col-md-6">
-                        <div class="text-right">
+                        <div class="text-right mb-2">
                             <a href="#">Ver todos</a>
                         </div>
                     </div>
-                    <!-- END DIV COL-6 -->
+                    
                 </div>
             </div>
-            <!-- END 2ª linea -->
+
+            <div class="col-md-12">
+                <div class="text-right mt-4 mb-4" *ngIf="!isOrganizer() && cumplesLosRequisitos()">
+                    <button class="btn btn-sm btn-primary">Unirse</button>
+                </div>
+                <div class="text-right mt-4 mb-4" *ngIf="!cumplesLosRequisitos()">
+                    <button class="btn btn-sm btn-secondary" disabled>No cumples los requisitos</button>
+                </div>
+                <div class="text-right mt-4 mb-4" *ngIf="isOrganizer()">
+                    <button class="btn btn-sm btn-warning mr-2">Finalizar</button>
+                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                </div>
+            </div>
+            
         </div>
 
         <div class="col-md-8">
@@ -104,7 +116,7 @@
         <!-- END DIV COL-8 -->
     </div>
 
-    <div class="row mt-3">
+    <div class="row mt-2">
         <div class="col-12">
             <div class="form-group">
                 <label>Comentarios</label>

@@ -311,19 +311,20 @@ public class Funcionalidades extends AppCompatActivity {
         });
     }
 
-    public static void eliminarParticipante(Event event, User user) {
-        for (int i = 0; i < event.getParticipants().size(); i++) {
-            if (event.getParticipants().get(i).getEmail().equals(user.getEmail())) {
-                event.getParticipants().remove(i);
-                break;
-            }
-        }
+    public static void removeParticipant(final Event event, final User user) {
+
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.eliminarParticipante("Bearer " + LoginActivity.token, event.getId(), user.getEmail()).enqueue(new Callback<ResponseBody>() {
+        service.removeParticipant("Bearer " + LoginActivity.token, event.getId(), user.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
+                    for (User participant : event.getParticipants()) {
+                        if (participant.getId()  == user.getId()) {
+                            event.getParticipants().remove(participant);
+                            break;
+                        }
+                    }
                 }
             }
 

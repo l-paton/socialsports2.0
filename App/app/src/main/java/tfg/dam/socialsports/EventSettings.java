@@ -158,7 +158,7 @@ public class EventSettings extends AppCompatActivity {
             if (eventSettingsSettings.getElOrganizadorEsParticipante())
                 Funcionalidades.insertarParticipante(Funcionalidades.eventSeleccionado,Funcionalidades.eventSeleccionado.getOrganizer());
             else
-                Funcionalidades.eliminarParticipante(Funcionalidades.eventSeleccionado,Funcionalidades.eventSeleccionado.getOrganizer());
+                Funcionalidades.removeParticipant(Funcionalidades.eventSeleccionado,Funcionalidades.eventSeleccionado.getOrganizer());
         }
 
         if (!eventSettingsSettings.getComentarios().equals(Funcionalidades.eventSeleccionado.getComments())) {
@@ -213,7 +213,7 @@ public class EventSettings extends AppCompatActivity {
     private void eliminarEvento() {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.eliminarEvento("Bearer " + LoginActivity.token, Funcionalidades.eventSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
+        service.deleteEvent("Bearer " + LoginActivity.token, Funcionalidades.eventSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){

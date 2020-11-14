@@ -194,6 +194,21 @@ public class EventController {
 		}
 	}
 
+	@DeleteMapping("/removeparticipant/{idEvent}/{idUser}")
+	public ResponseEntity<?> removeParticipant(@PathVariable("idEvent") long idEvent, @PathVariable("idUser") long idUser){
+		try{
+			Event event = eventService.getEvent(idEvent);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				eventService.deleteParticipant(event, idUser);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 	@GetMapping("/search")
 	public ResponseEntity<?> searchEvents(
 		@RequestParam(required = false) String sport,

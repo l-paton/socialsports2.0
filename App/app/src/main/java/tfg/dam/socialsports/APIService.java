@@ -136,8 +136,8 @@ public interface APIService {
     @PUT("eventos/actualizar/reputacion")
     Call<ResponseBody> actualizarReputacion(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("reputacion") float reputacion);
 
-    @DELETE("eventos/eliminarparticipante/{idEvento}/{correo}")
-    Call<ResponseBody> eliminarParticipante(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento, @Path("correo") String correo);
+    @DELETE("event/removeparticipant/{idEvent}/{idUser}")
+    Call<ResponseBody> removeParticipant(@Header("Authorization") String authHeader, @Path("idEvent") Long idEvent, @Path("idUser") Long idUser);
 
     @FormUrlEncoded
     @POST("event/accept")
@@ -151,14 +151,13 @@ public interface APIService {
     @POST("event/join")
     Call<ResponseBody> insertarSolicitante(@Header("Authorization") String authHeader, @Field("id") Long id);
 
-    @PUT("eventos/bloquearsolicitud/{idEvento}/{correo}")
-    Call<ResponseBody> bloquearSolicitud(@Header("Authorization") String authHeader, @Path("idEvento") String idEvento, @Path("correo") String correo);
-
-    @DELETE("eventos/eliminar/{idEvento}")
-    Call<ResponseBody> eliminarEvento(@Header("Authorization") String authHeader, @Path("idEvento") Long idEvento);
-
+    /****/
     @GET("eventos/hasidopuntuado/{idevento}/{email}")
     Call<Boolean> getHaSidoPuntuado(@Header("Authorization") String authHeader, @Path("idevento") Long idevento, @Path("email") String email);
+    /****/
+
+    @DELETE("event/delete/{id}")
+    Call<ResponseBody> deleteEvent(@Header("Authorization") String authHeader, @Path("id") Long id);
 
     @FormUrlEncoded
     @POST("rate/participant")

@@ -85,6 +85,22 @@ public class EventService {
 		return null;
 	}
 
+	public void deleteParticipant(Event event, long idUser){
+		Set<User> participants = event.getParticipants();
+		User participant = null;
+
+		for(User user : participants){
+			if(user.getId() == idUser){
+				participant = user;
+				break;
+			}
+		}
+
+		if(participant != null) participants.remove(participant);
+
+		repository.save(event);
+	}
+
 	public Set<Event> getApplicantsToUserEvents(User user) {
 		return repository.findByOrganizer(user).stream().filter(o -> o.getApplicants().size() > 0).collect(Collectors.toSet());
 	
