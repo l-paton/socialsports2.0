@@ -20,7 +20,7 @@
     padding: 15px;
     border-radius: 2px;
     /*background-color: rgba(35, 102, 114, 0.6);*/
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255,255,255,0.2);
 }
 
 .titulo{
@@ -39,4 +39,18 @@ h2{
 
 h4{
     padding: 4px;
+}
+
+.show-participants{
+    cursor: pointer;
+    color: #00ffea;
+
+}
+
+.modal-content{
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.card-participant{
+    background-color: rgba(35, 102, 114, 0.8);
 }

@@ -103,4 +103,9 @@ export class EventService {
     let params = new HttpParams().set('id', id);
     return this.http.put(EVENT_API + '/finish', params, {headers: headers});
   }
+
+  removeParticipant(idEvent, idUser){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.delete(EVENT_API + '/removeparticipant/' + idEvent + '/' + idUser, {headers: headers});
+  }
 }

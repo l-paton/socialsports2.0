@@ -44,6 +44,95 @@ export class EventComponent implements OnInit {
     }
   }
 
+  acceptChanges(){
+
+    if(this.editStartDate){
+      this.eventService.editStartDate(this.event.id, this.editStartDate).subscribe(() => {
+        this.event.startDate = this.editStartDate;
+      });
+    }
+    if(this.editTime){
+      this.eventService.editTime(this.event.id, this.editTime).subscribe(() => {
+        this.event.time = this.editTime;
+      });
+    }
+    if(this.editMaxParticipants){
+      this.eventService.editMaxParticipants(this.event.id, this.editMaxParticipants).subscribe(() => {
+        this.event.maxParticipants = this.editMaxParticipants;
+      });
+    }
+    
+  }
+
+  joinToEvent(idEvent){
+    this.eventService.joinToEvent(idEvent).subscribe(() => this.ngOnInit());
+  }
+
+  removeParticipant(idEvent, idUser){
+    this.eventService.removeParticipant(idEvent, idUser).subscribe(() => this.ngOnInit());
+  }
+
+  cancelRequest(idEvent){
+    this.eventService.cancelRequest(idEvent).subscribe(() => this.ngOnInit());
+  }
+
+  removeEvent(idEvent){
+    this.eventService.deleteEvent(idEvent).subscribe(/*redirect*/);
+  }
+
+  /** FUNCIONES **/
+
+  actualUserIsParticipant(): boolean{
+    for (let i of this.event.participants) {
+      if(i.id == this.idUser){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  actualUserIsApplicant(): boolean{
+    for (let i of this.event.applicants) {
+      if(i.id == this.idUser){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  calculateAge(): number{
+    const today = new Date();
+    const birthday = new Date(this.tokenStorageService.getUser().user.birthday);
+    
+    let age = today.getFullYear() - birthday.getFullYear();
+    const m = today.getMonth() - birthday.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
+      age--;
+    }
+    return age;
+  }
+
+  cumplesLosRequisitos(){
+    var age = this.calculateAge();
+
+    if(this.event.requirement.minAge > 0 && age < this.event.requirement.minAge){
+      console.log("min age");
+      return false;
+    }
+    if(this.event.requirement.maxAge > 0 && age > this.event.requirement.maxAge){
+      console.log("max age");
+      return false;
+    }
+    if(this.event.requirement.gender != null && this.event.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()){
+      console.log(this.tokenStorageService.getUser().user.gender.toUpperCase());
+      console.log("gender");
+      return false;
+    }
+    //comprobar reputacion
+    
+    return true;
+  }
+
   getUserPicture(picture) {
     if (picture == null) {
       return "http://placehold.it/45x45";
@@ -67,53 +156,5 @@ export class EventComponent implements OnInit {
 
   editEvent(){
     this.editar = !this.editar;
-  }
-
-  acceptChanges(){
-
-    if(this.editStartDate){
-      this.eventService.editStartDate(this.event.id, this.editStartDate).subscribe();
-    }
-    if(this.editTime){
-      this.eventService.editTime(this.event.id, this.editTime).subscribe();
-    }
-    if(this.editMaxParticipants){
-      this.eventService.editMaxParticipants(this.event.id, this.editMaxParticipants).subscribe();
-    }
-    
-  }
-
-  cumplesLosRequisitos(){
-    var age = this.calculateAge();
-
-    if(this.event.requirement.minAge > 0 && age < this.event.requirement.minAge){
-      console.log("min age");
-      return false;
-    }
-    if(this.event.requirement.maxAge > 0 && age > this.event.requirement.maxAge){
-      console.log("max age");
-      return false;
-    }
-    if(this.event.requirement.gender != null && this.event.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()){
-      console.log(this.tokenStorageService.getUser().user.gender.toUpperCase());
-      console.log("gender");
-      return false;
-    }
-    //comprobar reputacion
-    
-    return true;
-    
-  }
-
-  calculateAge(): number{
-    const today = new Date();
-    const birthday = new Date(this.tokenStorageService.getUser().user.birthday);
-    
-    let age = today.getFullYear() - birthday.getFullYear();
-    const m = today.getMonth() - birthday.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
-      age--;
-    }
-    return age;
   }
 }

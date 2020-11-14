@@ -3,12 +3,12 @@
     <div class="row">
 
         <div class="col-md-4 mb-2">
-            <div class="col-12 column-participants">
+            <div class="col-12 column-participants ">
                 <h4>Participantes</h4>
 
                 <div class="row mt-4 ml-1 mr-1">
                     <div *ngFor="let participant of event.participants.slice(0, 8);">
-                        <div class="participante ml-3">
+                        <div class="participante ml-3 text-center">
                             <img [src]="getUserPicture(participant.picture)" class="img-profile rounded" />
                             <p>{{ participant.firstName }}</p>
                         </div>
@@ -21,33 +21,42 @@
                     </div>
                     <div class="col-md-6">
                         <div class="text-right mb-2">
-                            <a href="#">Ver todos</a>
+                            <div class="show-participants" data-toggle="modal" data-target="#modalParticipants">Ver
+                                todos</div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
 
             <div class="col-md-12">
-                <div class="text-right mt-4 mb-4" *ngIf="!isOrganizer() && cumplesLosRequisitos()">
-                    <button class="btn btn-sm btn-primary">Unirse</button>
+                <div *ngIf="!actualUserIsParticipant() && !actualUserIsApplicant()">
+                    <div class="text-right mt-4 mb-4" *ngIf="!isOrganizer() && cumplesLosRequisitos()">
+                        <button class="btn btn-sm btn-primary" (click)="joinToEvent(event.id)">Unirse</button>
+                    </div>
+                    <div class="text-right mt-4 mb-4" *ngIf="!cumplesLosRequisitos()">
+                        <button class="btn btn-sm btn-secondary" disabled>No cumples los requisitos</button>
+                    </div>
                 </div>
-                <div class="text-right mt-4 mb-4" *ngIf="!cumplesLosRequisitos()">
-                    <button class="btn btn-sm btn-secondary" disabled>No cumples los requisitos</button>
+                <div *ngIf="actualUserIsApplicant()">
+                    <div class="text-right mt-4 mb-4">
+                        <button class="btn btn-sm btn-warning" (click)="cancelRequest(event.id)">Cancelar petición</button>
+                    </div>
                 </div>
+                
                 <div class="text-right mt-4 mb-4" *ngIf="isOrganizer()">
                     <button class="btn btn-sm btn-warning mr-2">Finalizar</button>
-                    <button class="btn btn-sm btn-danger">Eliminar</button>
+                    <button class="btn btn-sm btn-danger" (click)="removeEvent(event.id)">Eliminar</button>
                 </div>
             </div>
-            
+
         </div>
 
         <div class="col-md-8">
 
             <div class="container container-desc">
                 <div class="col-12 text-center">
-                    <div class="text-right" *ngIf="isOrganizer()"> 
+                    <div class="text-right" *ngIf="isOrganizer()">
                         <button class="btn btn-sm btn-light" (click)="editEvent()">Editar</button>
                     </div>
                     <h2>{{event.sport | uppercase}} {{event.address | uppercase }}</h2>
@@ -55,51 +64,61 @@
 
                 <div class="row mt-5" *ngIf="!editar">
                     <div class="col-md-6">
-                        <p class="desc"><span class="titulo">Fecha de inicio:</span> {{ event.startDate | date : 'dd-MM-yyyy' }} {{ event.time }} <span
-                                *ngIf="!event.startDate" class="desc">Sin fecha</span></p>
-                        <p class="desc"><span class="titulo">Hora:</span> {{ event.time }}<span *ngIf="!event.time" class="desc">Sin hora</span>
+                        <p class="desc"><span class="titulo">Fecha de inicio:</span>
+                            {{ event.startDate | date : 'dd-MM-yyyy' }} {{ event.time }} <span *ngIf="!event.startDate"
+                                class="desc">Sin fecha</span></p>
+                        <p class="desc"><span class="titulo">Hora:</span> {{ event.time }}<span *ngIf="!event.time"
+                                class="desc">Sin hora</span>
                         </p>
-                        <p class="desc"><span class="titulo">Máximo de participantes:</span> {{ event.maxParticipants }}</p>
+                        <p class="desc"><span class="titulo">Máximo de participantes:</span> {{ event.maxParticipants }}
+                        </p>
                         <p class="desc"><span class="titulo">Precio:</span> {{ event.price}} </p>
-                        <p class="desc"><span class="titulo">Comentarios:</span> {{event.comments}}<span *ngIf="!event.comments" class="desc">Sin
+                        <p class="desc"><span class="titulo">Comentarios:</span> {{event.comments}}<span
+                                *ngIf="!event.comments" class="desc">Sin
                                 comentarios</span></p>
                     </div>
                     <div class="col-md-6">
                         <p class="desc"><span class="titulo">Edad mínima:</span> {{event.requirement.minAge}}</p>
                         <p class="desc"><span class="titulo">Edad máxima:</span> {{event.requirement.maxAge}}</p>
                         <p class="desc"><span class="titulo">Género:</span> {{event.requirement.gender}}</p>
-                        <p class="desc"><span class="titulo">Puntuación requerida:</span> {{event.requirement.score}}<span
-                                *ngIf="!event.requirement.score" class="desc">0</span></p>
+                        <p class="desc"><span class="titulo">Puntuación requerida:</span>
+                            {{event.requirement.score}}<span *ngIf="!event.requirement.score" class="desc">0</span></p>
                     </div>
                 </div>
                 <div class="row mt-5" *ngIf="editar && isOrganizer()">
                     <div class="col-md-6">
                         <p class="desc"><span class="titulo">Fecha de inicio:</span>
                             <input type="date" class="form-control" [(ngModel)]="editStartDate">
-                        <p class="desc"><span class="titulo">Hora:</span> 
+                        <p class="desc"><span class="titulo">Hora:</span>
                             <input type="time" class="form-control" [(ngModel)]="editTime">
                         </p>
-                        <p class="desc"><span class="titulo">Máximo de participantes:</span> 
-                            <input type="number" class="form-control" placeholder="{{ event.maxParticipants }}" [(ngModel)]="editMaxParticipants">
+                        <p class="desc"><span class="titulo">Máximo de participantes:</span>
+                            <input type="number" class="form-control" placeholder="{{ event.maxParticipants }}"
+                                [(ngModel)]="editMaxParticipants">
                         </p>
-                        <p class="desc"><span class="titulo">Precio:</span> 
-                            <input type="number" class="form-control" min="0.00" step="0.01" placeholder="{{ event.price }}" [(ngModel)]="editPrice">
+                        <p class="desc"><span class="titulo">Precio:</span>
+                            <input type="number" class="form-control" min="0.00" step="0.01"
+                                placeholder="{{ event.price }}" [(ngModel)]="editPrice">
                         </p>
-                        <p class="desc"><span class="titulo">Comentarios:</span> 
-                            <textarea rows="2" class="form-control" placeholder="{{event.comments}}" [(ngModel)]="editComments"></textarea>
+                        <p class="desc"><span class="titulo">Comentarios:</span>
+                            <textarea rows="2" class="form-control" placeholder="{{event.comments}}"
+                                [(ngModel)]="editComments"></textarea>
                         </p>
                     </div>
                     <div class="col-md-6">
-                        <p class="desc"><span class="titulo">Edad mínima:</span> 
-                            <input type="number" class="form-control" min="0" step="1" placeholder="{{event.requirement.minAge}}" [(ngModel)]="editMinAge">
+                        <p class="desc"><span class="titulo">Edad mínima:</span>
+                            <input type="number" class="form-control" min="0" step="1"
+                                placeholder="{{event.requirement.minAge}}" [(ngModel)]="editMinAge">
                         </p>
-                        <p class="desc"><span class="titulo">Edad máxima:</span> 
-                            <input type="number" class="form-control" min="0" step="1" placeholder="{{event.requirement.maxAge}}" [(ngModel)]="editMaxAge">
+                        <p class="desc"><span class="titulo">Edad máxima:</span>
+                            <input type="number" class="form-control" min="0" step="1"
+                                placeholder="{{event.requirement.maxAge}}" [(ngModel)]="editMaxAge">
                         </p>
-                        <p class="desc"><span class="titulo">Género:</span> 
-                            <input type="text" class="form-control" placeholder="{{event.requirement.gender}}" [(ngModel)]="editGender">
+                        <p class="desc"><span class="titulo">Género:</span>
+                            <input type="text" class="form-control" placeholder="{{event.requirement.gender}}"
+                                [(ngModel)]="editGender">
                         </p>
-                        <p class="desc"><span class="titulo">Puntuación requerida:</span> 
+                        <p class="desc"><span class="titulo">Puntuación requerida:</span>
                             <input type="time" class="form-control" placeholder="{{event.requirement.score}}">
                         </p>
 
@@ -129,4 +148,45 @@
         </div>
     </div>
 
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalParticipants" tabindex="-1" aria-labelledby="modalParticipants" aria-hidden="true">
+    <div class="modal-dialog modal-xl" *ngIf="event">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalParticipants">Participantes</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                    <div class="row">
+                        <div class="col-md-4" *ngFor="let participant of event.participants">
+                            <div class="card card-participant mt-3">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <img [src]="getUserPicture(participant.picture)" class="img-profile rounded" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            {{ participant.firstName }} {{ participant.lastName}}
+                                        </div>
+                                        <div class="col-md-4" *ngIf="idUser != participant.id">
+                                            <a class="btn btn-sm btn-danger" *ngIf="isOrganizer()" (click)="removeParticipant(event.id, participant.id)">Eliminar</a>        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
 </div>
