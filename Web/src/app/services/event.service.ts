@@ -3,7 +3,6 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
 import { Event } from '../models/Event';
-import { JsonPipe } from '@angular/common';
 
 const EVENT_API = 'http://localhost:8080/api/event';
 

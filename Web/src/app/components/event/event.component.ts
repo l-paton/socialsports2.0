@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import{ Event } from '../../models/Event';
-import { EventService } from './../../services/event.service';
 import { TokenStorageService } from './../../services/token-storage.service';
+import { EventService } from './../../services/event.service';
+import { RateService } from './../../services/rate.service';
 
 @Component({
   selector: 'app-event',
@@ -16,7 +17,7 @@ export class EventComponent implements OnInit {
   event: Event;
   requirements: string[] = [];
   editar: boolean = false;
-
+  selected: number = 0;
   editStartDate: string;
   editTime: string;
   editMaxParticipants: number;
@@ -28,8 +29,9 @@ export class EventComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, 
-    private eventService: EventService, 
     private tokenStorageService: TokenStorageService,
+    private eventService: EventService, 
+    private rateService: RateService,
     ) { }
 
   ngOnInit(): void {
@@ -78,6 +80,15 @@ export class EventComponent implements OnInit {
 
   removeEvent(idEvent){
     this.eventService.deleteEvent(idEvent).subscribe(/*redirect*/);
+  }
+
+  voteParticipants(){
+    for(let u of this.event.participants){
+      if(u.reputationParticipant != 0 && u.id != this.idUser){
+        this.rateService.rateParticipant(u.id, this.event.id, u.reputationParticipant).subscribe();
+        console.log("Nombre: " + u.firstName + ", score: " + u.reputationParticipant);
+      }
+    }
   }
 
   /** FUNCIONES **/

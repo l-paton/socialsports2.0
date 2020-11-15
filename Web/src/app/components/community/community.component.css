@@ -17,3 +17,22 @@
 .unchecked{
     color: #616161;
 }
+
+
+.star {
+    position: relative;
+    display: inline-block;
+    font-size: 1.5rem;
+    color: #b8b8b8;
+  }
+
+.filled {
+    color: yellow;
+}
+
+.half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: yellow;
+  }

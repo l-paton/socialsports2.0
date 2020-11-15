@@ -43,3 +43,7 @@ a{
 .fa-search{
     color: black;
 }
+
+.menu-notifications {
+    min-width: 440px;
+  }

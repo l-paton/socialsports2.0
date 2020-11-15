@@ -28,6 +28,26 @@
                         <p *ngIf="!editarUsuario">Dirección: {{user.address}}</p>
                         <p *ngIf="!editarUsuario">Cumpleaños: {{user.birthday |  date : 'dd-MM-yyyy'}}</p>
                         <p *ngIf="!editarUsuario">Genero: {{user.gender}} </p>
+                        <p>
+                            Reputación organizador:
+                            <ngb-rating [max]="5" [(rate)]="user.reputationOrganizer" [readonly]="true">
+                                <ng-template let-fill="fill" let-index="index">
+                                    <span class="star" [class.filled]="fill === 100">
+                                        <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                                    </span>
+                                </ng-template>
+                            </ngb-rating>
+                        </p>
+                        <p>
+                            Reputación participante:
+                            <ngb-rating [max]="5" [(rate)]="user.reputationParticipant" [readonly]="true">
+                                <ng-template let-fill="fill" let-index="index">
+                                    <span class="star" [class.filled]="fill === 100">
+                                        <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                                    </span>
+                                </ng-template>
+                            </ngb-rating>
+                        </p>
                         <!--EDIT USER-->
                         <p *ngIf="editarUsuario">Dirección: <input type="text" class="form-control"
                                 placeholder={{user.address}} [(ngModel)]="address" name="address"></p>

@@ -49,4 +49,8 @@ export class MyeventsComponent implements OnInit {
   finishEvent(id: number){
     this.eventService.finishEvent(id).subscribe(() => this.ngOnInit());
   }
+
+  showEvent(id: number){
+    this.router.navigateByUrl('/event/' + id);
+  }
 }

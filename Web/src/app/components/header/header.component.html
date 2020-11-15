@@ -26,22 +26,28 @@
       </form>
 
       <li class="dropdown mr-5 mt-2" *ngIf="events">
-        <a href="#" data-toggle="dropdown"><i class="fas fa-bell"></i><span class="ml-1 badge badge-secondary">{{showNotifications()}}</span></a>
-        <ul class="dropdown-menu dropdown-menu-right">
+        <a href="#" data-toggle="dropdown"><i class="fas fa-bell"></i><span
+            class="ml-1 badge badge-secondary">{{showNotifications()}}</span></a>
+        <ul class="dropdown-menu menu-notifications dropdown-menu-right">
           <div *ngFor="let e of events">
             <div *ngFor="let applicant of e.applicants">
               <a href="#" class="dropdown-item">
                 <li>
-                  <div class="row">
+                  <div class="row mt-2">
+                    <div class="col-3">
+                      <img [src]="applicant.picture" *ngIf="applicant.picture" class="profile-img">
+                    </div>
+                    <div class="col-9 text-center">
                       {{ applicant.firstName }} quiere unirse a {{ e.sport }} {{ e.address }}
+                    </div>
                   </div>
-                  
-                  <div class="mt-2 row">
-                      <button class="btn btn-sm btn-success ml-2" (click)="acceptUserRequest(e.id, applicant.id)">Acceptar</button> 
-                      <button class="btn btn-sm btn-danger ml-2" (click)="cancelUserRequest(e.id, applicant.id)">Cancelar</button>    
+                  <div class="mt-1 row float-right">
+                    <button class="btn btn-sm btn-success ml-2"
+                      (click)="acceptUserRequest(e.id, applicant.id)">Acceptar</button>
+                    <button class="btn btn-sm btn-danger ml-2"
+                      (click)="cancelUserRequest(e.id, applicant.id)">Cancelar</button>
                   </div>
-                  
-                  </li> 
+                </li>
               </a>
             </div>
           </div>

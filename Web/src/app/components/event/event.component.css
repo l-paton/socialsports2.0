@@ -8,7 +8,7 @@
     float: left;
 }
 
-.column-participants{    
+.column-participants, .column-organizer{    
     box-shadow: 0 0 2px black;
     border-radius: 2px;
     width: 100%;
@@ -48,9 +48,17 @@ h4{
 }
 
 .modal-content{
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgba(0, 0, 0, 0.85);
 }
 
 .card-participant{
-    background-color: rgba(35, 102, 114, 0.8);
+    background-color: rgba(11, 53, 74, 0.5);
+}
+
+ngb-rating{
+    font-size: 1.5rem;
+}
+
+.btn-puntuar{
+    background-color: #00ffea;
 }

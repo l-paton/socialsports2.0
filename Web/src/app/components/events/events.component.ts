@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { DatePipe } from '@angular/common'
 import { EventService } from '../../services/event.service';
 import { UserService } from '../../services/user.service';
 import { TokenStorageService } from '../../services/token-storage.service';

@@ -52,3 +52,22 @@
 .container-friends > h4, .container-information > h4{
     padding: 10px;
 }
+
+
+.star {
+    position: relative;
+    display: inline-block;
+    font-size: 1.5rem;
+    color: white;
+  }
+
+.filled {
+    color: #00ffea;
+}
+
+.half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: #00ffea;
+  }

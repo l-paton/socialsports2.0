@@ -4,24 +4,30 @@
 
             <ul class="user-card list-unstyled">
                 <li class="media">
-                  <img class="img-user rounded mr-3" [src]="getUrlPictureUser(user)" alt="image">
-                  <div class="media-body">
-                    <h5 class="mt-0 mb-1">{{user.firstName}} {{user.lastName}}</h5>
-                    <p *ngIf="user.address">{{ user.address }}</p>
-                    <p *ngIf="user.address == null">Sin dirección</p>
-                    <div class="text-left mb-2">
-                        <span class="fa fa-star unchecked" id="one"></span>
-                        <span class="fa fa-star unchecked" id="two"></span>
-                        <span class="fa fa-star unchecked" id="three"></span>
-                        <span class="fa fa-star unchecked" id="four"></span>
-                        <span class="fa fa-star unchecked" id="five"></span>                  
+                    <img class="img-user rounded mr-3" [src]="getUrlPictureUser(user)" alt="image">
+                    <div class="media-body">
+                        <h5 class="mt-0 mb-1">{{user.firstName}} {{user.lastName}}</h5>
+                        <p *ngIf="user.address">{{ user.address }}</p>
+                        <p *ngIf="user.address == null">Sin dirección</p>
+                        <div class="text-left mb-2">
+                            <ngb-rating [max]="5" [(rate)]="user.reputationParticipant" [readonly]="true">
+                                <ng-template let-fill="fill" let-index="index">
+                                    <span class="star" [class.filled]="fill === 100">
+                                        <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
+                                    </span>
+                                </ng-template>
+                            </ngb-rating>
+                        </div>
+                        <div class="text-right">
+                            <button class="btn btn-sm btn-success mr-1"
+                                *ngIf="user.id != id && !IsUserMyFriend(user.id)" (click)="addFriend(user.id)">Añadir
+                                amigo</button>
+                            <button class="btn btn-sm btn-danger mr-1" *ngIf="IsUserMyFriend(user.id)"
+                                (click)="deleteFriend(user.id)">Eliminar amigo</button>
+                            <button class="btn btn-sm btn-info" [routerLink]="['/profile/' + user.id]">Ver
+                                perfil</button>
+                        </div>
                     </div>
-                    <div class="text-right">
-                        <button class="btn btn-sm btn-success mr-1" *ngIf="user.id != id && !IsUserMyFriend(user.id)" (click)="addFriend(user.id)">Añadir amigo</button>
-                        <button class="btn btn-sm btn-danger mr-1" *ngIf="IsUserMyFriend(user.id)" (click)="deleteFriend(user.id)">Eliminar amigo</button>
-                        <button class="btn btn-sm btn-info" [routerLink]="['/profile/' + user.id]">Ver perfil</button>
-                    </div>
-                  </div>
                 </li>
             </ul>
 

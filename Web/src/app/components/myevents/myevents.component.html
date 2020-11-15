@@ -53,6 +53,7 @@
                                     <p class="card-text">{{evento.address}} {{evento.startDate | date : 'dd-MM-yyyy'}} {{evento.time}}
                                     </p>
                                     <div class="text-right">
+                                        <a class="btn btn-sm btn-primary mr-3" (click)="showEvent(evento.id)">Mostrar</a>
                                         <a class="btn btn-sm btn-danger mr-3" *ngIf="evento.organizer.id != id" (click)="leaveEvent(evento.id)">Cancelar</a>
                                     </div>
                                 </div>

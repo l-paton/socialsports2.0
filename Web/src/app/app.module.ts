@@ -17,6 +17,8 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { EventComponent } from './components/event/event.component';
 import { MyeventsComponent } from './components/myevents/myevents.component';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -36,7 +38,8 @@ import { MyeventsComponent } from './components/myevents/myevents.component';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgbModule 
   ],
   providers: [
     {
