@@ -31,8 +31,10 @@
                                         <div *ngIf="!evento.finish" class="titulo-en-proceso">En proceso</div>
                                     </div>
                                     <div class="text-right">
-                                        <a class="btn btn-sm btn-warning mr-3" *ngIf="!evento.finish" (click)="finishEvent(evento.id)">Finalizar</a>
-                                        <a class="btn btn-sm btn-primary mr-3" *ngIf="!evento.finish" (click)="getEvent(evento.id)">Editar</a>
+                                        <a class="btn btn-sm btn-warning mr-3" *ngIf="!evento.finish"
+                                            (click)="finishEvent(evento.id)">Finalizar</a>
+                                        <a class="btn btn-sm btn-primary mr-3" *ngIf="!evento.finish"
+                                            (click)="getEvent(evento.id)">Editar</a>
                                         <a class="btn btn-sm btn-danger" (click)="deleteEvent(evento.id)">Eliminar</a>
                                     </div>
                                 </div>
@@ -40,7 +42,8 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="list-Unidos" role="tabpanel" aria-labelledby="list-Unidos-list" *ngIf="eventsJoined">
+                    <div class="tab-pane fade" id="list-Unidos" role="tabpanel" aria-labelledby="list-Unidos-list"
+                        *ngIf="eventsJoined">
 
                         <div *ngFor="let evento of eventsJoined">
                             <div class="card mb-2">
@@ -50,18 +53,22 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <p class="card-text">{{evento.address}} {{evento.startDate | date : 'dd-MM-yyyy'}} {{evento.time}}
-                                    </p>
+                                    <div *ngIf="evento.finish" class="titulo-finalizado">Finalizado</div>
+                                    <div *ngIf="!evento.finish" class="titulo-en-proceso">En proceso</div>
+                                    
                                     <div class="text-right">
-                                        <a class="btn btn-sm btn-primary mr-3" (click)="showEvent(evento.id)">Mostrar</a>
-                                        <a class="btn btn-sm btn-danger mr-3" *ngIf="evento.organizer.id != id" (click)="leaveEvent(evento.id)">Cancelar</a>
+                                        <a class="btn btn-sm btn-primary mr-3"
+                                            (click)="showEvent(evento.id)">Mostrar</a>
+                                        <a class="btn btn-sm btn-danger mr-3" *ngIf="evento.organizer.id != id"
+                                            (click)="leaveEvent(evento.id)">Cancelar</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="list-Solicitudes" role="tabpanel" aria-labelledby="list-Solicitudes-list" *ngIf="eventsApplied">
+                    <div class="tab-pane fade" id="list-Solicitudes" role="tabpanel"
+                        aria-labelledby="list-Solicitudes-list" *ngIf="eventsApplied">
                         <div *ngFor="let evento of eventsApplied">
                             <div class="card mb-2">
                                 <div class="card-header">
@@ -70,10 +77,14 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <p class="card-text">{{evento.address}} {{evento.startDate | date : 'dd-MM-yyyy'}} {{evento.time}}
-                                    </p>
+                                    <div *ngIf="evento.finish" class="titulo-finalizado">Finalizado</div>
+                                    <div *ngIf="!evento.finish" class="titulo-en-proceso">En proceso</div>
+
                                     <div class="text-right">
-                                        <a class="btn btn-sm btn-warning mr-3" (click)="cancelRequest(evento.id)">Cancelar solicitud</a>
+                                        <a class="btn btn-sm btn-primary mr-3"
+                                            (click)="showEvent(evento.id)">Mostrar</a>
+                                        <a class="btn btn-sm btn-warning mr-3"
+                                            (click)="cancelRequest(evento.id)">Cancelar solicitud</a>
                                     </div>
                                 </div>
                             </div>

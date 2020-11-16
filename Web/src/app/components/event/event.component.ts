@@ -17,7 +17,7 @@ export class EventComponent implements OnInit {
   event: Event;
   requirements: string[] = [];
   editar: boolean = false;
-  selected: number = 0;
+  scoreOrganizer: number = 0;
   editStartDate: string;
   editTime: string;
   editMaxParticipants: number;
@@ -82,12 +82,19 @@ export class EventComponent implements OnInit {
     this.eventService.deleteEvent(idEvent).subscribe(/*redirect*/);
   }
 
-  voteParticipants(){
+  rateParticipants(){
     for(let u of this.event.participants){
       if(u.reputationParticipant != 0 && u.id != this.idUser){
         this.rateService.rateParticipant(u.id, this.event.id, u.reputationParticipant).subscribe();
         console.log("Nombre: " + u.firstName + ", score: " + u.reputationParticipant);
       }
+    }
+  }
+
+  rateOrganizer(){
+    console.log(this.scoreOrganizer);
+    if(this.scoreOrganizer > 0){
+      this.rateService.rateOrganizer(this.event.organizer.id, this.event.id, this.scoreOrganizer).subscribe();
     }
   }
 

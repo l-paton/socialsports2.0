@@ -35,7 +35,7 @@ public class User {
 	
 	@JsonIgnore
 	@NotBlank
-	@Size(max = 64)
+	@Size(min = 6, max = 64)
 	@Column(name="PASSWORD", nullable=false)
 	private String password;
 	
@@ -69,10 +69,6 @@ public class User {
 
 	@Column(name="REPUTATION_ORGANIZER")
 	private float reputationOrganizer;
-
-	/*@JsonIgnore
-	@Column(name="ACTIVATED")
-	private boolean activated;*/
 	
 	@JsonIgnore
 	@ManyToMany(mappedBy = "participants")
@@ -232,11 +228,4 @@ public class User {
 		this.reputationOrganizer = reputationOrganizer;
 	}
 
-	/*public boolean isActivated() {
-		return activated;
-	}
-
-	public void setActivated(boolean activated) {
-		this.activated = activated;
-	}*/	
 }

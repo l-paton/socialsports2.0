@@ -214,8 +214,9 @@ public class EventController {
 		@RequestParam(required = false) String sport,
 		@RequestParam(required = false) String address,
 		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-		@RequestParam(required = false) String time){
-			
+		@RequestParam(required = false) String time,
+		@RequestParam(required = false) float score){
+			System.out.println(score);
 		try{
 			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time);
 			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);

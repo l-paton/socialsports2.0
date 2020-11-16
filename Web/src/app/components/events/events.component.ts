@@ -13,13 +13,15 @@ import { Event } from '../../models/Event';
 })
 export class EventsComponent implements OnInit {
 
+  id: number;
   events: Event[] = [];
   eventsJoined: Event[] = [];
-  id: number;
+  
   sport: string = '';
   address: string = '';
   startDate: Date;
   time: string = '';
+  score: number = 0;
 
   constructor(
     private eventService: EventService,
@@ -29,23 +31,24 @@ export class EventsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getEvents();
-    this.getMyEvents();
     this.id = this.tokenStorageService.getUser().user.id;
+    this.getAllEvents();
+    this.getEventsJoined();
   }
 
-  getEvents() {
+  getAllEvents() {
     this.eventService.getListEvents().subscribe(data => {
       this.events = data;
     });
   }
 
-  getEvent(id: number) {
-    this.router.navigateByUrl('/event/' + id);
+  getEventsJoined() {
+    this.userService.getEventsJoined(this.id).subscribe(data => 
+      this.eventsJoined = data);
   }
 
-  getMyEvents() {
-    this.userService.getEventsJoined().subscribe(data => this.eventsJoined = data);
+  navigateToEvent(id: number) {
+    this.router.navigateByUrl('/event/' + id);
   }
 
   joinToEvent(event: Event) {
@@ -70,7 +73,6 @@ export class EventsComponent implements OnInit {
         return true;
       }
     }
-
     return false;
   }
 
@@ -91,9 +93,9 @@ export class EventsComponent implements OnInit {
       stringDate = this.startDate.toString();
     }
 
-    if(this.sport || this.startDate || this.time || this.address){
+    if(this.sport || this.startDate || this.time || this.address || this.score > 0){
       this.eventService
-        .searchEvents(this.sport, stringDate, this.time, this.address)
+        .searchEvents(this.sport, stringDate, this.time, this.address, this.score)
         .subscribe(data => 
           {
             if(data.length > 0){
@@ -101,17 +103,6 @@ export class EventsComponent implements OnInit {
             }
           });
     }
-  }
-
-  limpiar(){
-    this.ngOnInit();
-  }
-
-  getUserPicture(picture) {
-    if (picture == null) {
-      return "http://localhost:8080/api/images/users/45x45.png";
-    }
-    return picture;
   }
 
   cumplesLosRequisitos(id: number){
@@ -132,6 +123,17 @@ export class EventsComponent implements OnInit {
 
     return true;
     
+  }
+
+  limpiar(){
+    this.ngOnInit();
+  }
+
+  getUserPicture(picture) {
+    if (picture == null) {
+      return "http://localhost:8080/api/images/users/45x45.png";
+    }
+    return picture;
   }
 
   eventIsFull(event : Event): boolean{

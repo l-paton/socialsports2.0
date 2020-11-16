@@ -117,7 +117,7 @@ public class EventRate extends AppCompatActivity {
         if (ratingBarOrganizer.isEnabled()) {
             UserScore userScore = new UserScore(LoginActivity.user.getId(), Funcionalidades.eventSeleccionado.getOrganizer().getId(),
                     Funcionalidades.eventSeleccionado.getId(), ratingBarOrganizer.getRating());
-            enviarPuntuacionEvento(userScore);
+            rateOrganizer(userScore);
         }
         for (UserScore puntuacion: listaPuntuaciones) {
             rateParticipants(puntuacion);
@@ -160,42 +160,45 @@ public class EventRate extends AppCompatActivity {
 
     public void rateParticipants(UserScore puntuacion) {
 
-        RETROFIT retrofit = new RETROFIT();
-        APIService service = retrofit.getAPIService();
+        if(puntuacion.getScore() > 0) {
+            RETROFIT retrofit = new RETROFIT();
+            APIService service = retrofit.getAPIService();
 
-        service.rateParticipant("Bearer " + LoginActivity.token, puntuacion.getIdRatedUser(), puntuacion.getIdEvent(), puntuacion.getScore()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            service.rateParticipant("Bearer " + LoginActivity.token, puntuacion.getIdRatedUser(), puntuacion.getIdEvent(), puntuacion.getScore()).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
 
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
 
     }
 
-    public void enviarPuntuacionEvento(UserScore puntuacion) {
+    public void rateOrganizer(UserScore puntuacion) {
 
-        RETROFIT retrofit = new RETROFIT();
-        APIService service = retrofit.getAPIService();
+        if(puntuacion.getScore() > 0) {
+            RETROFIT retrofit = new RETROFIT();
+            APIService service = retrofit.getAPIService();
 
-        service.rateOrganizer("Bearer " + LoginActivity.token, puntuacion.getIdRatedUser(), puntuacion.getIdEvent(), puntuacion.getScore()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            service.rateOrganizer("Bearer " + LoginActivity.token, puntuacion.getIdRatedUser(), puntuacion.getIdEvent(), puntuacion.getScore()).enqueue(new Callback<ResponseBody>() {
+                @Override
+                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-            }
+                }
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
+                @Override
+                public void onFailure(Call<ResponseBody> call, Throwable t) {
+                    t.printStackTrace();
+                }
+            });
+        }
     }
 }

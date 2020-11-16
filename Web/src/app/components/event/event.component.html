@@ -1,6 +1,6 @@
 <div class="container mt-4" *ngIf="event">
 
-    <div class="row row-eq-height">
+    <div class="row">
 
         <div class="col-md-4 mb-2">
 
@@ -10,9 +10,15 @@
                     <div class="col-3">
                         <img [src]="getUserPicture(event.organizer.picture)" class="img-profile rounded" />
                     </div>
-                    <div class="col-9">
+                    <div class="col-9 mt-3">
                         <p> {{ event.organizer.firstName }} {{ event.organizer.lastName }} </p>
                     </div>
+                </div>
+                <div *ngIf="event.finish" class="text-center mt-2">
+                    <ngb-rating [max]="5" [(rate)]="scoreOrganizer" [readonly]="false" *ngIf="event.organizer.id != idUser">
+                    </ngb-rating>
+                    <br>
+                    <button class="btn btn-sm btn-info mt-2" (click)="rateOrganizer()">Puntuar organizador</button>
                 </div>
                 <br>
             </div>
@@ -203,8 +209,7 @@
                                     </div>
                                     <div class="text-center" *ngIf="event.finish">
                                         <ngb-rating [max]="5" [(rate)]="participant.reputationParticipant"
-                                            (hover)="participant.reputationParticipant=$event"
-                                            (leave)="participant.reputationParticipant=participant.reputationParticipant" [readonly]="false"
+                                            [readonly]="false"
                                             *ngIf="participant.id != idUser">
                                         </ngb-rating>
                                         {{participant.reputationParticipant}}
@@ -217,8 +222,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-puntuar" data-dismiss="modal" *ngIf="event.finish"
-                    (click)="voteParticipants()">Puntuar</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal" *ngIf="event.finish"
+                    (click)="rateParticipants()">Puntuar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

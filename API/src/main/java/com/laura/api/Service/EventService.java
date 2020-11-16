@@ -125,7 +125,7 @@ public class EventService {
 
 	public Set<Event> searchEvents(SearchRequest searchRequest) {
 		System.out.println(searchRequest.toString());
-		Set<Event> events = (HashSet<Event>) repository.findAll();
+		Set<Event> events = (HashSet<Event>) repository.findAll().stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
 
 		if (searchRequest.getSport() != null && searchRequest.getSport() != "") {
 			Set<Event> findBySport = (HashSet<Event>) repository.findBySport(searchRequest.getSport());
@@ -148,10 +148,7 @@ public class EventService {
 			if (findByTime != null && findByTime.size() > 0)
 				events.retainAll(findByTime);
 		}
-
-		events = events.stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
-
-		System.out.println(events.size());
+		
 		return events;
 	}
 

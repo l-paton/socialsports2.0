@@ -1,10 +1,9 @@
 <div class="container-fluid" *ngIf="!isLoggedIn">
-    <div class="container">
         <div class="row">
-            <div class="col-md-5 col-sm-12">
+            <div class="col-md-6 col-formulario col-sm-12">
                 <div class="container-login text-center mt-5">
     
-                    <h1 class="mb-5">Login</h1>
+                    <h1 class="mb-5 mt-5">Login</h1>
     
                     <form class="form-login" method="POST" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     
@@ -36,12 +35,11 @@
                     </form>
                 </div>
             </div>
-            <div class="col-md-7 col-sm-0 d-none d-md-block">
+            <div class="col-md-6 col-imagen col-sm-0 d-none d-md-block">
                 <div class="overlay">
                     
                 </div>
             </div>
         </div>
-    </div>
     
 </div>

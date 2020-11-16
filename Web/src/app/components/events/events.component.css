@@ -23,3 +23,19 @@ table{
 hr{
     opacity: 0;
 }
+
+.star {
+    position: relative;
+    display: inline-block;
+    font-size: 1.5rem;
+    color: black;
+}
+.full {
+    color: yellow;
+}
+.half {
+    position: absolute;
+    display: inline-block;
+    overflow: hidden;
+    color: yellow;
+}

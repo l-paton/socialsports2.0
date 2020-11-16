@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/User';
+import { Event } from 'src/app/models/Event';
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { TokenStorageService } from '../../services/token-storage.service';
@@ -15,6 +16,8 @@ export class ProfileComponent implements OnInit {
 
   user: User;
   friends: User[];
+  eventsJoined: Event[];
+
   email: string;
   firstName: string;
   lastName: string;
@@ -41,29 +44,8 @@ export class ProfileComponent implements OnInit {
         this.idUser = params.get('id');
         this.userService.getUser(this.idUser).subscribe(data => this.user = data);
         this.userService.getFriendsFromUser(this.idUser).subscribe(data => this.friends = data);
+        this.userService.getEventsJoined(this.idUser).subscribe(data => this.eventsJoined = data);
       });
-    console.log(this.idUser);
-    console.log(this.idUser);
-  }
-
-  getPicture() {
-    if (this.user != undefined) {
-      if (this.user.picture == null) {
-        return "http://placehold.it/120x120";
-      }
-      return this.user.picture;
-    }
-  }
-
-  getFriendPicture(picture) {
-    if (picture == null) {
-      return "http://placehold.it/45x45";
-    }
-    return picture;
-  }
-
-  selectFile(event) {
-    this.selectedFiles = event.target.files;
   }
 
   modifyProfile() {
@@ -116,6 +98,28 @@ export class ProfileComponent implements OnInit {
     this.editarUsuario = !this.editarUsuario;
   }
 
+  /** FUNCIONES **/
+
+  getPicture() {
+    if (this.user != undefined) {
+      if (this.user.picture == null) {
+        return "http://placehold.it/120x120";
+      }
+      return this.user.picture;
+    }
+  }
+
+  getFriendPicture(picture) {
+    if (picture == null) {
+      return "http://placehold.it/45x45";
+    }
+    return picture;
+  }
+
+  selectFile(event) {
+    this.selectedFiles = event.target.files;
+  }
+
   isOrganizer(): boolean{
 
     if(this.user.id === this.id){
@@ -126,11 +130,9 @@ export class ProfileComponent implements OnInit {
 
   editUser(){
     this.editarUsuario = !this.editarUsuario;
-    console.log(this.editarUsuario);
   }
 
   selectChangeHandler(event: any){
     this.gender = event.target.value;
-    console.log(this.gender);
   }
 }

@@ -74,9 +74,9 @@ export class UserService {
     return this.http.put(USER_API + '/edit/description', description, { headers });
   }
 
-  getEventsJoined(): Observable<Event[]> {
+  getEventsJoined(id): Observable<Event[]> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<Event[]>(USER_API + '/events/joined', { headers });
+    return this.http.get<Event[]>(USER_API + '/events/joined/' + id, { headers });
   }
 
   getEventsApplied(): Observable<Event[]> {

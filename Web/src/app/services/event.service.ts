@@ -57,9 +57,9 @@ export class EventService {
     return this.http.get<Event[]>(EVENT_API + '/requests', { headers });
   }
 
-  searchEvents(sport: string, startDate: string, time: string, address: string): Observable<Event[]> {
+  searchEvents(sport: string, startDate: string, time: string, address: string, score): Observable<Event[]> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    let params = new HttpParams().append('sport', sport).append('startDate', startDate).append('time', time).append('address', address);
+    let params = new HttpParams().append('sport', sport).append('startDate', startDate).append('time', time).append('address', address).append('score', score);
     return this.http.get<Event[]>(EVENT_API + '/search', { headers: headers, params: params });
   }
 

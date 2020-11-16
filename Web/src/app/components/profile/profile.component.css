@@ -54,15 +54,8 @@
 }
 
 
-.star {
-    position: relative;
-    display: inline-block;
+ngb-rating{
     font-size: 1.5rem;
-    color: white;
-  }
-
-.filled {
-    color: #00ffea;
 }
 
 .half {
@@ -71,3 +64,21 @@
     overflow: hidden;
     color: #00ffea;
   }
+
+  .eventJoined{
+    box-shadow: 0 0 2px black;
+    border-radius: 2px;
+    background-color: rgba(0,0,0,0.6);
+  }
+
+  .card-title{
+      color: #00ffea;
+  }
+
+.modal-content{
+    background-color: rgba(0, 0, 0, 0.85);
+}
+
+.card-f{
+    background-color: rgba(11, 53, 74, 0.5);
+}

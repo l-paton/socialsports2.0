@@ -3,8 +3,13 @@
     overflow: hidden;
 }
 
-.container{
-    height: 80vh;
+.container-login{
+    margin-top: 20% !important;
+}
+
+.form-login{
+    width: 75%;
+    margin: auto;
 }
 
 h1, i{
@@ -13,18 +18,28 @@ h1, i{
 
 .row{
     box-shadow: 0 0 6px 1px black;
-    margin-top: 5%;
-    height: 80vh;
+    height: 100vh;
 }
 
-.col-md-5{
+.col-formulario{
     background-color: white;
 }
 
-.col-md-7{
-    background-image: url('../../../assets/images/pjvic9eq4vt41.webp');
+.col-imagen{
+    background-image: url('../../../assets/images/1.jpg');
     background-size: cover;
     background-repeat: no-repeat;
+    height: 100%;
+    position: relative;
+}
+
+.overlay{
+    background-color: rgba(0, 171, 184, 0.5);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 form{

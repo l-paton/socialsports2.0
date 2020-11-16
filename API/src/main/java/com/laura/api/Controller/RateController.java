@@ -1,11 +1,7 @@
 package com.laura.api.Controller;
 
-import com.laura.api.Service.RateOrganizerService;
-import com.laura.api.Service.RateParticipantService;
+import com.laura.api.Service.RateService;
 import com.laura.api.Service.UserService;
-import com.laura.api.model.RateId;
-import com.laura.api.model.RateOrganizer;
-import com.laura.api.model.RateParticipant;
 import com.laura.api.model.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class RateController {
     
     @Autowired
-    RateParticipantService rateParticipantService;
-
-    @Autowired
-    RateOrganizerService rateOrganizerService;
+    RateService RateService;
 
     @Autowired
     UserService userService;
@@ -35,40 +28,23 @@ public class RateController {
     @PostMapping("/participant")
     public ResponseEntity<?> rateParticipant(@RequestParam long idParticipant, @RequestParam long idEvent, @RequestParam float score){
         try{
-            RateId rateId = new RateId(idParticipant, getUser().getId(), idEvent);
-            RateParticipant rp = new RateParticipant(rateId, score);
-
-            if(rateParticipantService.insertVote(rp) != null){
-                User participant = userService.getUserById(idParticipant);
-                participant.setReputationParticipant(rateParticipantService.getScoreParticipant(idParticipant));
-                userService.editUser(participant);
-                return ResponseEntity.ok().build();
-            }
-
-            return ResponseEntity.badRequest().build();
+            RateService.insertVote(idParticipant, getUser(), idEvent, score, 2);
+            return ResponseEntity.ok().build();
+            
         }catch(Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }
-
     
     @PostMapping("/organizer")
     public ResponseEntity<?> rateOrganizer(@RequestParam long idOrganizer, @RequestParam long idEvent, @RequestParam float score){
         try{
-            RateId rateId = new RateId(idOrganizer, getUser().getId(), idEvent);
-            RateOrganizer rp = new RateOrganizer(rateId, score);
-
-            if(rateOrganizerService.insertVote(rp) != null){
-                User organizer = userService.getUserById(idOrganizer);
-                organizer.setReputationOrganizer(rateOrganizerService.getScoreOrganizer(idOrganizer));
-                userService.editUser(organizer);
-                return ResponseEntity.ok().build();
-            }
-
-            return ResponseEntity.badRequest().build();
+            RateService.insertVote(idOrganizer, getUser(), idEvent, score, 1);
+            return ResponseEntity.ok().build();
+            
         }catch(Exception e){
-            e.printStackTrace();
+            System.out.println(e.getMessage());
             return ResponseEntity.badRequest().build();
         }
     }

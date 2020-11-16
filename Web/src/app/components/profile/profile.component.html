@@ -1,11 +1,13 @@
 <div class="container-fluid" *ngIf="user">
+
     <div class="jumbotron">
         <div class="container">
             <div class="row">
                 <div class="col-md-4 text-center">
                     <div class="img-profile ">
                         <img [src]="getPicture()" class="img-profile">
-                        <input *ngIf="editarUsuario" type="file" class="form-control mt-2" (change)="selectFile($event)">
+                        <input *ngIf="editarUsuario" type="file" class="form-control mt-2"
+                            (change)="selectFile($event)">
                     </div>
                 </div>
                 <div class="col-md-8">
@@ -13,13 +15,13 @@
                 </div>
             </div>
         </div>
-    </div>
-
-
-    <div class="container mt-5">
         <div class="text-right">
             <button class="btn btn-light" *ngIf="user && isOrganizer()" (click)="editUser()">Editar</button>
         </div>
+    </div>
+
+
+    <div class="container mt-2 mb-4">
         <div class="row mb-2">
             <div class="col-md-4">
                 <div class="row">
@@ -53,7 +55,7 @@
                                 placeholder={{user.address}} [(ngModel)]="address" name="address"></p>
                         <p *ngIf="editarUsuario">Cumpleaños: <input type="date" [(ngModel)]="birthDay" name="birthDay"
                                 class="form-control"></p>
-                        <p *ngIf="editarUsuario">Genero: 
+                        <p *ngIf="editarUsuario">Genero:
                             <label>Género</label>
                             <select class="form-control" (change)="selectChangeHandler($event)">
                                 <option></option>
@@ -62,20 +64,48 @@
                                 <option value="Otro">Otro</option>
                             </select></p>
                         <div class="text-right">
-                            <button *ngIf="editarUsuario" class="btn btn-light mb-2" (click)="modifyProfile()">Guardar</button>
+                            <button *ngIf="editarUsuario" class="btn btn-light mb-2"
+                                (click)="modifyProfile()">Guardar</button>
                         </div>
+
+                    </div>
+                </div>
+                <div class="row mt-4 mb-4">
+                    <div class="container container-friends">
+                        <h4 class="ml-3">Amigos</h4>
+                        <div class="row">
+                            
+                            <div *ngFor="let friend of friends">
+                                <div class="friend ml-4 mt-2">
+                                    <img [src]="getFriendPicture(friend.picture)" class="img-profile-friend rounded" />
+                                    <p>{{ friend.firstName }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mt-2 mb-2">
+                            <div class="col-12 text-right">
+                                <a href="" data-toggle="modal" data-target="#modalFriends">
+                                    Ver todos
+                                 </a>
+                            </div>
+
+                        </div>
+
                         
                     </div>
                 </div>
-                <div class="row mt-4 mb-2">
-                    <div class="container container-friends">
-                        <h4 class="ml-3">Amigos</h4>
-                        <div *ngFor="let friend of friends">
-                            <div class="friend ml-3">
-                                <img [src]="getFriendPicture(friend.picture)" class="img-profile-friend rounded" />
-                                <p>{{ friend.firstName }}</p>
+            </div>
+            <div class="col-md-8">
+                <div class="container">
+                    <div *ngFor="let e of eventsJoined">
+
+                        <div class="card text-white eventJoined mb-3">
+                            <div class="card-header"> <h5 class="card-title">{{ e.sport }}</h5></div>
+                            <div class="card-body">
+                                <p class="card-text"></p>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -83,63 +113,41 @@
     </div>
 </div>
 
-<!--  <div class="row text-center">
-        <div class="col-md-2 mt-5 mb-5">
-
-            <div class="row">
-                <div class="col-5"></div>
-                <div class="col-2">
-
-                    <div class="img-profile text-center">
-                        <img [src]="getPicture()" class="img-profile rounded">
-                        <input type="file" class="form-control mt-2" (change)="selectFile($event)">
-                        <button class="btn btn-info btn-block mt-2" (click)="uploadImage()">Subir</button>
+<!-- Modal -->
+<div class="modal fade" id="modalFriends" tabindex="-1" aria-labelledby="modalFriends" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalFriends">Amigos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                    <div class="row">
+                        <div class="col-md-4" *ngFor="let f of friends">
+                            <div class="card card-f mb-3">
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <img [src]="getFriendPicture(f.picture)" class="img-profile-friend rounded" />
+                                        </div>
+                                        <div class="col-8">
+                                            {{ f.firstName }} {{ f.lastName}}
+                                            <ngb-rating [max]="5" [(rate)]="f.reputationParticipant" [readonly]="true">
+                                        </ngb-rating>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
-                <div class="col-5"></div>
             </div>
-        </div>-->
-<!-- END COL-3 -->
-<!-- <div class="col-md-10 mt-5">
-
-            <div class="container">
-                <form class="form-profile" *ngIf="user != undefined">
-                    <div class="form-group text-left">
-                        <label class=" col-form-label">Nombre</label>
-                        <input type="text" class="form-control" placeholder={{user.firstName}} [(ngModel)]="firstName" name="firstname">
-                    </div>
-                    <div class="form-group text-left">
-                        <label class="col-form-label">Apellidos</label>
-                        <input type="text" class="form-control" placeholder={{user.lastName}} [(ngModel)]="lastName" name="lastname">
-                    </div>
-                    <div class="form-group text-left">
-                        <label class="col-form-label">Dirección</label>
-                        <input type="text" class="form-control" placeholder={{user.address}} [(ngModel)]="address" name="address">
-                    </div>
-                    <div class="form-group text-left">
-                        <label> Cumpleaños </label>
-                        <input type="date" [(ngModel)]="birthDay" name="birthDay" class="form-control">
-                      </div>
-                      <div class="form-group text-left">
-                        <label for="exampleFormControlSelect1">Género</label>
-                        <select class="form-control">
-                          <option>Mujer</option>
-                          <option>Hombre</option>
-                          <option>Otro</option>
-                        </select>
-                      </div>
-                    <div class="form-group text-left">
-                        <label class="col-form-label">Descripción</label>
-                        <textarea class="form-control" placeholder={{user.description}} [(ngModel)]="description" name="description"></textarea>
-                    </div>
-                    <div class="form-group text-right">
-                        <button class="btn btn-warning" (click)="modifyProfile()" >Cambiar</button>
-                    </div>
-                </form>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
-        </div>-->
-<!-- END COL-9 -->
-<!--</div>-->
-<!-- END ROW-->
-<!--</div>-->
+        </div>
+    </div>
+</div>

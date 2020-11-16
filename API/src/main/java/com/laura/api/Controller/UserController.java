@@ -163,10 +163,11 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/events/joined")
-	public ResponseEntity<?> getEventsJoined(){
+	@GetMapping("/events/joined/{id}")
+	public ResponseEntity<?> getEventsJoined(@PathVariable("id") long id){
 		try{
-			return ResponseEntity.ok(getUser().getEventsJoined());
+			User user = userService.getUserById(id);
+			return ResponseEntity.ok(user.getEventsJoined());
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}

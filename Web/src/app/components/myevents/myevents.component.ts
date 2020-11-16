@@ -26,7 +26,7 @@ export class MyeventsComponent implements OnInit {
   ngOnInit(): void {
     this.id = this.tokenStorageService.getUser().user.id;
     this.eventService.getEventsByOrganizer().subscribe(data => this.eventsCreated = data);
-    this.userService.getEventsJoined().subscribe(data => {this.eventsJoined = data});
+    this.userService.getEventsJoined(this.id).subscribe(data => {this.eventsJoined = data});
     this.userService.getEventsApplied().subscribe(data => this.eventsApplied = data);
   }
 
