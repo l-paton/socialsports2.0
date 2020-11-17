@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { CommunityService } from '../../services/community.service';
-import { UserService } from '../../services/user.service';
-import { User } from '../../models/User';
 import { TokenStorageService } from '../../services/token-storage.service';
+import { CommunityService } from '../../services/community.service';
+import { FriendshipService } from '../../services/friendship.service';
+import { User } from '../../models/User';
+
 
 @Component({
   selector: 'app-community',
@@ -13,18 +14,22 @@ export class CommunityComponent implements OnInit {
 
   users: User[] = [];
   myFriends: User[] = [];
+  myFriendRequestsSent: User[] = [];
+  myFriendRequestsReceived: User[] = [];
   id: number;
 
   constructor(
     private communityService: CommunityService,
     private tokenStorageService: TokenStorageService,
-    private userservice: UserService) {
+    private friendshipService: FriendshipService) {
   }
 
   ngOnInit(): void {
     this.getUsers();
     this.id = this.tokenStorageService.getUser().user.id;
-    this.userservice.getFriends().subscribe(data => this.myFriends = data);
+    this.friendshipService.getMyFriends().subscribe(data => this.myFriends = data);
+    this.friendshipService.getRequestsSent().subscribe(data => this.myFriendRequestsSent = data);
+    this.friendshipService.getRequestsReceived().subscribe(data => this.myFriendRequestsReceived = data);
   }
 
   getUsers() {
@@ -35,20 +40,16 @@ export class CommunityComponent implements OnInit {
     );
   }
 
-  addFriend(id: number) {
-    this.communityService.addFriend(id).subscribe(
-      () => {
-        this.ngOnInit();
-      }
-    );
+  sendFriendRequest(id: number){
+    this.friendshipService.sendFriendRequest(id).subscribe(() => this.ngOnInit());
+  }
+
+  acceptFriendRequest(id: number){
+    this.friendshipService.acceptFriend(id).subscribe(() => this.ngOnInit());
   }
 
   deleteFriend(id: number) {
-    this.communityService.deleteFriend(id).subscribe(
-      () => {
-        this.ngOnInit();
-      }
-    );
+    this.friendshipService.deleteFriend(id).subscribe(() => this.ngOnInit());
   }
 
   getUrlPictureUser(user: User): string {
@@ -61,6 +62,24 @@ export class CommunityComponent implements OnInit {
   IsUserMyFriend(id: number): boolean {
     for (let i of this.myFriends) {
       if (i.id == id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  IsInMyRequestsSent(id: number): boolean{
+    for(let i of this.myFriendRequestsSent){
+      if(i.id == id){
+        return true;
+      }
+    }
+    return false;
+  }
+
+  IsInMyRequestsReceived(id: number): boolean{
+    for(let i of this.myFriendRequestsReceived){
+      if(i.id == id){
         return true;
       }
     }

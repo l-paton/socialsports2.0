@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,8 +28,12 @@ public class UserController {
 	UserService userService;
 	
 	@GetMapping("/list")
-	public Iterable<User> getUsers(){
-		return userService.getUsers();
+	public ResponseEntity<?> getUsers(){
+		try{
+			return ResponseEntity.ok(userService.getUsers());
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
 	}
 	
 	@PutMapping("/edit/firstname")
@@ -66,8 +69,10 @@ public class UserController {
 		try{
 			User user = getUser();
 			user.setDescription(description);
-			userService.editUser(user);
-			return ResponseEntity.noContent().build();
+			if(userService.editUser(user) != null){
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
@@ -79,8 +84,10 @@ public class UserController {
 		try{
 			User user = getUser();
 			user.setAddress(address);
-			userService.editUser(user);
-			return ResponseEntity.noContent().build();
+			if(userService.editUser(user) != null){
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
@@ -91,8 +98,10 @@ public class UserController {
 		try{
 			User user = getUser();
 			user.setBirthday(birthday);
-			userService.editUser(user);
-			return ResponseEntity.noContent().build();
+			if(userService.editUser(user) != null){
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
@@ -100,11 +109,13 @@ public class UserController {
 
 	@PutMapping("/edit/gender")
 	public ResponseEntity<?> editGender(@RequestParam String gender){
-		User user = getUser();
-		user.setGender(gender);
 		try{
-			userService.editUser(user);
-			return ResponseEntity.noContent().build();
+			User user = getUser();
+			user.setGender(gender);	
+			if(userService.editUser(user) != null){
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
@@ -115,49 +126,6 @@ public class UserController {
 		try{
 			userService.deleteUser(getUser());
 			return ResponseEntity.noContent().build();
-		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
-	@PostMapping("/add/friend/{id}")
-	public ResponseEntity<?> addFriend(@PathVariable("id") long id){
-		try{
-			userService.addFriend(getUser(), id);
-			return ResponseEntity.ok().build();
-		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
-	@DeleteMapping("/delete/friend/{id}")
-	public ResponseEntity<?> deleteFriend(@PathVariable("id") long id){
-		System.out.println(id);
-		try{
-			userService.deleteFriend(getUser(), id);
-			return ResponseEntity.noContent().build();
-		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
-	@GetMapping("/friends")
-	public ResponseEntity<?> getFriends(){
-		try{
-			return ResponseEntity.ok(getUser().getFriends());
-		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
-	@GetMapping("/{id}/friends")
-	public ResponseEntity<?> getFriends(@PathVariable long id){
-		try{
-			User user = userService.getUserById(id);
-			if(user != null){
-				return ResponseEntity.ok(user.getFriends());
-			}
-			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}

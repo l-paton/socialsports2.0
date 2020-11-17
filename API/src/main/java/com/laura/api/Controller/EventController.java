@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,30 +43,32 @@ public class EventController {
 	UserService userService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event, Errors errors){
-		User user = getUser();
+	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event){
 		
-		if(!errors.hasErrors() && user != null) {
-			try{
-				event.setOrganizer(user);
-				event.setCreatedAt(new Date(System.currentTimeMillis()));
-				Set<User> set = new HashSet<User>();
-				set.add(getUser());
-				event.setParticipants(set);
-				event.setFinish(false);
-				return ResponseEntity.ok(eventService.createEvent(event));
-			}catch(Exception e){
-				e.printStackTrace();
-				return ResponseEntity.badRequest().build();
-			}
-		}else {
+		try{
+			User user = getUser();
+			event.setOrganizer(user);
+			event.setCreatedAt(new Date(System.currentTimeMillis()));
+			Set<User> set = new HashSet<User>();
+			set.add(getUser());
+			event.setParticipants(set);
+			event.setFinish(false);
+
+			return ResponseEntity.ok(eventService.createEvent(event));
+
+		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
 	}
 	
 	@GetMapping("/list")
-	public Iterable<Event> getEvents(){
-		return eventService.getEventsNotFinished();
+	public ResponseEntity<?> getEvents(){
+		try{
+			return ResponseEntity.ok(eventService.getEventsNotFinished());
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+		
 	}
 	
 	@GetMapping("/get/{id}")

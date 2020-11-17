@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { TokenStorageService } from '../../services/token-storage.service';
 import { FileServiceService } from '../../services/file-service.service';
+import { FriendshipService } from '../../services/friendship.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -35,6 +36,7 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute, 
     private userService: UserService, 
     private tokenStorage: TokenStorageService, 
+    private friendshipService: FriendshipService,
     private fileService: FileServiceService) {
   }
 
@@ -43,7 +45,7 @@ export class ProfileComponent implements OnInit {
       this.route.paramMap.subscribe(params => {
         this.idUser = params.get('id');
         this.userService.getUser(this.idUser).subscribe(data => this.user = data);
-        this.userService.getFriendsFromUser(this.idUser).subscribe(data => this.friends = data);
+        this.friendshipService.getUserFriends(this.idUser).subscribe(data => this.friends = data);
         this.userService.getEventsJoined(this.idUser).subscribe(data => this.eventsJoined = data);
       });
   }

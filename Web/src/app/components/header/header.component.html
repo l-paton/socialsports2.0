@@ -25,6 +25,33 @@
         <button class="btn-main btn btn-info my-sm-0 border-0" type="submit"><i class="fas fa-search"></i></button>
       </form>
 
+      <li class="dropdown mr-3 mt-2 mb-2" *ngIf="friendRequests">
+        <a href="#" data-toggle="dropdown"><i class="fas fa-user-friends"></i><span
+            class="ml-1 badge badge-secondary">{{showFriendNotifications()}}</span></a>
+        <ul class="dropdown-menu menu-notifications dropdown-menu-right">
+          <div *ngFor="let f of friendRequests">
+              <a href="#" class="dropdown-item">
+                <li>
+                  <div class="row mt-2">
+                    <div class="col-4 text-center">
+                      <img [src]="f.picture" *ngIf="f.picture" class="profile-img">
+                    </div>
+                    <div class="col-8 text-left">
+                      {{ f.firstName }} quiere ser tu amigo/a
+                    </div>
+                  </div>
+                  <div class="mt-1 row float-right">
+                    <button class="btn btn-sm btn-success ml-2"
+                      (click)="acceptFriendRequest(f.id)">Acceptar</button>
+                    <button class="btn btn-sm btn-danger ml-2"
+                      (click)="cancelFriendRequest(f.id)">Cancelar</button>
+                  </div>
+                </li>
+              </a>
+          </div>
+        </ul>
+      </li>
+
       <li class="dropdown mr-5 mt-2 mb-2" *ngIf="events">
         <a href="#" data-toggle="dropdown"><i class="fas fa-bell"></i><span
             class="ml-1 badge badge-secondary">{{showNotifications()}}</span></a>

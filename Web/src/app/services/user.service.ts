@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Event } from '../models/Event';
 import { TokenStorageService } from './token-storage.service';
 import { User } from '../models/User';
+import { Event } from '../models/Event';
 
 const USER_API = 'http://localhost:8080/api/user';
 
@@ -13,6 +13,11 @@ const USER_API = 'http://localhost:8080/api/user';
 export class UserService {
 
   constructor(private http: HttpClient, private tokenStorage: TokenStorageService) { }
+
+  getUser(id): Observable<User>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.get<User>(USER_API + "/profile/" + id, { headers });
+  }
 
   getProfilePicture(): Observable<any> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
@@ -24,20 +29,7 @@ export class UserService {
     return this.http.get<User>(USER_API + "/data", { headers });
   }
 
-  getUser(id): Observable<User>{
-    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<User>(USER_API + "/profile/" + id, { headers });
-  }
-
-  getFriends(): Observable<User[]> {
-    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<User[]>(USER_API + '/friends', { headers });
-  }
-
-  getFriendsFromUser(id): Observable<User[]>{
-    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<User[]>(USER_API + '/' + id + '/friends', { headers });
-  }
+  /** EDIT USER */
 
   modifyFirstName(firstName: string): Observable<any> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
@@ -73,6 +65,8 @@ export class UserService {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     return this.http.put(USER_API + '/edit/description', description, { headers });
   }
+
+  /** EVENTS */
 
   getEventsJoined(id): Observable<Event[]> {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });

@@ -3,6 +3,7 @@ import { TokenStorageService } from '../../services/token-storage.service'
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { EventService } from '../../services/event.service';
+import { FriendshipService } from '../../services/friendship.service';
 import { User } from 'src/app/models/User';
 import { Event } from 'src/app/models/Event';
 
@@ -17,15 +18,18 @@ export class HeaderComponent implements OnInit {
   showHead: boolean = false;
   picture: string;
   notifications: number = 0;
+  notificationFriends: number = 0;
   jsonNotifications: JSON;
   events: Event[];
+  friendRequests: User[];
   applicants: string[];
 
   constructor(
     private router: Router,
     private tokenStorage: TokenStorageService,
     private userService: UserService,
-    private eventService: EventService) {
+    private eventService: EventService,
+    private friendshipService: FriendshipService) {
   }
 
   ngOnInit(): void {
@@ -34,6 +38,7 @@ export class HeaderComponent implements OnInit {
         this.id = this.tokenStorage.getUser().user.id;
         this.userService.getProfilePicture().subscribe(data => this.picture = data);
         this.getNotifications();
+        this.getFriendNotifications();
         this.showHead = true;
       } else {
         this.showHead = false;
@@ -42,7 +47,35 @@ export class HeaderComponent implements OnInit {
   }
 
   getNotifications(){
-    this.eventService.getRequests().subscribe(data => {this.events = data});
+    this.eventService.getRequests().subscribe(data => this.events = data);
+  }
+
+  getFriendNotifications(){
+    this.friendshipService.getRequestsReceived().subscribe(data => this.friendRequests = data);
+  }
+
+  acceptUserRequest(idEvent: string, idUser: string){
+    this.eventService.acceptUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
+  }
+
+  cancelUserRequest(idEvent: string, idUser: string){
+    this.eventService.cancelUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
+  }
+
+  acceptFriendRequest(id){
+    this.friendshipService.acceptFriend(id).subscribe(() => this.getFriendNotifications());
+  }
+
+  cancelFriendRequest(id){
+    this.friendshipService.denyFriend(id).subscribe(() => this.ngOnInit());
+  }
+
+  getProfile(id: number) {
+    this.router.navigate(['/profile', id]);
+  }
+
+  logout() {
+    this.tokenStorage.logout();
   }
 
   showNotifications(): number{
@@ -57,8 +90,16 @@ export class HeaderComponent implements OnInit {
     return n;
   }
 
-  logout() {
-    this.tokenStorage.logout();
+  showFriendNotifications(): number{
+    var n = 0;
+
+    this.friendRequests.forEach(o => {
+      n++;
+    });
+
+    this.notificationFriends = n;
+    return n;
+
   }
 
   isActive(path){
@@ -73,18 +114,6 @@ export class HeaderComponent implements OnInit {
     }
     
     return false;
-  }
-
-  acceptUserRequest(idEvent: string, idUser: string){
-    this.eventService.acceptUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
-  }
-
-  cancelUserRequest(idEvent: string, idUser: string){
-    this.eventService.cancelUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
-  }
-
-  getProfile(id: number) {
-    this.router.navigate(['/profile', id]);
   }
 
 }

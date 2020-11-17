@@ -77,10 +77,7 @@ public class User {
 	@JsonIgnore
 	@ManyToMany(mappedBy = "applicants")
 	private Set<Event> eventsApplied = new HashSet<>();
-	
-	@JsonIgnore
-	@ManyToMany
-	private Set<User> friends = new HashSet<>();
+
 
 	public User() {
 		
@@ -178,14 +175,6 @@ public class User {
 
 	public void setEventsJoined(Set<Event> eventsJoined) {
 		this.eventsJoined = eventsJoined;
-	}
-
-	public Set<User> getFriends() {
-		return friends;
-	}
-
-	public void setFriends(Set<User> friends) {
-		this.friends = friends;
 	}
 
 	public String getDescription() {

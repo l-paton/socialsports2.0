@@ -18,14 +18,24 @@
                                 </ng-template>
                             </ngb-rating>
                         </div>
-                        <div class="text-right">
-                            <button class="btn btn-sm btn-success mr-1"
-                                *ngIf="user.id != id && !IsUserMyFriend(user.id)" (click)="addFriend(user.id)">Añadir
+                        <div class="float-right row">
+
+                            <div *ngIf="!IsUserMyFriend(user.id)">
+                                <button class="btn btn-sm btn-success mr-1"
+                                *ngIf="user.id != id && !IsInMyRequestsSent(user.id) && !IsInMyRequestsReceived(user.id)" (click)="sendFriendRequest(user.id)">Añadir
                                 amigo</button>
+
+                                <button class="btn btn-sm btn-dark mr-1" *ngIf="IsInMyRequestsReceived(user.id)" (click)="acceptFriendRequest(user.id)">Aceptar petición</button>
+                                <button class="btn btn-sm btn-warning mr-1"
+                                *ngIf="user.id != id && IsInMyRequestsSent(user.id)" (click)="sendFriendRequest(user.id)">Cancelar petición</button>
+                            </div>
+
                             <button class="btn btn-sm btn-danger mr-1" *ngIf="IsUserMyFriend(user.id)"
                                 (click)="deleteFriend(user.id)">Eliminar amigo</button>
-                            <button class="btn btn-sm btn-info" [routerLink]="['/profile/' + user.id]">Ver
+
+                            <button class="btn btn-sm btn-info mr-3" [routerLink]="['/profile/' + user.id]">Ver
                                 perfil</button>
+
                         </div>
                     </div>
                 </li>

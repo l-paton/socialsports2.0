@@ -16,12 +16,4 @@ export class CommunityService {
   getListUsers(): Observable<User[]>{
     return this.http.get<User[]>(USER_API + '/list', { headers: new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken()})});
   }
-
-  addFriend(id:number): Observable<any>{
-    return this.http.post<any>(USER_API + '/add/friend/' + id, { headers: new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken()})});
-  }
-
-  deleteFriend(id:number): Observable<any>{
-    return this.http.delete<any>(USER_API + '/delete/friend/' + id, { headers: new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken()})});
-  }
 }
