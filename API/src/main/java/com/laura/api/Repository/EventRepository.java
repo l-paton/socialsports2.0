@@ -28,4 +28,6 @@ public interface EventRepository extends CrudRepository<Event, Long>{
 	Set<Event> findByStartDate(Date startDate);
 
 	Set<Event> findByTime(String time);
+
+	Set<Event> findByOrganizerReputationOrganizer(float score);
 }

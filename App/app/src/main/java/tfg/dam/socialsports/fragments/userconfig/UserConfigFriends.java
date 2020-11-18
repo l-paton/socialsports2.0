@@ -53,20 +53,20 @@ public class UserConfigFriends extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        eliminarAmigo();
+                        deleteFriend();
                         break;
                 }
                 mostrarListaAmigos(LoginActivity.user.getListaAmigos());
             }
         });
         listViewAmigos = getActivity().findViewById(R.id.listUserConfigFriends);
-        obtenerListaAmigos();
+        getFriendList();
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        obtenerListaAmigos();
+        getFriendList();
     }
 
     private void mostrarListaAmigos(final ArrayList<User> arrayList)
@@ -85,7 +85,7 @@ public class UserConfigFriends extends Fragment {
         });
     }
 
-    private void eliminarAmigo() {
+    private void deleteFriend() {
 
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
@@ -93,7 +93,7 @@ public class UserConfigFriends extends Fragment {
                 userSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 204){
+                if(response.isSuccessful()){
                     LoginActivity.user.getListaAmigos().remove(userSeleccionado);
                     mostrarListaAmigos(LoginActivity.user.getListaAmigos());
                 }
@@ -105,10 +105,10 @@ public class UserConfigFriends extends Fragment {
         });
     }
 
-    private void obtenerListaAmigos(){
+    private void getFriendList(){
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.listaAmigos("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<User>>() {
+        service.friendList("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<User>>() {
             @Override
             public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
 

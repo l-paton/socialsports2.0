@@ -219,7 +219,7 @@ public class EventController {
 		@RequestParam(required = false) float score){
 			System.out.println(score);
 		try{
-			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time);
+			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time, score);
 			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
 			return ResponseEntity.ok(events);
 		}catch(Exception e){

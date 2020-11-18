@@ -1,3 +1,7 @@
+label{
+    color: black;
+}
+
 .container-fluid{
     height: 100vh;
     overflow: hidden;

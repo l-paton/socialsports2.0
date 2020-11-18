@@ -50,13 +50,15 @@ export class ProfileComponent implements OnInit {
       });
   }
 
-  modifyProfile() {
+  async modifyProfile() {
     if (this.description != null) {
       this.userService.modifyDescription(this.description).subscribe(() => {
         this.user.description = this.description;
         this.tokenStorage.saveUser({"user": this.user});
       });
     }
+    
+    await this.sleep(500);
 
     if (this.firstName != null && this.firstName != "") {
       this.userService.modifyFirstName(this.firstName).subscribe(() => {
@@ -64,7 +66,9 @@ export class ProfileComponent implements OnInit {
         this.tokenStorage.saveUser({"user": this.user});
       });
     }
-
+    
+    await this.sleep(500);
+    
     if (this.lastName != null && this.lastName != "") {
       this.userService.modifyLastName(this.lastName).subscribe(() => {
         this.user.lastName = this.lastName;
@@ -72,33 +76,47 @@ export class ProfileComponent implements OnInit {
       });
     }
 
+    await this.sleep(500);
+
     if (this.address != null && this.address != "") {
       this.userService.modifyAddress(this.address).subscribe(() => {
         this.user.address = this.address;
         this.tokenStorage.saveUser({"user": this.user});
       });
     }
-
+    
+    await this.sleep(500);
+    
     if(this.birthDay){
       this.userService.modifyBirthday(this.birthDay.toString()).subscribe(() => {
         this.user.birthday = this.birthDay;
         this.tokenStorage.saveUser({"user": this.user});
       });
     }
-
+    
+    await  this.sleep(500);
+    
     if(this.gender){
       this.userService.modifyGenre(this.gender).subscribe(() => {
         this.user.gender = this.gender;
         this.tokenStorage.saveUser({"user": this.user});
       });
     }
-
+    
+    await this.sleep(500);
+    
     if (this.selectedFiles && this.selectedFiles.length > 0) {
       this.fileService.uploadImage(this.selectedFiles.item(0)).subscribe();
     }
+
+    await this.sleep(500);
     
     this.editarUsuario = !this.editarUsuario;
   }
+
+  sleep(msec) {
+    return new Promise(resolve => setTimeout(resolve, msec));
+}
 
   /** FUNCIONES **/
 
@@ -137,4 +155,5 @@ export class ProfileComponent implements OnInit {
   selectChangeHandler(event: any){
     this.gender = event.target.value;
   }
+
 }

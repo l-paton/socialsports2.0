@@ -30,6 +30,15 @@ public class FriendshipService {
         }
     }
 
+    public void cancelRequest(User user, long id){
+        User receiver = userService.getUserById(id);
+
+        if(receiver != null){
+            FriendshipId fi = new FriendshipId(user, receiver);
+            repository.deleteById(fi);
+        }
+    }
+
     public Set<User> getMyRequestsSent(User user){
         Set<Friendship> friendships = repository.findByFriendshipIdUserOneId(user.getId());
         Set<User> requestsSent = new HashSet<>();

@@ -27,7 +27,7 @@
 
                                 <button class="btn btn-sm btn-dark mr-1" *ngIf="IsInMyRequestsReceived(user.id)" (click)="acceptFriendRequest(user.id)">Aceptar petición</button>
                                 <button class="btn btn-sm btn-warning mr-1"
-                                *ngIf="user.id != id && IsInMyRequestsSent(user.id)" (click)="sendFriendRequest(user.id)">Cancelar petición</button>
+                                *ngIf="user.id != id && IsInMyRequestsSent(user.id)" (click)="cancelRequest(user.id)">Cancelar petición</button>
                             </div>
 
                             <button class="btn btn-sm btn-danger mr-1" *ngIf="IsUserMyFriend(user.id)"

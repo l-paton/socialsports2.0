@@ -17,7 +17,10 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 @Entity
+@DynamicUpdate
 @Table(name="USERS", uniqueConstraints = {@UniqueConstraint(columnNames = "EMAIL")} )
 public class User {
 
@@ -39,16 +42,16 @@ public class User {
 	@Column(name="PASSWORD", nullable=false)
 	private String password;
 	
-	@Column(name="FIRST_NAME")
+	@Column(name="FIRST_NAME", length = 32)
 	private String firstName;
 	
-	@Column(name="LAST_NAME")
+	@Column(name="LAST_NAME", length = 32)
 	private String lastName;
 	
-	@Column(name="GENDER")
+	@Column(name="GENDER", length = 6)
 	private String gender;
-
-	@Column(name="ADDRESS")
+	
+	@Column(name="ADDRESS", length = 32)
 	private String address;
 	
 	@Column(name="BIRTHDAY")
@@ -61,7 +64,7 @@ public class User {
 	@Column(name="PICTURE")
 	private String picture;
 
-	@Column(name="DESCRIPTION")
+	@Column(name="DESCRIPTION", length = 128)
 	private String description; 
 
 	@Column(name="REPUTATION_PARTICIPANT")

@@ -35,6 +35,7 @@
                   <div class="row mt-2">
                     <div class="col-4 text-center">
                       <img [src]="f.picture" *ngIf="f.picture" class="profile-img">
+                      <img src="../../../assets/images/45x45.png" *ngIf="!f.picture" class="profile-img">
                     </div>
                     <div class="col-8 text-left">
                       {{ f.firstName }} quiere ser tu amigo/a
@@ -63,6 +64,7 @@
                   <div class="row mt-2">
                     <div class="col-3">
                       <img [src]="applicant.picture" *ngIf="applicant.picture" class="profile-img">
+                      <img src="../../../assets/images/45x45.png" *ngIf="!applicant.picture" class="profile-img">
                     </div>
                     <div class="col-9 text-center">
                       {{ applicant.firstName }} quiere unirse a {{ e.sport }} {{ e.address }}

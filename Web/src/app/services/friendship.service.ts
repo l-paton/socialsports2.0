@@ -19,6 +19,12 @@ export class FriendshipService {
     return this.http.post(FRIEND_API + '/sendrequest', params, {headers: headers});
   }
 
+  cancelRequest(id){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append("id", id);
+    return this.http.post(FRIEND_API + '/cancelrequest', params, {headers: headers});
+  }
+
   acceptFriend(id){
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     let params = new HttpParams().append("id", id);

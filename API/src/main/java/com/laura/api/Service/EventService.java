@@ -1,6 +1,7 @@
 package com.laura.api.Service;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -129,24 +130,36 @@ public class EventService {
 
 		if (searchRequest.getSport() != null && searchRequest.getSport() != "") {
 			Set<Event> findBySport = (HashSet<Event>) repository.findBySport(searchRequest.getSport());
-			if (findBySport != null && findBySport.size() > 0)
+			if (findBySport != null)
 				events.retainAll(findBySport);
 		}
+
 		if (searchRequest.getAddress() != null && searchRequest.getAddress() != "") {
 			Set<Event> findByAddress = (HashSet<Event>) repository.findByAddress(searchRequest.getAddress());
-			if (findByAddress != null && findByAddress.size() > 0)
+			if (findByAddress != null)
 				events.retainAll(findByAddress);
 		}
 
 		if (searchRequest.getstartDate() != null) {
 			Set<Event> findByStartDate = (HashSet<Event>) repository.findByStartDate(searchRequest.getstartDate());
-			if (findByStartDate != null && findByStartDate.size() > 0)
+			if (findByStartDate != null)
 				events.retainAll(findByStartDate);
 		}
+
 		if (searchRequest.getTime() != null && searchRequest.getTime() != "") {
 			Set<Event> findByTime = (HashSet<Event>) repository.findByTime(searchRequest.getTime());
-			if (findByTime != null && findByTime.size() > 0)
+			if (findByTime != null)
 				events.retainAll(findByTime);
+		}
+
+		if(searchRequest.getScore() > 0){
+			Iterator<Event> iter = events.iterator();
+			while (iter.hasNext()) {
+				Event e = iter.next();
+			
+				if (e.getOrganizer().getReputationOrganizer() < searchRequest.getScore())
+					iter.remove();
+			}
 		}
 		
 		return events;

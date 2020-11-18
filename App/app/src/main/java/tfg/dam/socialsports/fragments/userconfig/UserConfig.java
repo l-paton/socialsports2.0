@@ -280,7 +280,7 @@ public class UserConfig extends Fragment {
         service.editBirthday("Bearer " + LoginActivity.token, birthday).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 200) {
+                if(response.isSuccessful()) {
                     LoginActivity.user.setBirthday(Funcionalidades.StringToDate(birthday));
                 }
                 else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());

@@ -127,11 +127,12 @@ public class SearchEvent extends Fragment {
                 }
             });
         }else {
-            service.buscarEventos("Bearer " + LoginActivity.token,
+            service.searchEvents("Bearer " + LoginActivity.token,
                     filtro.getSport(),
                     Funcionalidades.dateToString2(filtro.getStartAt()),
                     filtro.getTime(),
-                    filtro.getAddress()).enqueue(new Callback<ArrayList<Event>>() {
+                    filtro.getAddress(),
+                    filtro.getReputation()).enqueue(new Callback<ArrayList<Event>>() {
                 @Override
                 public void onResponse(Call<ArrayList<Event>> call, Response<ArrayList<Event>> response) {
                     if (response.isSuccessful()) {

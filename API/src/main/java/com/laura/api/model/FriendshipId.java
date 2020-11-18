@@ -38,4 +38,36 @@ public class FriendshipId implements Serializable{
     public void setUserTwo(User userTwo) {
         this.userTwo = userTwo;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((userOne == null) ? 0 : userOne.hashCode());
+        result = prime * result + ((userTwo == null) ? 0 : userTwo.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        FriendshipId other = (FriendshipId) obj;
+        if (userOne == null) {
+            if (other.userOne != null)
+                return false;
+        } else if (!userOne.equals(other.userOne))
+            return false;
+        if (userTwo == null) {
+            if (other.userTwo != null)
+                return false;
+        } else if (!userTwo.equals(other.userTwo))
+            return false;
+        return true;
+    }
+    
 }

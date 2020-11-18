@@ -68,4 +68,44 @@ public class RateId implements Serializable{
         this.type = type;
     }
 
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((event == null) ? 0 : event.hashCode());
+        result = prime * result + type;
+        result = prime * result + ((voted == null) ? 0 : voted.hashCode());
+        result = prime * result + ((voter == null) ? 0 : voter.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RateId other = (RateId) obj;
+        if (event == null) {
+            if (other.event != null)
+                return false;
+        } else if (!event.equals(other.event))
+            return false;
+        if (type != other.type)
+            return false;
+        if (voted == null) {
+            if (other.voted != null)
+                return false;
+        } else if (!voted.equals(other.voted))
+            return false;
+        if (voter == null) {
+            if (other.voter != null)
+                return false;
+        } else if (!voter.equals(other.voter))
+            return false;
+        return true;
+    }
+
 }

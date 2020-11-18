@@ -44,6 +44,10 @@ export class CommunityComponent implements OnInit {
     this.friendshipService.sendFriendRequest(id).subscribe(() => this.ngOnInit());
   }
 
+  cancelRequest(id: number){
+    this.friendshipService.cancelRequest(id).subscribe(() => this.ngOnInit());
+  }
+
   acceptFriendRequest(id: number){
     this.friendshipService.acceptFriend(id).subscribe(() => this.ngOnInit());
   }

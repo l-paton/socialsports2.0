@@ -12,8 +12,10 @@ public class SignupRequest {
     @Email
     private String email;
     
+    @Size(min = 1, max = 32)
     private String firstname;
     
+    @Size(min = 1, max = 32)
     private String lastname;
 
     private Date birthday;
@@ -22,6 +24,7 @@ public class SignupRequest {
     @Size(min = 6, max = 64)
     private String password;
 
+    @Size(max = 6)
     private String gender;
  
     public String getEmail() {

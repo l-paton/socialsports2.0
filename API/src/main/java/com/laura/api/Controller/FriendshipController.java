@@ -41,6 +41,18 @@ public class FriendshipController {
 		}
 	}
 
+	@PostMapping("/cancelrequest")
+	public ResponseEntity<?> cancelFriendRequest(@RequestParam("id") long id){
+		try{
+
+			friendshipService.cancelRequest(getUser(), id);
+			return ResponseEntity.ok().build();
+			
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}	
+
 	@PostMapping("/accept")
 	public ResponseEntity<?> acceptFriend(@RequestParam("id") long id){
 		try{
@@ -87,7 +99,7 @@ public class FriendshipController {
 	}
 
 	@GetMapping("/list/{id}")
-	public ResponseEntity<?> getFriends(@PathVariable long id){
+	public ResponseEntity<?> getFriendsOfUser(@PathVariable long id){
 		try{
             
             User user = userService.getUserById(id);

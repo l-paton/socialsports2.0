@@ -135,7 +135,7 @@
     <!-- Strings related to User Config -->
     <string name="tab_configuration">Configuración</string>
     <string name="tab_amigos">Amigos</string>
-    <string name="tab_bloqueados">Bloqueados</string>
+    <string name="tab_bloqueados">Peticiones de amistad</string>
     <string name="item_menu_delete_account">Borrar cuenta</string>
     <string name="item_menu_logout">Cerrar sesión</string>
     <string name="text_participant_rating">Puntuación del participante</string>

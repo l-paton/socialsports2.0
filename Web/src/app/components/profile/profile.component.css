@@ -82,3 +82,7 @@ ngb-rating{
 .card-f{
     background-color: rgba(11, 53, 74, 0.5);
 }
+
+.card-header{
+    background-color: rgba(11, 53, 74, 0.5);  
+}

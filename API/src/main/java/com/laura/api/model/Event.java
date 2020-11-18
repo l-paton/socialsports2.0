@@ -14,6 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name="SPORT_EVENTS")
@@ -28,9 +29,11 @@ public class Event {
 	@JoinColumn(name="ORGANIZADOR_ID", referencedColumnName="ID")
 	private User organizer;
 	
+	@Size(max = 64)
 	@Column(name="SPORT", nullable=false)
 	private String sport;
 	
+	@Size(max = 32)
 	@Column(name="ADDRESS")
 	private String address;
 	
@@ -49,6 +52,7 @@ public class Event {
 	@Column(name="PRICE")
 	private float price;
 	
+	@Size(max = 64)
 	@Column(name="COMMENTS")
 	private String comments;
 	

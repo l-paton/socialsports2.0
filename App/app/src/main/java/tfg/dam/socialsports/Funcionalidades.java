@@ -225,7 +225,7 @@ public class Funcionalidades extends AppCompatActivity {
     public static void addFriend(final User user) {
 
         RETROFIT retrofit = new RETROFIT();
-        retrofit.getAPIService().addFriend("Bearer " + LoginActivity.token,
+        retrofit.getAPIService().sendFriendRequest("Bearer " + LoginActivity.token,
                 user.getId())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override

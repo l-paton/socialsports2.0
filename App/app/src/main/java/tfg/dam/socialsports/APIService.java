@@ -63,14 +63,31 @@ public interface APIService {
     @DELETE("user/delete")
     Call<ResponseBody> borrarUsuario(@Header("Authorization") String authHeader);
 
-    @GET("user/friends")
-    Call<ArrayList<User>> listaAmigos(@Header("Authorization") String authHeader);
+    /** FRIENDS **/
 
-    @POST("user/add/friend/{id}")
-    Call<ResponseBody> addFriend(@Header("Authorization") String authHeader, @Path("id") long id);
+    @GET("friend/list")
+    Call<ArrayList<User>> friendList(@Header("Authorization") String authHeader);
 
-    @DELETE("user/delete/friend/{id}")
+    @FormUrlEncoded
+    @POST("friend/sendrequest")
+    Call<ResponseBody> sendFriendRequest(@Header("Authorization") String authHeader, @Field("id") long id);
+
+    @FormUrlEncoded
+    @POST("friend/accept")
+    Call<ResponseBody> acceptFriend(@Header("Authorization") String authHeader, @Field("id") long id);
+
+    @FormUrlEncoded
+    @POST("friend/deny")
+    Call<ResponseBody> denyFriend(@Header("Authorization") String authHeader, @Field("id") long id);
+
+    @DELETE("friend/delete/{id}")
     Call<ResponseBody> deleteFriend(@Header("Authorization") String authHeader, @Path("id") long id);
+
+    @GET("friend/requests/sent")
+    Call<ArrayList<User>> requestsSent(@Header("Authorization") String authHeader);
+
+    @GET("friend/requests/received")
+    Call<ArrayList<User>> requestsReceived(@Header("Authorization") String authHeader);
 
     /************************EVENTOS************************/
 
@@ -84,9 +101,9 @@ public interface APIService {
     Call<ArrayList<Event>> myEventsJoinedFinished(@Header("Authorization") String authHeader);
 
     @GET("event/search")
-    Call<ArrayList<Event>> buscarEventos(@Header("Authorization") String authHeader,
-                                         @Query("sport") String sport, @Query("startDate") String startDate,
-                                         @Query("time") String time, @Query("address") String address /*,@Query("reputation") float reputacion*/);
+    Call<ArrayList<Event>> searchEvents(@Header("Authorization") String authHeader,
+                                        @Query("sport") String sport, @Query("startDate") String startDate,
+                                        @Query("time") String time, @Query("address") String address, @Query("reputation") float reputacion);
 
     @FormUrlEncoded
     @PUT("event/edit/startdate")

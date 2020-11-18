@@ -134,7 +134,7 @@
     <!-- Strings related to User Config -->
     <string name="tab_configuration">Configuration</string>
     <string name="tab_amigos">Friends</string>
-    <string name="tab_bloqueados">Banned</string>
+    <string name="tab_bloqueados">Friend requests</string>
     <string name="item_menu_delete_account">Delete Account</string>
     <string name="item_menu_logout">Logout</string>
     <string name="text_participant_rating">Participant rating</string>

@@ -8,12 +8,14 @@ public class SearchRequest {
     private String address;
     private Date startDate;
     private String time;
+    private float score;
 
-    public SearchRequest(String sport, String address, Date startDate, String time) {
+    public SearchRequest(String sport, String address, Date startDate, String time, float score) {
         this.sport = sport;
         this.address = address;
         this.startDate = startDate;
         this.time = time;
+        this.score = score;
     }
 
     public String getSport() {
@@ -48,10 +50,26 @@ public class SearchRequest {
         this.time = time;
     }
 
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
+
     @Override
     public String toString() {
-        return "SearchRequest [address=" + address + ", sport=" + sport + ", startDate=" + startDate + ", time=" + time
-                + "]";
+        return "SearchRequest [address=" + address + ", score=" + score + ", sport=" + sport + ", startDate="
+                + startDate + ", time=" + time + "]";
     }
     
 }
