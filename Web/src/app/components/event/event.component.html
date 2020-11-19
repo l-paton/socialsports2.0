@@ -79,8 +79,7 @@
                         <p class="desc"><span class="titulo">Edad mínima:</span> {{event.requirement.minAge}}</p>
                         <p class="desc"><span class="titulo">Edad máxima:</span> {{event.requirement.maxAge}}</p>
                         <p class="desc"><span class="titulo">Género:</span> {{event.requirement.gender}}</p>
-                        <p class="desc"><span class="titulo">Puntuación requerida:</span>
-                            {{event.requirement.score}}<span *ngIf="!event.requirement.score" class="desc">0</span></p>
+                        <p class="desc"><span class="titulo">Puntuación requerida:</span> {{event.requirement.score}}</p>
                     </div>
                 </div>
                 <div class="row mt-5" *ngIf="editar && isOrganizer()">

@@ -62,13 +62,13 @@ public class Event {
 	@Embedded
 	private Requirement requirement;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "participants_event",
 		joinColumns = @JoinColumn(name = "event_id"), 
 	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> participants;
 
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.MERGE)
 	@JoinTable(name = "applicants_event",
 		joinColumns = @JoinColumn(name = "event_id"), 
 	  	inverseJoinColumns = @JoinColumn(name = "user_id"))

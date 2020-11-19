@@ -53,6 +53,7 @@ public class NewEvent extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        getFriendList();
         createButton = getActivity().findViewById(R.id.createNewEventButton);
         nextButton = getActivity().findViewById(R.id.buttonNext);
         previousButton = getActivity().findViewById(R.id.buttonPrevious);
@@ -74,7 +75,7 @@ public class NewEvent extends Fragment {
                 v.requestFocus();
                 Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
                 v.setFocusableInTouchMode(false);
-                if (obtenerParametrosIntroducidos())
+                if (getParams())
                     crearEvento();
             }
         });
@@ -160,12 +161,12 @@ public class NewEvent extends Fragment {
         previousButton.setVisibility(View.VISIBLE);
     }
 
-    private boolean obtenerParametrosIntroducidos() {
+    private boolean getParams() {
         String sport,address,time,comments;
         Date startAt;
-        int maxParticipantes;
+        int maxParticipants;
         float price;
-        Requirement requirement = new Requirement(0,0,"other",0);
+        Requirement requirement = new Requirement(-1,-1,null,-1);
 
         sport = newEventDescription.getDeporte().toUpperCase();
         address = newEventDescription.getLocalidad().toUpperCase();
@@ -177,26 +178,27 @@ public class NewEvent extends Fragment {
 
         startAt = newEventSpecify.getFechaEvento();
         time = newEventSpecify.getHoraEvento();
-        maxParticipantes = newEventSpecify.getNumParticipantes();
+        maxParticipants = newEventSpecify.getNumParticipantes();
         price = newEventSpecify.getCosteReserva();
         comments = newEventSpecify.getComentarios();
 
-        requirement.setMinAge(newEventRequirements.getEdadMinima());
-        requirement.setMaxAge(newEventRequirements.getEdadMaxima());
-        requirement.setGender(newEventRequirements.getGenero().toUpperCase());
-        requirement.setReputation(newEventRequirements.getReputacion());
+        if(newEventRequirements.getEdadMinima() >= 0) requirement.setMinAge(newEventRequirements.getEdadMinima());
+        if(newEventRequirements.getEdadMaxima() >= 0) requirement.setMaxAge(newEventRequirements.getEdadMaxima());
+        if(newEventRequirements.getGenero() != null && !newEventRequirements.getGenero().equals("")) requirement.setGender(newEventRequirements.getGenero().toUpperCase());
+        if(newEventRequirements.getReputacion() >= 0) requirement.setReputation(newEventRequirements.getReputacion());
 
         ArrayList<User> listaP = new ArrayList<>();
-        if (newEventSpecify.getElOrganizadorEsParticipante())
-            listaP.add(LoginActivity.user);
+        /*if (newEventSpecify.getElOrganizadorEsParticipante())
+            listaP.add(LoginActivity.user);*/
 
         for (User user : LoginActivity.user.getListaAmigos()) {
-            if (newEventInvite.getListaInvitarAmigos().contains(user.getEmail())) {
+            if (newEventInvite.getListInviteFriends().contains(user.getId())) {
                 listaP.add(user);
             }
         }
 
-        eventCreado = new Event(sport, address, startAt, time, maxParticipantes, price, comments, requirement);
+        eventCreado = new Event(sport, address, startAt, time, maxParticipants, price, comments, requirement);
+        eventCreado.setParticipants(listaP);
 
         return true;
     }
@@ -209,8 +211,8 @@ public class NewEvent extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                if(response.code() == 200){
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_evento_creado),getContext());
+                if (response.code() == 200) {
+                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_evento_creado), getContext());
                     newEventDescription = new NewEventDescription();
                     newEventSpecify = new NewEventSpecify();
                     newEventRequirements = new NewEventRequirements();
@@ -220,8 +222,8 @@ public class NewEvent extends Fragment {
                     Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventRequirements);
                     Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventInvite);
                     tabLayout.getTabAt(0).select();
-                }else{
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_error_evento_creado),getContext());
+                } else {
+                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_error_evento_creado), getContext());
                     try {
                         Log.e("MENSAJE-ERROR:", response.errorBody().string());
                     } catch (IOException e) {
@@ -235,6 +237,28 @@ public class NewEvent extends Fragment {
                 t.printStackTrace();
             }
         });
-
     }
+
+    private void getFriendList() {
+        RETROFIT retrofit = new RETROFIT();
+        APIService service = retrofit.getAPIService();
+        service.friendList("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<User>>() {
+            @Override
+            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+
+                if (response.isSuccessful()) {
+                    LoginActivity.user.setListaAmigos(new ArrayList<User>());
+                    for (User user : response.body()) {
+                        LoginActivity.user.getListaAmigos().add(user);
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
+    }
+
 }

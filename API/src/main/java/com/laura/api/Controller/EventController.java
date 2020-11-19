@@ -46,10 +46,12 @@ public class EventController {
 	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event){
 		
 		try{
+			System.out.println(event.toString());
 			User user = getUser();
 			event.setOrganizer(user);
 			event.setCreatedAt(new Date(System.currentTimeMillis()));
-			Set<User> set = new HashSet<User>();
+			Set<User> set = event.getParticipants();
+			if(set == null) set = new HashSet<User>();
 			set.add(getUser());
 			event.setParticipants(set);
 			event.setFinish(false);
@@ -57,6 +59,7 @@ public class EventController {
 			return ResponseEntity.ok(eventService.createEvent(event));
 
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}

@@ -19,18 +19,24 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import tfg.dam.socialsports.APIService;
+import tfg.dam.socialsports.Clases.User;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
+import tfg.dam.socialsports.RETROFIT;
 
 public class NewEventInvite extends Fragment {
 
-    private ArrayList<String> listaInvitarAmigos;
-    private TextView textDescrip;
-    private LinearLayout viewListaAmigos;
+    private ArrayList<Long> listInviteFriends;
+    private TextView descriptionTextView;
+    private LinearLayout listFriendsView;
     private BottomNavigationView navigationView;
 
     public NewEventInvite() {
-        listaInvitarAmigos = new ArrayList<>();
+        listInviteFriends = new ArrayList<>();
     }
 
 
@@ -44,8 +50,8 @@ public class NewEventInvite extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        textDescrip = getActivity().findViewById(R.id.textInviteDescription);
-        viewListaAmigos = getActivity().findViewById(R.id.viewListaAmigos);
+        descriptionTextView = getActivity().findViewById(R.id.textInviteDescription);
+        listFriendsView = getActivity().findViewById(R.id.viewListaAmigos);
         navigationView = getActivity().findViewById(R.id.navigationNewEventInvite);
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -74,32 +80,32 @@ public class NewEventInvite extends Fragment {
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
                         buttonView.setButtonTintList(getResources().getColorStateList(R.color.colorAccent));
-                        if (!listaInvitarAmigos.contains(buttonView.getHint().toString()))
-                            listaInvitarAmigos.add(buttonView.getHint().toString());
+                        if (!listInviteFriends.contains(buttonView.getHint().toString()))
+                            listInviteFriends.add(Long.parseLong(buttonView.getHint().toString()));
                     }
                     else {
                         buttonView.setButtonTintList(getResources().getColorStateList(R.color.colorElements));
-                        if (listaInvitarAmigos.contains(buttonView.getHint().toString()))
-                            listaInvitarAmigos.remove(buttonView.getHint().toString());
+                        if (listInviteFriends.contains(buttonView.getHint().toString()))
+                            listInviteFriends.remove(buttonView.getHint().toString());
                     }
                 }
             });
-            viewListaAmigos.addView(checkBox);
+            listFriendsView.addView(checkBox);
         }
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        textDescrip.setFocusable(true);
-        textDescrip.setFocusableInTouchMode(true);
-        textDescrip.requestFocus();
-        textDescrip.setFocusable(false);
-        textDescrip.setFocusableInTouchMode(false);
+        descriptionTextView.setFocusable(true);
+        descriptionTextView.setFocusableInTouchMode(true);
+        descriptionTextView.requestFocus();
+        descriptionTextView.setFocusable(false);
+        descriptionTextView.setFocusableInTouchMode(false);
     }
 
     public void seleccionarTodosAmigos(boolean selec) {
-        for (int i = 0; i<LoginActivity.user.getListaAmigos().size(); i++) {
+        for (int i = 0; i < LoginActivity.user.getListaAmigos().size(); i++) {
             CheckBox checkBox = getActivity().findViewById(i);
             checkBox.setChecked(selec);
             if (selec)
@@ -110,7 +116,8 @@ public class NewEventInvite extends Fragment {
     }
 
     //Devuelve la lista de los email pertenecientes a los amigos seleccionados para invitar al evento.
-    public ArrayList<String> getListaInvitarAmigos() {
-        return listaInvitarAmigos;
+    public ArrayList<Long> getListInviteFriends() {
+        return listInviteFriends;
     }
+
 }
