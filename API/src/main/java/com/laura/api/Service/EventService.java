@@ -1,5 +1,6 @@
 package com.laura.api.Service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.laura.api.Repository.EventRepository;
+import com.laura.api.model.CommentEvent;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
 import com.laura.api.payload.SearchRequest;
@@ -180,5 +182,15 @@ public class EventService {
 
 	public Event editEvent(Event event){
 		return repository.save(event);
+	}
+
+	public void publishEvent(long idEvent, User user, String comment){
+		Event event = getEvent(idEvent);
+		if(event != null){
+			CommentEvent commentEvent = new CommentEvent(event, user, comment, new Date(System.currentTimeMillis()));
+			event.getUserComments().add(commentEvent);
+			repository.save(event);
+		}
+		
 	}
 }

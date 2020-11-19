@@ -1,6 +1,7 @@
 package com.laura.api.model;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -13,8 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name="SPORT_EVENTS")
@@ -73,6 +77,10 @@ public class Event {
 		joinColumns = @JoinColumn(name = "event_id"), 
 	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> applicants;
+
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="event")
+	private List<CommentEvent> userComments;
+	
 
 	public long getId() {
 		return id;
@@ -186,12 +194,21 @@ public class Event {
 		this.applicants = applicants;
 	}
 
+	public List<CommentEvent> getUserComments() {
+		return userComments;
+	}
+
+	public void setUserComments(List<CommentEvent> userComments) {
+		this.userComments = userComments;
+	}
+
 	@Override
 	public String toString() {
 		return "Event [address=" + address + ", applicants=" + applicants + ", comments=" + comments + ", createdAt="
 				+ createdAt + ", finish=" + finish + ", id=" + id + ", maxParticipants=" + maxParticipants
 				+ ", organizer=" + organizer + ", participants=" + participants + ", price=" + price + ", requirement="
-				+ requirement + ", sport=" + sport + ", startDate=" + startDate + ", time=" + time + "]";
+				+ requirement + ", sport=" + sport + ", startDate=" + startDate + ", time=" + time + ", userComments="
+				+ userComments + "]";
 	}
-	
+
 }

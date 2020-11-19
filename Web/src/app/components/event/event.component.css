@@ -4,6 +4,12 @@
     border-radius: 180%;
 }
 
+.img-comment{
+    width: 35px;
+    height: 35px;
+    border-radius: 180%;
+}
+
 .participante{
     float: left;
 }
@@ -16,7 +22,7 @@
 }
 
 .container-desc{
-    box-shadow: 0 0 2px 1px rgba(35, 102, 114, 0.6);;
+    box-shadow: 0 0 2px 1px rgba(35, 102, 114, 0.6);
     padding: 15px;
     border-radius: 2px;
     /*background-color: rgba(35, 102, 114, 0.6);*/
@@ -60,4 +66,18 @@ ngb-rating{
 
 .btn-puntuar{
     background-color: #00ffea;
+}
+
+.card-comment{
+    background-color: rgba(0,0,0,0.0);
+}
+
+.card-header{
+    
+    background-color: rgba(0, 0, 0, 0.85);
+    color: #00ffea;
+}
+
+.card-body{
+    background-color: rgba(0, 0, 0, 0.5);
 }

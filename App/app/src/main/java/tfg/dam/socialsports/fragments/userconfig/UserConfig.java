@@ -123,7 +123,7 @@ public class UserConfig extends Fragment {
                 logout();
                 break;
             case R.id.itemUserMenuDelete:
-                eliminarCuentaDelUsuario();
+                deleteUserAccount();
                 break;
         }
     }
@@ -131,6 +131,7 @@ public class UserConfig extends Fragment {
     private void guardarCambios() {
         String passwordNew = userConfigSettings.getNewpass();
         String passwordNewRepeat = userConfigSettings.getRepeatpass();
+
         if (!passwordNew.equals(passwordNewRepeat)) {
             Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_passwords_diferentes),getContext());
             return;
@@ -143,10 +144,22 @@ public class UserConfig extends Fragment {
             editFirstName(newName);
         }
 
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         String newLastName = userConfigSettings.getApellido();
         String oldLastName = LoginActivity.user.getLastName();
         if (!newLastName.equals(oldLastName)) {
             editLastName(newLastName);
+        }
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         String newAddress = userConfigSettings.getDireccion();
@@ -155,20 +168,44 @@ public class UserConfig extends Fragment {
             editAddress(newAddress);
         }
 
-        String generoNew = userConfigSettings.getGenero();
-        String generoOld = LoginActivity.user.getGender();
-        if (!generoNew.isEmpty() && !generoNew.equals(generoOld)) {
-            editGenre(generoNew);
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        String gender = userConfigSettings.getGenero();
+        String oldGender = LoginActivity.user.getGender();
+        if (!gender.isEmpty() && !gender.equals(oldGender)) {
+            editGenre(gender);
+        }
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         if (!passwordNew.isEmpty()) {
-            actualizarPasswordUsuarioBBDD(email,passwordNew);
+            updatePassword(passwordNew);
+        }
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         Date newBirthday = userConfigSettings.getBirthdate();
         Date oldBirthday = LoginActivity.user.getBirthday();
         if (newBirthday != null && newBirthday != oldBirthday) {
             editBirthDay(Funcionalidades.dateToString2(newBirthday));
+        }
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         if(userConfigSettings.getUri() != null){
@@ -187,7 +224,7 @@ public class UserConfig extends Fragment {
         getActivity().finish();
     }
 
-    private void eliminarCuentaDelUsuario() {
+    private void deleteUserAccount() {
         eliminararUsuarioBBDD(LoginActivity.user);
     }
 
@@ -293,11 +330,11 @@ public class UserConfig extends Fragment {
         });
     }
 
-    public void actualizarPasswordUsuarioBBDD(String email, String password) {
+    public void updatePassword(String password) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
 
-        service.putPassword("Bearer " + LoginActivity.token, email, password).enqueue(new Callback<ResponseBody>() {
+        service.putPassword("Bearer " + LoginActivity.token, password).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 200) {

@@ -15,7 +15,8 @@
                     </div>
                 </div>
                 <div *ngIf="event.finish" class="text-center mt-2">
-                    <ngb-rating [max]="5" [(rate)]="scoreOrganizer" [readonly]="false" *ngIf="event.organizer.id != idUser">
+                    <ngb-rating [max]="5" [(rate)]="scoreOrganizer" [readonly]="false"
+                        *ngIf="event.organizer.id != idUser">
                     </ngb-rating>
                     <br>
                     <button class="btn btn-sm btn-info mt-2" (click)="rateOrganizer()">Puntuar organizador</button>
@@ -53,7 +54,7 @@
 
         <div class="col-md-8">
             <div class="container container-desc">
-                
+
                 <div class="col-12 text-center">
                     <div class="text-right" *ngIf="isOrganizer()">
                         <button class="btn btn-sm btn-light" (click)="editEvent()">Editar</button>
@@ -79,7 +80,8 @@
                         <p class="desc"><span class="titulo">Edad mínima:</span> {{event.requirement.minAge}}</p>
                         <p class="desc"><span class="titulo">Edad máxima:</span> {{event.requirement.maxAge}}</p>
                         <p class="desc"><span class="titulo">Género:</span> {{event.requirement.gender}}</p>
-                        <p class="desc"><span class="titulo">Puntuación requerida:</span> {{event.requirement.score}}</p>
+                        <p class="desc"><span class="titulo">Puntuación requerida:</span> {{event.requirement.score}}
+                        </p>
                     </div>
                 </div>
                 <div class="row mt-5" *ngIf="editar && isOrganizer()">
@@ -152,19 +154,37 @@
             </div>
         </div>
         <!-- END DIV COL-8 -->
-        
+
     </div>
 
-    <div class="row mt-2">
+    <div class="row mt-2" *ngIf="!event.finish">
         <div class="col-12">
             <div class="form-group">
                 <label>Comentarios</label>
-                <textarea class="form-control" rows="3"></textarea>
+                <textarea class="form-control" rows="3" [(ngModel)]="commentEvent" name="commentEvent"></textarea>
                 <div class="text-right mt-2">
-                    <button class="btn btn-primary">Enviar</button>
+                    <button class="btn btn-primary" (click)="publishComment()">Enviar</button>
                 </div>
             </div>
+        </div>
+    </div>
 
+    <div class="row mt-2" *ngIf="event.userComments">
+        <div class="col-12">
+            <div *ngFor="let comment of sortBy()">
+                <div class="card card-comment mt-2 mb-4">
+                    <div class="card-header">
+                        <img [src]="getUserPicture(comment.user.picture)" class="img-comment rounded mr-2">
+                        {{comment.user.firstName}} {{comment.user.lastName}}
+                        <small class="float-right">
+                            {{comment.createAt |  date : 'medium' }}
+                        </small>
+                    </div>
+                    <div class="card-body">
+                        {{comment.comment}}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -208,8 +228,7 @@
                                     </div>
                                     <div class="text-center" *ngIf="event.finish">
                                         <ngb-rating [max]="5" [(rate)]="participant.reputationParticipant"
-                                            [readonly]="false"
-                                            *ngIf="participant.id != idUser">
+                                            [readonly]="false" *ngIf="participant.id != idUser">
                                         </ngb-rating>
                                         {{participant.reputationParticipant}}
                                     </div>

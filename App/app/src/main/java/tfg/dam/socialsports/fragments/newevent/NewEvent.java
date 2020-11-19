@@ -13,7 +13,6 @@ import android.widget.Button;
 
 import com.google.android.material.tabs.TabLayout;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -40,7 +39,7 @@ public class NewEvent extends Fragment {
     private Button createButton;
     private Button nextButton;
     private Button previousButton;
-    private Event eventCreado = null;
+    private Event eventCreated = null;
 
     public NewEvent() {
     }
@@ -76,7 +75,7 @@ public class NewEvent extends Fragment {
                 Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
                 v.setFocusableInTouchMode(false);
                 if (getParams())
-                    crearEvento();
+                    createEvent();
             }
         });
 
@@ -197,38 +196,33 @@ public class NewEvent extends Fragment {
             }
         }
 
-        eventCreado = new Event(sport, address, startAt, time, maxParticipants, price, comments, requirement);
-        eventCreado.setParticipants(listaP);
+        eventCreated = new Event(sport, address, startAt, time, maxParticipants, price, comments, requirement);
+        eventCreated.setParticipants(listaP);
 
         return true;
     }
 
-    private void crearEvento() {
+    private void createEvent() {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        Log.e("EVENTO: ", eventCreado.toString());
-        service.createEvent("Bearer " + LoginActivity.token, eventCreado).enqueue(new Callback<ResponseBody>() {
+        Log.e("EVENTO: ", eventCreated.toString());
+        service.createEvent("Bearer " + LoginActivity.token, eventCreated).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-                if (response.code() == 200) {
+                if (response.isSuccessful()) {
                     Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_evento_creado), getContext());
                     newEventDescription = new NewEventDescription();
                     newEventSpecify = new NewEventSpecify();
                     newEventRequirements = new NewEventRequirements();
                     newEventInvite = new NewEventInvite();
-                    eventCreado = null;
+                    eventCreated = null;
                     Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventSpecify);
                     Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventRequirements);
                     Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventInvite);
                     tabLayout.getTabAt(0).select();
                 } else {
                     Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_error_evento_creado), getContext());
-                    try {
-                        Log.e("MENSAJE-ERROR:", response.errorBody().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
 

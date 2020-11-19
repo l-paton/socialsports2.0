@@ -57,8 +57,8 @@ public interface APIService {
     Call<ResponseBody> editBirthday(@Header("Authorization") String authHeader, @Field("birthday") String birthday);
 
     @FormUrlEncoded
-    @PUT("perfil/password")
-    Call<ResponseBody> putPassword(@Header("Authorization") String authHeader, @Field("correo") String correo, @Field("password") String password);
+    @PUT("user/edit/password")
+    Call<ResponseBody> putPassword(@Header("Authorization") String authHeader, @Field("password") String password);
 
     @DELETE("user/delete")
     Call<ResponseBody> borrarUsuario(@Header("Authorization") String authHeader);

@@ -121,6 +121,18 @@ public class UserController {
 		}
 	}
 
+	@PutMapping("/edit/password")
+	public ResponseEntity<?> editPassword(@RequestParam String password){
+		try{
+			if(userService.editPassword(getUser(), password)){
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().body("La contraseña debe tener entre 6 y 64 carácteres");
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
 	@DeleteMapping("/delete")
 	public ResponseEntity<?> deleteUser(){
 		try{

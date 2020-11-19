@@ -1,6 +1,7 @@
 package com.laura.api.Service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.laura.api.Repository.UserRepository;
@@ -11,6 +12,9 @@ public class UserService {
 
 	@Autowired
 	UserRepository repository;
+
+	@Autowired
+	PasswordEncoder encoder;
 	
 	public User getUser(String email) {
 		return repository.findByEmail(email).orElse(null);
@@ -30,6 +34,15 @@ public class UserService {
 	
 	public Iterable<User> getUsers(){
 		return repository.findAll();
+	}
+
+	public boolean editPassword(User user, String password){
+		if(password.length() > 6 && password.length() < 64){
+			user.setPassword(encoder.encode(password));
+			repository.save(user);
+			return true;
+		}
+		return false;
 	}
 
 }

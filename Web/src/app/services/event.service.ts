@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
 import { Event } from '../models/Event';
+import { CommentEvent } from '../models/CommentEvent';
 
 const EVENT_API = 'http://localhost:8080/api/event';
 
@@ -106,5 +107,16 @@ export class EventService {
   removeParticipant(idEvent, idUser){
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     return this.http.delete(EVENT_API + '/removeparticipant/' + idEvent + '/' + idUser, {headers: headers});
+  }
+
+  publishEvent(idEvent, comment){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append("idEvent", idEvent).append("comment", comment);
+    return this.http.post(EVENT_API + '/publish/comment', params, {headers: headers});
+  }
+
+  getEventComments(id): Observable<CommentEvent[]>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.get<CommentEvent[]>(EVENT_API + '/comments/' + id, {headers: headers});
   }
 }

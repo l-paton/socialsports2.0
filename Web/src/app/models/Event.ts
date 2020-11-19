@@ -1,5 +1,6 @@
 import { User } from './User';
 import { Requirement } from './Requirement';
+import { CommentEvent } from './CommentEvent';
 
 export class Event{
 
@@ -28,4 +29,5 @@ export class Event{
     applicants: User[];
     requirement: Requirement;
     time: string;
+    userComments: CommentEvent[];
 }

@@ -19,14 +19,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.User;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
 
 public class NewEventInvite extends Fragment {
 
@@ -58,10 +52,10 @@ public class NewEventInvite extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.itemInviteAllMenu:
-                        seleccionarTodosAmigos(true);
+                        selectAllFriends(true);
                         break;
                     case R.id.itemInviteNoneMenu:
-                        seleccionarTodosAmigos(false);
+                        selectAllFriends(false);
                         break;
                 }
                 return true;
@@ -104,7 +98,7 @@ public class NewEventInvite extends Fragment {
         descriptionTextView.setFocusableInTouchMode(false);
     }
 
-    public void seleccionarTodosAmigos(boolean selec) {
+    public void selectAllFriends(boolean selec) {
         for (int i = 0; i < LoginActivity.user.getListaAmigos().size(); i++) {
             CheckBox checkBox = getActivity().findViewById(i);
             checkBox.setChecked(selec);
@@ -115,7 +109,6 @@ public class NewEventInvite extends Fragment {
         }
     }
 
-    //Devuelve la lista de los email pertenecientes a los amigos seleccionados para invitar al evento.
     public ArrayList<Long> getListInviteFriends() {
         return listInviteFriends;
     }

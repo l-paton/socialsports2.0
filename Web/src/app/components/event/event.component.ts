@@ -26,6 +26,7 @@ export class EventComponent implements OnInit {
   editMinAge: number;
   editMaxAge: number;
   editGender: string;
+  commentEvent: string;
 
   constructor(
     private route: ActivatedRoute, 
@@ -95,6 +96,13 @@ export class EventComponent implements OnInit {
     console.log(this.scoreOrganizer);
     if(this.scoreOrganizer > 0){
       this.rateService.rateOrganizer(this.event.organizer.id, this.event.id, this.scoreOrganizer).subscribe();
+    }
+  }
+
+  publishComment(){
+    if(this.commentEvent){
+      console.log(this.commentEvent);
+      this.eventService.publishEvent(this.event.id, this.commentEvent).subscribe(() => this.ngOnInit());
     }
   }
 
@@ -174,5 +182,9 @@ export class EventComponent implements OnInit {
 
   editEvent(){
     this.editar = !this.editar;
+  }
+
+  sortBy(){
+    return this.event.userComments.sort((a,b) => new Date(b.createAt).getTime() - new Date(a.createAt).getTime());
   }
 }

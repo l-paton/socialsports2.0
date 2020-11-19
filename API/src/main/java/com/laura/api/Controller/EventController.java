@@ -6,7 +6,6 @@ import java.util.Set;
 
 import javax.validation.Valid;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -24,8 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.laura.api.Service.CommentEventService;
 import com.laura.api.Service.EventService;
 import com.laura.api.Service.UserService;
+import com.laura.api.model.CommentEvent;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
 import com.laura.api.payload.SearchRequest;
@@ -38,6 +39,9 @@ public class EventController {
 
 	@Autowired
 	EventService eventService;
+
+	@Autowired
+	CommentEventService CommentEventService;
 	
 	@Autowired
 	UserService userService;
@@ -51,7 +55,7 @@ public class EventController {
 			event.setOrganizer(user);
 			event.setCreatedAt(new Date(System.currentTimeMillis()));
 			Set<User> set = event.getParticipants();
-			if(set == null) set = new HashSet<User>();
+			if(set == null) set = new HashSet<User>();	
 			set.add(getUser());
 			event.setParticipants(set);
 			event.setFinish(false);
@@ -318,6 +322,36 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PostMapping("/publish/comment")
+	public ResponseEntity<?> publishComment(@RequestParam("idEvent") long idEvent, @RequestParam("comment") String comment){
+		try{
+			Event event = eventService.getEvent(idEvent);
+
+			if(event != null){
+				//CommentEvent commentEvent = CommentEventService.saveNewComment(event, getUser(), comment);
+				eventService.publishEvent(idEvent, getUser(), comment);
+				return ResponseEntity.ok().build();
+			}
+
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/comments/{id}")
+	public ResponseEntity<?> getEventComments(@PathVariable("id") long id){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null){
+				return ResponseEntity.ok(event.getComments());
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
 	}
