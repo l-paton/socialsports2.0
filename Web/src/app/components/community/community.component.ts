@@ -56,13 +56,6 @@ export class CommunityComponent implements OnInit {
     this.friendshipService.deleteFriend(id).subscribe(() => this.ngOnInit());
   }
 
-  getUrlPictureUser(user: User): string {
-    if (user.picture == null || user.picture.length <= 0) {
-      return "http://localhost:8080/api/images/users/95x95.png";
-    }
-    return user.picture;
-  }
-
   IsUserMyFriend(id: number): boolean {
     for (let i of this.myFriends) {
       if (i.id == id) {

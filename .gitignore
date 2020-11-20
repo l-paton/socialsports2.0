@@ -88,3 +88,6 @@ Thumbs.db
 */app/.project
 
 */com_crashlytics_export_strings.xml
+
+
+API/src/main/resources/application.properties

@@ -78,6 +78,11 @@ ngb-rating{
     color: #00ffea;
 }
 
-.card-body{
+.body-comment{
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+.participante:hover, .organizer-col:hover{
+    cursor: pointer;
+    text-shadow: 0 0 2px white;
 }

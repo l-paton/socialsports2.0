@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpEvent, HttpHeaders } from '@angular/common/http';
 import { TokenStorageService } from '../services/token-storage.service';
 import { Observable } from 'rxjs';
+import { environment } from './../../environments/environment';
 
-const FILE_API = 'http://localhost:8080/api/images';
+const FILE_API = environment.baseUrl + '/images';
 
 @Injectable({
   providedIn: 'root'

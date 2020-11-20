@@ -3,8 +3,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TokenStorageService } from './token-storage.service';
 import { Observable } from 'rxjs';
 import { User } from './../models/User';
+import { environment } from './../../environments/environment';
 
-const USER_API = 'http://localhost:8080/api/user';
+const USER_API = environment.baseUrl + '/user';
 
 @Injectable({
   providedIn: 'root'

@@ -4,8 +4,9 @@ import { Observable } from 'rxjs';
 import { TokenStorageService } from './token-storage.service';
 import { Event } from '../models/Event';
 import { CommentEvent } from '../models/CommentEvent';
+import { environment } from './../../environments/environment';
 
-const EVENT_API = 'http://localhost:8080/api/event';
+const EVENT_API = environment.baseUrl + '/event';
 
 @Injectable({
   providedIn: 'root'

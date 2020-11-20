@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from './../../environments/environment';
 import { TokenStorageService } from './token-storage.service';
 import { User } from '../models/User';
 import { Event } from '../models/Event';
 
-const USER_API = 'http://localhost:8080/api/user';
+const USER_API = environment.baseUrl + '/user';
 
 @Injectable({
   providedIn: 'root'

@@ -111,7 +111,8 @@ export class ProfileComponent implements OnInit {
 
     await this.sleep(500);
     
-    this.editarUsuario = !this.editarUsuario;
+    window.location.reload();
+
   }
 
   sleep(msec) {

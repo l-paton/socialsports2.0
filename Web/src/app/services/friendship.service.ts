@@ -3,8 +3,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { TokenStorageService } from './token-storage.service';
 import { User } from '../models/User';
 import { Observable } from 'rxjs';
+import { environment } from './../../environments/environment';
 
-const FRIEND_API = 'http://localhost:8080/api/friend';
+const FRIEND_API = environment.baseUrl + '/friend';
 
 @Injectable({
   providedIn: 'root'

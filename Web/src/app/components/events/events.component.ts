@@ -118,8 +118,9 @@ export class EventsComponent implements OnInit {
     if(evento.requirement.gender != null && evento.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()){
       return false;
     }
-
-    //comprobar reputacion
+    if(evento.requirement.reputation && evento.requirement.reputation > this.tokenStorageService.getUser().user.reputationParticipant){
+      return false;
+    }
 
     return true;
     
@@ -127,13 +128,6 @@ export class EventsComponent implements OnInit {
 
   limpiar(){
     this.ngOnInit();
-  }
-
-  getUserPicture(picture) {
-    if (picture == null) {
-      return "http://localhost:8080/api/images/users/45x45.png";
-    }
-    return picture;
   }
 
   eventIsFull(event : Event): boolean{

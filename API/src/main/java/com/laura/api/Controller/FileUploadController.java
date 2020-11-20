@@ -10,7 +10,9 @@ import com.laura.api.storage.StorageService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -28,20 +30,16 @@ public class FileUploadController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/users/{filename:.+}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
-    public byte[] downloadFile(@PathVariable String filename) {
+    @GetMapping(value = "/users/{filename:.+}")
+    @ResponseBody
+    public ResponseEntity<Resource> downloadFile(@PathVariable String filename) {
 
         Resource resource = storageService.loadAsResource(filename);
 
-        try {
-            byte[] b = resource.getInputStream().readAllBytes();
-            return b;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=\"" + resource.getFilename() + "\"")
+                .body(resource);
     }
 
     @PostMapping("/upload")

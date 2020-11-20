@@ -4,7 +4,8 @@
 
             <ul class="user-card list-unstyled">
                 <li class="media">
-                    <img class="img-user rounded mr-3" [src]="getUrlPictureUser(user)" alt="image">
+                    <img class="img-user rounded mr-3" [src]="user.picture" *ngIf="user.picture" alt="image">
+                    <img src="../../../assets/images/95x95.png" *ngIf="!user.picture" class="img-user rounded mr-3">
                     <div class="media-body">
                         <h5 class="mt-0 mb-1">{{user.firstName}} {{user.lastName}}</h5>
                         <p *ngIf="user.address">{{ user.address }}</p>

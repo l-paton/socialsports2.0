@@ -106,6 +106,10 @@ export class EventComponent implements OnInit {
     }
   }
 
+  finishEvent(){
+    this.eventService.finishEvent(this.idEvent).subscribe(() => this.ngOnInit());
+  }
+
   /** FUNCIONES **/
 
   actualUserIsParticipant(): boolean{
@@ -154,7 +158,9 @@ export class EventComponent implements OnInit {
       console.log("gender");
       return false;
     }
-    //comprobar reputacion
+    if(this.event.requirement.reputation && this.event.requirement.reputation > this.tokenStorageService.getUser().user.reputationParticipant){
+      return false;
+    }
     
     return true;
   }

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { TokenStorageService } from './token-storage.service';
+import { environment } from './../../environments/environment';
 
-const RATE_API = 'http://localhost:8080/api/rate';
+const RATE_API = environment.baseUrl + '/rate';
 
 @Injectable({
   providedIn: 'root'

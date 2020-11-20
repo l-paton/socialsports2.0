@@ -23,7 +23,7 @@
         <div class="form-group col-md-2 text-center">
           <label>Reputación </label>
           <div class="text-center">
-          
+
             <ng-template #t let-fill="fill">
               <span class="star" [class.full]="fill === 100">
                 <span class="half" [style.width.%]="fill">&#9733;</span>&#9733;
@@ -31,7 +31,7 @@
             </ng-template>
 
             <ngb-rating [max]="5" [(rate)]="score" [readonly]="false" [starTemplate]="t"></ngb-rating>
-          
+
           </div>
 
         </div>
@@ -71,7 +71,8 @@
             <td>
               <div class="row">
                 <div class="col-lg-3">
-                  <img class="img-profile" [src]="getUserPicture(evento.organizer.picture)" />
+                  <img class="img-profile" [src]="evento.organizer.picture" *ngIf="evento.organizer.picture" />
+                  <img src="../../../assets/images/95x95.png" *ngIf="!evento.organizer.picture" class="img-profile">
                 </div>
                 <div class="col-lg-6 ml-2">
                   {{evento.organizer.firstName}}
@@ -113,20 +114,4 @@
     <!-- END COLUMN -->
   </div>
   <!-- END ROW -->
-  <div class="row mt-4">
-    <div class="col">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center">
-          <li class="page-item disabled">
-            <a class="page-link" href="#" tabindex="-1">Previous</a>
-          </li>
-          <li class="page-item"><a class="page-link" href="#">1</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#">Next</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <!-- END COL-->
-  </div>
-  <!-- END ROW -->
+</div>

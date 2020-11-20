@@ -55,11 +55,11 @@ export class HeaderComponent implements OnInit {
   }
 
   acceptUserRequest(idEvent: string, idUser: string){
-    this.eventService.acceptUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
+    this.eventService.acceptUserRequest(idEvent, idUser).subscribe(() => this.getNotifications());
   }
 
   cancelUserRequest(idEvent: string, idUser: string){
-    this.eventService.cancelUserRequest(idEvent, idUser).subscribe(() => this.ngOnInit());
+    this.eventService.cancelUserRequest(idEvent, idUser).subscribe(() => this.getNotifications());
   }
 
   acceptFriendRequest(id){
@@ -67,7 +67,7 @@ export class HeaderComponent implements OnInit {
   }
 
   cancelFriendRequest(id){
-    this.friendshipService.denyFriend(id).subscribe(() => this.ngOnInit());
+    this.friendshipService.denyFriend(id).subscribe(() => this.getFriendNotifications());
   }
 
   getProfile(id: number) {

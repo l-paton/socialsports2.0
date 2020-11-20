@@ -30,7 +30,7 @@
             class="ml-1 badge badge-secondary">{{showFriendNotifications()}}</span></a>
         <ul class="dropdown-menu menu-notifications dropdown-menu-right">
           <div *ngFor="let f of friendRequests">
-              <a href="#" class="dropdown-item">
+              <a class="dropdown-item">
                 <li>
                   <div class="row mt-2">
                     <div class="col-4 text-center">
@@ -59,14 +59,14 @@
         <ul class="dropdown-menu menu-notifications dropdown-menu-right">
           <div *ngFor="let e of events">
             <div *ngFor="let applicant of e.applicants">
-              <a href="#" class="dropdown-item">
+              <a class="dropdown-item">
                 <li>
                   <div class="row mt-2">
                     <div class="col-3">
                       <img [src]="applicant.picture" *ngIf="applicant.picture" class="profile-img">
                       <img src="../../../assets/images/45x45.png" *ngIf="!applicant.picture" class="profile-img">
                     </div>
-                    <div class="col-9 text-center">
+                    <div class="col-9">
                       {{ applicant.firstName }} quiere unirse a {{ e.sport }} {{ e.address }}
                     </div>
                   </div>
@@ -86,8 +86,7 @@
       <li class="dropdown mr-2">
         <a href="#" data-toggle="dropdown" role="button">
           <img [src]="picture" *ngIf="picture" class="profile-img">
-          <img src="../../../assets/images/45x45.png" *ngIf="picture == null || this.picture.length <= 0"
-            class="profile-img">
+          <img src="../../../assets/images/45x45.png" *ngIf="!picture" class="profile-img">
         </a>
         <ul class="dropdown-menu dropdown-menu-right">
           <a href="#" class="dropdown-item" [routerLink]="['/configuration/']">
