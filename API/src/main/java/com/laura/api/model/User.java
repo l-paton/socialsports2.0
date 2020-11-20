@@ -38,7 +38,7 @@ public class User {
 	
 	@JsonIgnore
 	@NotBlank
-	@Size(min = 6, max = 64)
+	@Size(min = 6)
 	@Column(name="PASSWORD", nullable=false)
 	private String password;
 	

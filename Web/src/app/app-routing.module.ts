@@ -9,6 +9,7 @@ import { EventFormComponent } from './components/event-form/event-form.component
 import { MyeventsComponent } from './components/myevents/myevents.component';
 import { CommunityComponent } from './components/community/community.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { ConfigurationComponent } from './components/configuration/configuration.component';
 import { AuthGuard } from './_helpers/auth.guard';
 
 
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'event/:id', component: EventComponent, canActivate: [AuthGuard] },
   { path: 'eventform', component: EventFormComponent, canActivate: [AuthGuard] },
   { path: 'community', component: CommunityComponent, canActivate: [AuthGuard] },
+  { path: 'configuration', component: ConfigurationComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

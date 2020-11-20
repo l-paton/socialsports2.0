@@ -12,7 +12,7 @@ public class UserService {
 
 	@Autowired
 	UserRepository repository;
-
+	
 	@Autowired
 	PasswordEncoder encoder;
 	
@@ -37,7 +37,7 @@ public class UserService {
 	}
 
 	public boolean editPassword(User user, String password){
-		if(password.length() > 6 && password.length() < 64){
+		if(password.length() > 6){
 			user.setPassword(encoder.encode(password));
 			repository.save(user);
 			return true;

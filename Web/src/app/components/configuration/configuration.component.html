@@ -1,0 +1,21 @@
+<div class="container mt-5">
+
+    <div class="text-center error-msg" *ngIf="errorMessage">
+        {{errorMessage}}
+    </div>
+    <form>
+        <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" class="form-control" id="inputPassword1" [(ngModel)]="password" name="password"
+                placeholder="password">
+        </div>
+        <div class="form-group">
+            <label>Repite la contraseña</label>
+            <input type="password" class="form-control" id="inputPassword2" [(ngModel)]="repeatPassword"
+                name="repeatPassword" placeholder="repeat password">
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary" (click)="modifyPassword()">Cambiar contraseña</button>
+        </div>
+    </form>
+</div>

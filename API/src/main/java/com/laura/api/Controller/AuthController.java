@@ -6,6 +6,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -13,7 +14,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,11 +82,12 @@ public class AuthController {
 		try{
 			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
 				return ResponseEntity
-						.badRequest()
+						.status(HttpStatus.CONFLICT)
 						.body(new MessageResponse("Ese email ya está en uso"));
 			}
 			
 			User user = new User(signUpRequest.getEmail(), signUpRequest.getFirstname(), signUpRequest.getLastname(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), new Date(System.currentTimeMillis()), signUpRequest.getBirthday());
+			if(user.getFirstName() == null) user.setFirstName("sin nombre");
 			user.setReputationParticipant(0);
 			user.setReputationOrganizer(0);
 

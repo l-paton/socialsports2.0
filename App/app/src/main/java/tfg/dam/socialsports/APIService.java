@@ -24,8 +24,7 @@ import retrofit2.http.Query;
 
 public interface APIService {
 
-    @FormUrlEncoded
-    @POST("auth/singup")
+    @POST("auth/signup")
     Call<User> signup(@Body HashMap<String, String> credentials);
 
     @POST("auth/signin")
@@ -62,6 +61,9 @@ public interface APIService {
 
     @DELETE("user/delete")
     Call<ResponseBody> borrarUsuario(@Header("Authorization") String authHeader);
+
+    @GET("user/email")
+    Call<ResponseBody> getMyEmail(@Header("Authorization") String authHeader);
 
     /** FRIENDS **/
 

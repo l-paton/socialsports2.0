@@ -80,10 +80,10 @@
                         <div class="row">
 
                             <div *ngFor="let friend of friends">
-                                <div class="friend ml-4 mt-2">
+                                <a class="friend ml-4 mt-2" [routerLink]="['/profile/', friend.id]" href="#">
                                     <img [src]="getFriendPicture(friend.picture)" class="img-profile-friend rounded" />
                                     <p>{{ friend.firstName }}</p>
-                                </div>
+                                </a>
                             </div>
                         </div>
                         <div class="row mt-2 mb-2">
@@ -136,7 +136,7 @@
                 <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
                     <div class="row">
                         <div class="col-md-4" *ngFor="let f of friends">
-                            <div class="card card-f mb-3">
+                            <div class="card card-f mb-3" [routerLink]="['/profile/', f.id]">
                                 <div class="card-body ">
                                     <div class="row">
                                         <div class="col-4">

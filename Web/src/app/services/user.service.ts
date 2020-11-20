@@ -66,6 +66,12 @@ export class UserService {
     return this.http.put(USER_API + '/edit/description', description, { headers });
   }
 
+  modifyPassword(password): Observable<any>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append("password", password);
+    return this.http.put(USER_API + '/edit/password', params, {headers: headers});
+  }
+
   /** EVENTS */
 
   getEventsJoined(id): Observable<Event[]> {

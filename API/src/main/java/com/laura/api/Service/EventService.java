@@ -191,6 +191,6 @@ public class EventService {
 			event.getUserComments().add(commentEvent);
 			repository.save(event);
 		}
-		
 	}
+
 }

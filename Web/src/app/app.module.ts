@@ -19,6 +19,7 @@ import { EventComponent } from './components/event/event.component';
 import { MyeventsComponent } from './components/myevents/myevents.component';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfigurationComponent } from './components/configuration/configuration.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CommunityComponent,
     ProfileComponent,
     EventComponent,
-    MyeventsComponent
+    MyeventsComponent,
+    ConfigurationComponent
   ],
   imports: [
     BrowserModule,

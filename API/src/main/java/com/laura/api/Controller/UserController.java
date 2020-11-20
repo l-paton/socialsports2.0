@@ -127,7 +127,7 @@ public class UserController {
 			if(userService.editPassword(getUser(), password)){
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().body("La contraseña debe tener entre 6 y 64 carácteres");
+			return ResponseEntity.badRequest().body("La contraseña debe tener un mínimo de 6 carácteres");
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
@@ -198,6 +198,15 @@ public class UserController {
 				return ResponseEntity.ok(user);
 			}
 			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/email")
+	public ResponseEntity<?> getEmail(){
+		try{
+			return ResponseEntity.ok(getUser().getEmail());
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}

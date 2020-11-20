@@ -63,6 +63,7 @@ public class UserConfig extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
         tabLayout = getActivity().findViewById(R.id.tabsUserConfig);
         toolbar = getActivity().findViewById(R.id.toolBarUserConfig);
         toolbar.inflateMenu(R.menu.user_menu);
@@ -117,7 +118,7 @@ public class UserConfig extends Fragment {
     private void realizarAccionSeleccionada(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.itemUserMenuSave:
-                guardarCambios();
+                saveChanges();
                 break;
             case R.id.itemUserMenuLogout:
                 logout();
@@ -128,7 +129,7 @@ public class UserConfig extends Fragment {
         }
     }
 
-    private void guardarCambios() {
+    private void saveChanges() {
         String passwordNew = userConfigSettings.getNewpass();
         String passwordNewRepeat = userConfigSettings.getRepeatpass();
 
@@ -137,7 +138,6 @@ public class UserConfig extends Fragment {
             return;
         }
 
-        String email = LoginActivity.user.getEmail();
         String newName = userConfigSettings.getNombre();
         String oldName = LoginActivity.user.getFirstName();
         if (!newName.equals(oldName)) {
@@ -235,7 +235,7 @@ public class UserConfig extends Fragment {
         service.editFirstName("Bearer " + LoginActivity.token, name).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 200) {
+                if(response.isSuccessful()) {
                     LoginActivity.user.setFirstName(name);
                 }
                 else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
@@ -255,7 +255,7 @@ public class UserConfig extends Fragment {
         service.editLastName("Bearer " + LoginActivity.token, lastName).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 200) {
+                if(response.isSuccessful()) {
                     LoginActivity.user.setLastName(lastName);
                 }
                 else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
@@ -275,7 +275,7 @@ public class UserConfig extends Fragment {
         service.editAddress("Bearer " + LoginActivity.token, address).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 200) {
+                if(response.isSuccessful()) {
                     LoginActivity.user.setAddress(address);
                 }
                 else{
@@ -297,7 +297,7 @@ public class UserConfig extends Fragment {
         service.editGender("Bearer " + LoginActivity.token, genre).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                if(response.code() == 200) {
+                if(response.isSuccessful()) {
                     LoginActivity.user.setGender(genre);
                 }
                 else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());

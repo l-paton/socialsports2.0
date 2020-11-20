@@ -18,8 +18,10 @@ import com.google.gson.Gson;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.HashMap;
 
+import okhttp3.ResponseBody;
 import tfg.dam.socialsports.Clases.User;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -135,13 +137,19 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    private void cargarAplicacionUsuario(){
+    private void loadApp(){
+        try {
+            getEmail();
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Intent i = new Intent(getBaseContext(), MainActivity.class);
         startActivity(i);
         loadingProgressBar.setVisibility(View.GONE);
     }
 
-    private void limpiarCajas() {
+    private void cleanBoxes() {
         emailEditText.setText("");
         passwordEditText.setText("");
     }
@@ -157,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Object> call, Response<Object> response) {
 
-                if(response.code() == 200){
+                if(response.isSuccessful()){
                     try {
                         JSONObject json = new JSONObject(new Gson().toJson(response.body()));
                         String user = json.getString("user");
@@ -168,13 +176,11 @@ public class LoginActivity extends AppCompatActivity {
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-
                     user.inicializarValoresNulos();
-                    cargarAplicacionUsuario();
-
+                    loadApp();
                 }else{
                     Funcionalidades.mostrarMensaje(getResources().getString(R.string.login_datos_incorrectos), getApplicationContext());
-                    limpiarCajas();
+                    cleanBoxes();
                     loadingProgressBar.setVisibility(View.GONE);
                 }
             }
@@ -187,35 +193,34 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public void signup(String email, String password) {
+    public void signup(final String email, final String password) {
 
         HashMap<String, String> credentials = new HashMap<>();
         credentials.put("email", email);
         credentials.put("password", password);
 
-        //NOMBRE, APELLIDOS, GENERO
+        Call<User> registry = service.signup(credentials);
 
-        Call<User> registro = service.signup(credentials);
-
-        registro.enqueue(new Callback<User>() {
+        registry.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                int code = response.code();
 
-                if (code == 201) {
-                    String authorizationHeader = response.headers().get("Authorization");
-                    token = authorizationHeader.substring("Bearer".length()).trim();
+                if (response.isSuccessful()) {
                     Funcionalidades.mostrarMensaje(getResources().getString(R.string.login_creado_nuevo_usuario), getApplicationContext());
-                    user = response.body();
-                    cargarAplicacionUsuario();
-                } else if (code == 409) {
+                    login(email, password);
+                } else if (response.code() == 409) {
                     Funcionalidades.mostrarMensaje(getResources().getString(R.string.login_usuario_existe), getApplicationContext());
                     loadingProgressBar.setVisibility(View.GONE);
-                    limpiarCajas();
+                    cleanBoxes();
                 } else {
                     user = null;
                     loadingProgressBar.setVisibility(View.GONE);
                     Funcionalidades.mostrarMensaje(getResources().getString(R.string.login_error_nuevo_usuario), getApplicationContext());
+                    try {
+                        Log.e("ERROR: ", response.errorBody().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 
@@ -226,4 +231,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void getEmail(){
+        RETROFIT retrofit = new RETROFIT();
+        retrofit.getAPIService().getMyEmail("Bearer " + LoginActivity.token).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if(response.isSuccessful()){
+                    try {
+                        LoginActivity.user.setEmail(response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+            }
+        });
+    }
+
 }
