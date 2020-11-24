@@ -104,7 +104,7 @@ public class EventSettings extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.itemMenuEventSave:
                 Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
-                guardarCambiosEvento();
+                saveChanges();
                 break;
             case R.id.itemMenuEventDelete:
                 Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
@@ -129,7 +129,7 @@ public class EventSettings extends AppCompatActivity {
         }
     }
 
-    private void guardarCambiosEvento() {
+    private void saveChanges() {
         if (eventSettingsSettings.getFechaEvento() != null) {
             if (Funcionalidades.eventSeleccionado.getStartDate() == null ||
                     eventSettingsSettings.getFechaEvento().compareTo(Funcionalidades.eventSeleccionado.getStartDate()) != 0) {
@@ -138,9 +138,21 @@ public class EventSettings extends AppCompatActivity {
             }
         }
 
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         if (!eventSettingsSettings.getHoraEvento().equals(Funcionalidades.eventSeleccionado.getTime())) {
             Funcionalidades.eventSeleccionado.setTime(eventSettingsSettings.getHoraEvento());
             Funcionalidades.editEventTime(Funcionalidades.eventSeleccionado.getId(), eventSettingsSettings.getHoraEvento());
+        }
+
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
 
         if (!eventSettingsSettings.getDireccion().equals(Funcionalidades.eventSeleccionado.getAddress())) {
@@ -148,11 +160,20 @@ public class EventSettings extends AppCompatActivity {
             Funcionalidades.actualizarDireccionEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getDireccion());
         }
 
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (eventSettingsSettings.getNumParticipantes() != Funcionalidades.eventSeleccionado.getMaxParticipants()) {
             Funcionalidades.eventSeleccionado.setMaxParticipants(eventSettingsSettings.getNumParticipantes());
             Funcionalidades.actualizarMaxParticipantesEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getNumParticipantes());
         }
-
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (eventSettingsSettings.getElOrganizadorEsParticipante() !=
                 Funcionalidades.eventSeleccionado.getParticipants().contains(Funcionalidades.eventSeleccionado.getOrganizer())) {
             if (eventSettingsSettings.getElOrganizadorEsParticipante())
@@ -160,32 +181,56 @@ public class EventSettings extends AppCompatActivity {
             else
                 Funcionalidades.removeParticipant(Funcionalidades.eventSeleccionado,Funcionalidades.eventSeleccionado.getOrganizer());
         }
-
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (!eventSettingsSettings.getComentarios().equals(Funcionalidades.eventSeleccionado.getComments())) {
             Funcionalidades.eventSeleccionado.setComments(eventSettingsSettings.getComentarios());
             Funcionalidades.actualizarComentariosEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getComentarios());
         }
-
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (eventSettingsSettings.getEdadMinima() != Funcionalidades.eventSeleccionado.getRequirement().getMinAge()) {
             Funcionalidades.eventSeleccionado.getRequirement().setMinAge(eventSettingsSettings.getEdadMinima());
             Funcionalidades.actualizarEdadMinEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getEdadMinima());
         }
-
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (eventSettingsSettings.getEdadMaxima() != Funcionalidades.eventSeleccionado.getRequirement().getMaxAge()) {
             Funcionalidades.eventSeleccionado.getRequirement().setMaxAge(eventSettingsSettings.getEdadMaxima());
             Funcionalidades.actualizarEdadMaxEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getEdadMaxima());
         }
-
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (eventSettingsSettings.getGenero() != Funcionalidades.eventSeleccionado.getRequirement().getGender()) {
             Funcionalidades.eventSeleccionado.getRequirement().setGender(eventSettingsSettings.getGenero());
             Funcionalidades.actualizarGeneroEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getGenero());
         }
-
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         if (eventSettingsSettings.getReputacion() != Funcionalidades.eventSeleccionado.getRequirement().getReputation()) {
             Funcionalidades.eventSeleccionado.getRequirement().setReputation(eventSettingsSettings.getReputacion());
             Funcionalidades.actualizarReputacionEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getReputacion());
         }
-
+        try {
+            Thread.sleep(250);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_guardado_correcto), this);
     }
 

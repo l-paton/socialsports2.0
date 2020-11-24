@@ -245,6 +245,10 @@ public class EventController {
 		}
 	}
 
+	/* ===============================
+		 EDITAR DATOS DEL EVENTO
+	 ===============================*/
+
 	@PutMapping("/edit/address")
 	public ResponseEntity<?> editAddress(@RequestParam("id") long id, @RequestParam String address){
 		try{
@@ -298,6 +302,9 @@ public class EventController {
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				if(event.getParticipants().size() > maxParticipants){
+					return ResponseEntity.badRequest().build();
+				}
 				event.setMaxParticipants(maxParticipants);
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
@@ -305,6 +312,51 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/comment")
+	public ResponseEntity<?> editComment(@RequestParam("id") long id, String comment){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				event.setComments(comment);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/minage")
+	public ResponseEntity<?> editMinAge(@RequestParam("id") long id, int minAge){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				event.getRequirement().setMinAge(minAge);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/maxage")
+	public ResponseEntity<?> editMaxage(@RequestParam("id") long id, int maxAge){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				event.getRequirement().setMaxAge(maxAge);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -332,8 +384,8 @@ public class EventController {
 			Event event = eventService.getEvent(idEvent);
 
 			if(event != null){
-				//CommentEvent commentEvent = CommentEventService.saveNewComment(event, getUser(), comment);
-				eventService.publishEvent(idEvent, getUser(), comment);
+				CommentEventService.saveNewComment(event, getUser(), comment);
+				//eventService.publishEvent(idEvent, getUser(), comment);
 				return ResponseEntity.ok().build();
 			}
 

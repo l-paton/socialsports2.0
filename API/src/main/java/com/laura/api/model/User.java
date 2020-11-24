@@ -4,11 +4,14 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Email;
@@ -74,13 +77,36 @@ public class User {
 	private float reputationOrganizer;
 	
 	@JsonIgnore
-	@ManyToMany(mappedBy = "participants")
+	@ManyToMany(mappedBy = "participants", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Event> eventsJoined = new HashSet<>();
 
 	@JsonIgnore
-	@ManyToMany(mappedBy = "applicants")
+	@ManyToMany(mappedBy = "applicants", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<Event> eventsApplied = new HashSet<>();
 
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="organizer", fetch = FetchType.LAZY)
+	private Set<Event> eventCreated;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="rateId.voter", fetch = FetchType.LAZY)
+	private Set<RateUser> voter;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="rateId.voted", fetch = FetchType.LAZY)
+	private Set<RateUser> voted;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="user", fetch = FetchType.LAZY)
+	private Set<CommentEvent> commentsInEvent;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "friendshipId.userOne", fetch = FetchType.LAZY)
+	private Set<Friendship> friendOne;
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "friendshipId.userTwo", fetch = FetchType.LAZY)
+	private Set<Friendship> friendTwo;
 
 	public User() {
 		

@@ -2,6 +2,7 @@ package com.laura.api.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -25,6 +26,7 @@ public class CommentEvent {
     private Event event;
 
     @ManyToOne
+    @JoinColumn(name="userId", nullable=false)
     private User user;
 
     private String comment;

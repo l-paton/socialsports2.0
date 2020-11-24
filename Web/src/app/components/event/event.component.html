@@ -59,7 +59,9 @@
                     <div class="text-right" *ngIf="isOrganizer()">
                         <button class="btn btn-sm btn-light" (click)="editEvent()">Editar</button>
                     </div>
-                    <h2>{{event.sport | uppercase}} {{event.address | uppercase }}</h2>
+                    <h2 *ngIf="!editar">{{event.sport | uppercase}} {{event.address | uppercase }}</h2>
+                    <h2 *ngIf="editar">{{event.sport | uppercase}}</h2>
+                    <h2 *ngIf="editar"><input class="text-dark text-center" type="text" [(ngModel)]="editAddress" placeholder="{{event.address | uppercase }}"></h2>
                 </div>
                 <div class="row mt-5" *ngIf="!editar">
                     <div class="col-md-6">

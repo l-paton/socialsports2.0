@@ -108,16 +108,16 @@ public interface APIService {
                                         @Query("time") String time, @Query("address") String address, @Query("reputation") float reputacion);
 
     @FormUrlEncoded
+    @PUT("event/edit/address")
+    Call<ResponseBody> editAddressEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("address") String address);
+
+    @FormUrlEncoded
     @PUT("event/edit/startdate")
     Call<ResponseBody> editStartDateEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("startDate") String startDate);
 
     @FormUrlEncoded
     @PUT("event/edit/time")
     Call<ResponseBody> editTimeEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("time") String time);
-
-    @FormUrlEncoded
-    @PUT("event/edit/address")
-    Call<ResponseBody> editAddressEvent(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("address") String address);
 
     @FormUrlEncoded
     @PUT("event/edit/maxparticipants")
@@ -140,12 +140,12 @@ public interface APIService {
     Call<ResponseBody> actualizarComentarios(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("comentarios") String comentarios);
 
     @FormUrlEncoded
-    @PUT("eventos/actualizar/edadminima")
-    Call<ResponseBody> actualizarEdadMinima(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("edad") int edad);
+    @PUT("event/edit/minage")
+    Call<ResponseBody> editMinAge(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("minAge") int minAge);
 
     @FormUrlEncoded
-    @PUT("eventos/actualizar/edadmaxima")
-    Call<ResponseBody> actualizarEdadMaxima(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("edad") int edad);
+    @PUT("event/edit/maxage")
+    Call<ResponseBody> editMaxAge(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("maxAge") int maxAge);
 
     @FormUrlEncoded
     @PUT("eventos/actualizar/genero")

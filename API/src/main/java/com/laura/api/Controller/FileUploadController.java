@@ -1,7 +1,5 @@
 package com.laura.api.Controller;
 
-import java.io.IOException;
-
 import com.laura.api.Service.UserService;
 import com.laura.api.model.User;
 import com.laura.api.storage.FileResponse;
@@ -11,7 +9,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;

@@ -8,9 +8,11 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -34,11 +36,11 @@ public class Event {
 	private User organizer;
 	
 	@Size(max = 64)
-	@Column(name="SPORT", nullable=false)
+	@Column(name="SPORT", nullable=false, length = 64)
 	private String sport;
 	
 	@Size(max = 32)
-	@Column(name="ADDRESS")
+	@Column(name="ADDRESS", length = 32)
 	private String address;
 	
 	@Column(name="START_DATE")
@@ -56,8 +58,8 @@ public class Event {
 	@Column(name="PRICE")
 	private float price;
 	
-	@Size(max = 64)
-	@Column(name="COMMENTS")
+	@Size(max = 128)
+	@Column(name="COMMENTS", length = 128)
 	private String comments;
 	
 	@Column(name="FINISH")
@@ -78,9 +80,12 @@ public class Event {
 	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> applicants;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy="event")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="event", fetch = FetchType.LAZY)
 	private List<CommentEvent> userComments;
-	
+
+	@JsonIgnore
+	@OneToMany(cascade = CascadeType.ALL, mappedBy="rateId.event", fetch = FetchType.LAZY)
+	private List<RateUser> rates;
 
 	public long getId() {
 		return id;

@@ -406,7 +406,7 @@ public class Funcionalidades extends AppCompatActivity {
     public static void actualizarEdadMinEvento(Long idEvento, int edad) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.actualizarEdadMinima("Bearer " + LoginActivity.token, idEvento, edad).enqueue(new Callback<ResponseBody>() {
+        service.editMinAge("Bearer " + LoginActivity.token, idEvento, edad).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -422,7 +422,7 @@ public class Funcionalidades extends AppCompatActivity {
     public static void actualizarEdadMaxEvento(Long idEvento, int edad) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.actualizarEdadMaxima("Bearer " + LoginActivity.token, idEvento, edad).enqueue(new Callback<ResponseBody>() {
+        service.editMaxAge("Bearer " + LoginActivity.token, idEvento, edad).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 

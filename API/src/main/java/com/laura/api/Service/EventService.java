@@ -42,18 +42,6 @@ public class EventService {
 	}
 
 	public void deleteEvent(Event event) {
-
-		Set<User> setParticipants = event.getParticipants();
-		Set<User> setApplicants = event.getApplicants();
-
-		for (User u : setParticipants) {
-			event = leaveEvent(event.getId(), u);
-		}
-
-		for(User u: setApplicants){
-			event = cancelRequest(event.getId(), u);
-		}
-
 		repository.delete(event);
 	}
 

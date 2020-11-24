@@ -81,7 +81,33 @@ export class EventService {
     return this.http.post(EVENT_API + '/deny', params, { headers: headers });
   }
 
-  editStartDate(id, startDate){
+  removeParticipant(idEvent, idUser){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.delete(EVENT_API + '/removeparticipant/' + idEvent + '/' + idUser, {headers: headers});
+  }
+
+  publishEvent(idEvent, comment){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().append("idEvent", idEvent).append("comment", comment);
+    return this.http.post(EVENT_API + '/publish/comment', params, {headers: headers});
+  }
+
+  getEventComments(id): Observable<CommentEvent[]>{
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.get<CommentEvent[]>(EVENT_API + '/comments/' + id, {headers: headers});
+  }
+
+  	/* ===============================
+		    EDITAR DATOS DEL EVENTO
+   ===============================*/
+   
+   editAddress(id, address){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('address', address);
+    return this.http.put(EVENT_API + '/edit/address', params, {headers: headers});
+   }
+
+   editStartDate(id, startDate){
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     let params = new HttpParams().set('id', id).set('startDate', startDate);
     return this.http.put(EVENT_API + '/edit/startdate', params, {headers: headers});
@@ -99,25 +125,27 @@ export class EventService {
     return this.http.put(EVENT_API + '/edit/maxparticipants', params, {headers: headers});
   }
 
+  editComment(id, comment){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('comment', comment);
+    return this.http.put(EVENT_API + '/edit/comment', params, {headers: headers});
+  }
+
+  editMinAge(id, minAge){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('minAge', minAge);
+    return this.http.put(EVENT_API + '/edit/minage', params, {headers: headers});
+  }
+
+  editMaxAge(id, maxAge){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('maxAge', maxAge);
+    return this.http.put(EVENT_API + '/edit/maxage', params, {headers: headers});
+  }
+
   finishEvent(id){
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     let params = new HttpParams().set('id', id);
     return this.http.put(EVENT_API + '/finish', params, {headers: headers});
-  }
-
-  removeParticipant(idEvent, idUser){
-    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.delete(EVENT_API + '/removeparticipant/' + idEvent + '/' + idUser, {headers: headers});
-  }
-
-  publishEvent(idEvent, comment){
-    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    let params = new HttpParams().append("idEvent", idEvent).append("comment", comment);
-    return this.http.post(EVENT_API + '/publish/comment', params, {headers: headers});
-  }
-
-  getEventComments(id): Observable<CommentEvent[]>{
-    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
-    return this.http.get<CommentEvent[]>(EVENT_API + '/comments/' + id, {headers: headers});
   }
 }
