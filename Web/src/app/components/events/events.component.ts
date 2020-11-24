@@ -5,7 +5,6 @@ import { UserService } from '../../services/user.service';
 import { TokenStorageService } from '../../services/token-storage.service';
 import { Event } from '../../models/Event';
 
-
 @Component({
   selector: 'app-events',
   templateUrl: './events.component.html',
@@ -23,6 +22,8 @@ export class EventsComponent implements OnInit {
   time: string = '';
   score: number = 0;
 
+  numbers: number[] = [];
+
   constructor(
     private eventService: EventService,
     private userService: UserService,
@@ -39,6 +40,12 @@ export class EventsComponent implements OnInit {
   getAllEvents() {
     this.eventService.getListEvents().subscribe(data => {
       this.events = data;
+      
+      //para la paginacion
+      for (let i = 1; i < Math.ceil(this.events.length/10); i++) {
+        this.numbers.push(i);
+      }
+      
     });
   }
 

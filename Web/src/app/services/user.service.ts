@@ -73,6 +73,11 @@ export class UserService {
     return this.http.put(USER_API + '/edit/password', params, {headers: headers});
   }
 
+  deleteAccount(){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.delete(USER_API + '/delete', {headers: headers});
+  }
+
   /** EVENTS */
 
   getEventsJoined(id): Observable<Event[]> {

@@ -57,8 +57,7 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/home');
         },
         err => {
-          console.log(err);
-          this.errorMessage = err.error.message;
+          this.errorMessage = "Email o contraseña incorrectas";
           this.isLoginFailed = true;
         }
       );

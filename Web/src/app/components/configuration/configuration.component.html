@@ -3,7 +3,7 @@
     <div class="text-center error-msg" *ngIf="errorMessage">
         {{errorMessage}}
     </div>
-    <form>
+    <form class="form-pass">
         <div class="form-group">
             <label>Contraseña</label>
             <input type="password" class="form-control" id="inputPassword1" [(ngModel)]="password" name="password"
@@ -18,4 +18,7 @@
             <button type="submit" class="btn btn-primary" (click)="modifyPassword()">Cambiar contraseña</button>
         </div>
     </form>
+    <div class="text-center mt-5">
+        <button class="btn btn-danger" (click)="deleteAccount()">Eliminar cuenta</button>
+    </div>
 </div>

@@ -6,3 +6,8 @@ form{
 .error-msg{
     color:red;
 }
+
+.form-pass{
+    padding: 55px;
+    background-color: rgba(0,0,0,0.5);
+}

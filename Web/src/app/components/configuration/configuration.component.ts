@@ -1,6 +1,7 @@
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import { UserService } from './../../services/user.service';
+import { TokenStorageService } from './../../services/token-storage.service';
 
 @Component({
   selector: 'app-configuration',
@@ -13,7 +14,7 @@ export class ConfigurationComponent implements OnInit {
   repeatPassword: string;
   errorMessage: string;
 
-  constructor(private userService: UserService, @Inject(DOCUMENT) document) { }
+  constructor(private userService: UserService, private tokenStorageService: TokenStorageService, @Inject(DOCUMENT) document) { }
 
   ngOnInit(): void {
   }
@@ -35,6 +36,11 @@ export class ConfigurationComponent implements OnInit {
     }else{
       this.errorMessage = "Rellena los campos";
     }
+  }
+
+  deleteAccount(){
+    this.userService.deleteAccount().subscribe(() => 
+    {this.tokenStorageService.logout();});
   }
 
 }

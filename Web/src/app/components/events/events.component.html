@@ -114,4 +114,16 @@
     <!-- END COLUMN -->
   </div>
   <!-- END ROW -->
+
+  <div class="row">
+    <div class="col-12">
+      <nav *ngIf="numbers">
+        <ul class="pagination justify-content-center" *ngFor="let number of numbers">
+          <li class="page-item"><a class="page-link">{{number}}</a></li>
+        </ul>
+      </nav>
+    </div>
+    
+  </div>
 </div>
+

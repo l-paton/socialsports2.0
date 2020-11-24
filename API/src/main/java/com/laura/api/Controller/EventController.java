@@ -26,7 +26,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.laura.api.Service.CommentEventService;
 import com.laura.api.Service.EventService;
 import com.laura.api.Service.UserService;
-import com.laura.api.model.CommentEvent;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
 import com.laura.api.payload.SearchRequest;

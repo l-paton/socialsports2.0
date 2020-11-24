@@ -22,6 +22,7 @@ export class EventFormComponent implements OnInit {
   price : number;
   comments:string;
   time: string;
+  errorMessage: string;
 
   constructor(private eventService : EventService, private router: Router) { 
   }
@@ -43,12 +44,18 @@ export class EventFormComponent implements OnInit {
 
     this.requirement = new Requirement(this.minAge, this.maxAge, this.gender, this.reputation);
 
-    console.log(this.requirement);
-    let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments, this.requirement, this.time);
-    console.log(e);
-    this.eventService.createEvent(e).subscribe(() => {
-      this.router.navigateByUrl('/');
-    });
+    if(this.sport && this.address){
+      let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments, this.requirement, this.time);
+      console.log(e);
+      this.eventService.createEvent(e).subscribe(() => {
+        this.router.navigateByUrl('/');
+      });
+    }else if(!this.sport){
+      this.errorMessage = "Deporte requerido";
+    }else if(!this.address){
+      this.errorMessage = "Dirección requerida";
+    }
+    
   }
 
   checkCheckBoxvalue(gender: string){
