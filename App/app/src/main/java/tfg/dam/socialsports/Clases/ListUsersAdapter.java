@@ -19,7 +19,6 @@ import java.util.List;
 
 import tfg.dam.socialsports.EventRate;
 import tfg.dam.socialsports.Funcionalidades;
-import tfg.dam.socialsports.IP;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
 

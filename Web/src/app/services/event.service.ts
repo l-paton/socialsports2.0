@@ -92,6 +92,11 @@ export class EventService {
     return this.http.post(EVENT_API + '/publish/comment', params, {headers: headers});
   }
 
+  deleteComment(idComment){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    return this.http.delete(EVENT_API + '/delete/comment/' + idComment, {headers: headers});
+  }
+
   getEventComments(id): Observable<CommentEvent[]>{
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     return this.http.get<CommentEvent[]>(EVENT_API + '/comments/' + id, {headers: headers});

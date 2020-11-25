@@ -40,7 +40,7 @@ public class EventController {
 	EventService eventService;
 
 	@Autowired
-	CommentEventService CommentEventService;
+	CommentEventService commentEventService;
 	
 	@Autowired
 	UserService userService;
@@ -149,7 +149,7 @@ public class EventController {
 	
 	@PostMapping("/join")
 	public ResponseEntity<?> joinToEvent(@RequestParam("id") long id){
-		System.out.println(id);
+
 		try{
 			if(eventService.sendRequestToJoinEvent(id, getUser()) != null) {
 				return ResponseEntity.noContent().build();
@@ -239,7 +239,6 @@ public class EventController {
 		try{
 			return ResponseEntity.ok(eventService.getEventsByOrganizer(getUser()));
 		}catch(Exception e){
-			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -259,7 +258,6 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -275,7 +273,6 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -291,7 +288,6 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -310,7 +306,6 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -372,7 +367,6 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -383,11 +377,22 @@ public class EventController {
 			Event event = eventService.getEvent(idEvent);
 
 			if(event != null){
-				CommentEventService.saveNewComment(event, getUser(), comment);
-				//eventService.publishEvent(idEvent, getUser(), comment);
+				commentEventService.saveNewComment(event, getUser(), comment);
 				return ResponseEntity.ok().build();
 			}
 
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@DeleteMapping("/delete/comment/{idComment}")
+	public ResponseEntity<?> deleteComment(@PathVariable("idComment") long idComment){
+		try{
+			if(commentEventService.deleteComment(getUser().getId(), idComment)){
+				return ResponseEntity.noContent().build();
+			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			return ResponseEntity.badRequest().build();

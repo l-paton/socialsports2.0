@@ -28,7 +28,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import tfg.dam.socialsports.Funcionalidades;
-import tfg.dam.socialsports.IP;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
 

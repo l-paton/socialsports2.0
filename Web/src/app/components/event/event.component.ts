@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 import { Event } from '../../models/Event';
 import { TokenStorageService } from './../../services/token-storage.service';
 import { EventService } from './../../services/event.service';
 import { RateService } from './../../services/rate.service';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-event',
@@ -31,9 +33,11 @@ export class EventComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private tokenStorageService: TokenStorageService,
     private eventService: EventService,
     private rateService: RateService,
+    @Inject(DOCUMENT) document
   ) { }
 
   ngOnInit(): void {
@@ -110,10 +114,6 @@ export class EventComponent implements OnInit {
 
   }
 
-  sleep(msec) {
-    return new Promise(resolve => setTimeout(resolve, msec));
-  }
-
   joinToEvent(idEvent) {
     this.eventService.joinToEvent(idEvent).subscribe(() => this.ngOnInit());
   }
@@ -127,7 +127,7 @@ export class EventComponent implements OnInit {
   }
 
   removeEvent(idEvent) {
-    this.eventService.deleteEvent(idEvent).subscribe(/*redirect*/);
+    this.eventService.deleteEvent(idEvent).subscribe(() => this.router.navigate(['home']));
   }
 
   rateParticipants() {
@@ -148,9 +148,13 @@ export class EventComponent implements OnInit {
 
   publishComment() {
     if (this.commentEvent) {
-      console.log(this.commentEvent);
       this.eventService.publishEvent(this.event.id, this.commentEvent).subscribe(() => this.ngOnInit());
+      (<HTMLInputElement>document.getElementById('textarea-comentario')).value = '';
     }
+  }
+
+  deleteComment(idComment){
+    this.eventService.deleteComment(idComment).subscribe(() => this.ngOnInit());
   }
 
   finishEvent() {
@@ -233,11 +237,24 @@ export class EventComponent implements OnInit {
     else false;
   }
 
+  isParticipant(): boolean{
+    for(let p of this.event.participants){
+      if(p.id === this.idUser){
+        return true;
+      }
+    }
+    return false;
+  }
+
   editEvent() {
     this.editar = !this.editar;
   }
 
   sortBy() {
     return this.event.userComments.sort((a, b) => new Date(b.createAt).getTime() - new Date(a.createAt).getTime());
+  }
+
+  sleep(msec) {
+    return new Promise(resolve => setTimeout(resolve, msec));
   }
 }

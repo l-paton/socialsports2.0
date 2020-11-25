@@ -14,12 +14,10 @@ export class FileServiceService {
   constructor(private http:HttpClient, private tokenStorage:TokenStorageService) { }
 
   uploadImage(file:File): Observable<any>{
-    const formData: FormData = new FormData();
+    const formData = new FormData();
     formData.append('file', file);
-    
-    let headers = new HttpHeaders();
-    headers.append('Authorization: ', 'bearer ' + this.tokenStorage.getToken());
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
 
-    return this.http.post<any>(FILE_API + '/upload', formData, {headers});
+    return this.http.post<any>(FILE_API + '/upload', formData, {headers: headers});
   }
 }

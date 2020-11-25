@@ -17,8 +17,7 @@ public class RETROFIT {
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()
-
-                .baseUrl("http://"+ IP.getIp +":8080/api/")
+                .baseUrl("https://socialsports2-0.herokuapp.com/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

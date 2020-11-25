@@ -1,5 +1,9 @@
 # compiled output
-/dist
+Web/dist
+Web/.vs
+Web/.firebaserc
+Web/.gitignore
+Web/firebase.json
 /tmp
 /out-tsc
 # Only exists if Bazel was run

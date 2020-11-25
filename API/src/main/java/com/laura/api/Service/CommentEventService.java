@@ -20,4 +20,15 @@ public class CommentEventService {
         CommentEvent commentEvent = new CommentEvent(event, user, comment, new Date(System.currentTimeMillis()));
         return repository.save(commentEvent);
     }
+
+    public boolean deleteComment(long userId, long idComment){
+        CommentEvent commentEvent = repository.findById(idComment).orElse(null);
+        if(commentEvent != null){
+            if(commentEvent.getUser().getId() == userId){
+                repository.delete(commentEvent);
+                return true;
+            }
+        }
+        return false;
+    }
 }

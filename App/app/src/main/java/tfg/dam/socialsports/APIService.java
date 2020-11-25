@@ -188,5 +188,5 @@ public interface APIService {
 
     @Multipart
     @POST("images/upload")
-    Call<ResponseBody> subirImagen(@Header("Authorization") String authHeader, @Part MultipartBody.Part filePart, @Part("file") RequestBody name);
+    Call<ResponseBody> uploadImage(@Header("Authorization") String authHeader, @Part MultipartBody.Part filePart, @Part("file") RequestBody name);
 }

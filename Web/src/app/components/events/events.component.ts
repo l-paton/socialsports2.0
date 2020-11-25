@@ -94,13 +94,14 @@ export class EventsComponent implements OnInit {
   }
 
   buscar(){
-    this.events = [];
+    
     let stringDate = '';
     if(this.startDate){
       stringDate = this.startDate.toString();
     }
 
     if(this.sport || this.startDate || this.time || this.address || this.score > 0){
+      this.events = [];
       this.eventService
         .searchEvents(this.sport, stringDate, this.time, this.address, this.score)
         .subscribe(data => 
@@ -134,6 +135,15 @@ export class EventsComponent implements OnInit {
   }
 
   limpiar(){
+    this.sport = '';
+    this.address = '';
+    this.startDate = null;
+    this.time = '';
+    this.score = 0;  
+    (<HTMLInputElement>document.getElementById('sport')).value = '';
+    (<HTMLInputElement>document.getElementById('address')).value = '';
+    (<HTMLInputElement>document.getElementById('startDate')).value = '';
+    (<HTMLInputElement>document.getElementById('time')).value = '';
     this.ngOnInit();
   }
 

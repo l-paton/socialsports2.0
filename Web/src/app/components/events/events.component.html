@@ -6,19 +6,19 @@
       <div class="form-row">
         <div class="form-group col-md-2">
           <label>Deporte </label>
-          <input type="text" [(ngModel)]="sport" name="sport" class="form-control" placeholder="Nombre">
+          <input type="text" [(ngModel)]="sport" id="sport" name="sport" class="form-control" placeholder="Nombre">
         </div>
         <div class="form-group col-md-2">
           <label>Dirección </label>
-          <input type="text" [(ngModel)]="address" name="address" class="form-control" placeholder="Direccion">
+          <input type="text" [(ngModel)]="address" id="address" name="address" class="form-control" placeholder="Direccion">
         </div>
         <div class="form-group col-md-2">
           <label>Fecha </label>
-          <input type="date" [(ngModel)]="startDate" name="startDate" class="form-control">
+          <input type="date" [(ngModel)]="startDate" id="startDate" name="startDate" class="form-control">
         </div>
         <div class="form-group col-md-2">
           <label>Hora </label>
-          <input type="time" [(ngModel)]="time" name="time" class="form-control">
+          <input type="time" [(ngModel)]="time" id="time" name="time" class="form-control">
         </div>
         <div class="form-group col-md-2 text-center">
           <label>Reputación </label>
@@ -92,7 +92,7 @@
             <th>
 
               <div *ngIf="id != evento.organizer.id">
-                <button class="btn btn-secondary btn-sm" *ngIf="!cumplesLosRequisitos(evento.id)" disabled>No cumples
+                <button class="btn btn-secondary btn-sm" *ngIf="!cumplesLosRequisitos(evento.id) &&!isInEventsJoined(evento.id)" disabled>No cumples
                   los requisitos</button>
                 <button class="btn btn-warning btn-sm" *ngIf="isInEventsApplied(evento.id)"
                   (click)="cancelRequest(evento.id)">Cancelar solicitud</button>

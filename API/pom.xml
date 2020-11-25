@@ -13,7 +13,7 @@
 	<artifactId>API-SocialSports</artifactId>
 	<version>1</version>
 	<name>API-SocialSports</name>
-	<description>Demo project for Spring Boot</description>
+	<description>TFG</description>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -41,14 +41,6 @@
 			<artifactId>spring-session-core</artifactId>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
-		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>42.2.18</version>
-		</dependency>
-
-
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -56,14 +48,12 @@
 			<version>2.9.2</version>
 		</dependency>
 
-
 		<!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>2.9.2</version>
 		</dependency>
-
 
 		<dependency>
 			<groupId>mysql</groupId>
@@ -85,7 +75,6 @@
 			<artifactId>jjwt-api</artifactId>
 			<version>0.11.1</version>
 		</dependency>
-
 
 		<!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt-impl -->
 		<dependency>
