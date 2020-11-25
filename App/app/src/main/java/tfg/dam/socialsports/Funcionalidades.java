@@ -390,7 +390,7 @@ public class Funcionalidades extends AppCompatActivity {
     public static void actualizarComentariosEvento(Long idEvento, String comment) {
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.actualizarComentarios("Bearer " + LoginActivity.token, idEvento, comment).enqueue(new Callback<ResponseBody>() {
+        service.editComment("Bearer " + LoginActivity.token, idEvento, comment).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -474,7 +474,7 @@ public class Funcionalidades extends AppCompatActivity {
 
         RETROFIT retrofit = new RETROFIT();
         APIService service = retrofit.getAPIService();
-        service.insertarSolicitante("Bearer " + LoginActivity.token, event.getId()).enqueue(new Callback<ResponseBody>() {
+        service.sendRequestToJoinEvent("Bearer " + LoginActivity.token, event.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 

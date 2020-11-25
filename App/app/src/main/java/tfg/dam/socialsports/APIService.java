@@ -85,9 +85,6 @@ public interface APIService {
     @DELETE("friend/delete/{id}")
     Call<ResponseBody> deleteFriend(@Header("Authorization") String authHeader, @Path("id") long id);
 
-    @GET("friend/requests/sent")
-    Call<ArrayList<User>> requestsSent(@Header("Authorization") String authHeader);
-
     @GET("friend/requests/received")
     Call<ArrayList<User>> requestsReceived(@Header("Authorization") String authHeader);
 
@@ -105,7 +102,7 @@ public interface APIService {
     @GET("event/search")
     Call<ArrayList<Event>> searchEvents(@Header("Authorization") String authHeader,
                                         @Query("sport") String sport, @Query("startDate") String startDate,
-                                        @Query("time") String time, @Query("address") String address, @Query("reputation") float reputacion);
+                                        @Query("time") String time, @Query("address") String address, @Query("reputation") float reputation);
 
     @FormUrlEncoded
     @PUT("event/edit/address")
@@ -127,17 +124,19 @@ public interface APIService {
     @PUT("event/finish")
     Call<ResponseBody> finishEvent(@Header("Authorization") String authHeader, @Field("id") Long id);
 
+    /**TODO**/
     @FormUrlEncoded
     @PUT("eventos/actualizar/coste")
     Call<ResponseBody> actualizarCoste(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("coste") float coste);
 
+    /**TODO**/
     @FormUrlEncoded
     @PUT("eventos/actualizar/precio")
     Call<ResponseBody> actualizarPrecio(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("precio") float precio);
 
     @FormUrlEncoded
-    @PUT("eventos/actualizar/comentarios")
-    Call<ResponseBody> actualizarComentarios(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("comentarios") String comentarios);
+    @PUT("event/edit/comment")
+    Call<ResponseBody> editComment(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("comment") String comment);
 
     @FormUrlEncoded
     @PUT("event/edit/minage")
@@ -147,10 +146,12 @@ public interface APIService {
     @PUT("event/edit/maxage")
     Call<ResponseBody> editMaxAge(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("maxAge") int maxAge);
 
+    /**TODO**/
     @FormUrlEncoded
     @PUT("eventos/actualizar/genero")
     Call<ResponseBody> actualizarGenero(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("genero") String genero);
 
+    /**TODO**/
     @FormUrlEncoded
     @PUT("eventos/actualizar/reputacion")
     Call<ResponseBody> actualizarReputacion(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("reputacion") float reputacion);
@@ -168,7 +169,7 @@ public interface APIService {
 
     @FormUrlEncoded
     @POST("event/join")
-    Call<ResponseBody> insertarSolicitante(@Header("Authorization") String authHeader, @Field("id") Long id);
+    Call<ResponseBody> sendRequestToJoinEvent(@Header("Authorization") String authHeader, @Field("id") Long id);
 
     /****/
     @GET("eventos/hasidopuntuado/{idevento}/{email}")

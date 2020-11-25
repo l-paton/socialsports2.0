@@ -97,7 +97,7 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 
             if(user.getPicture() != null && !user.getPicture().equals("")){
                 Glide.with(getContext())
-                        .load(user.getPicture().replace("localhost", IP.getIp))
+                        .load(user.getPicture())
                         .into(image);
 
             }

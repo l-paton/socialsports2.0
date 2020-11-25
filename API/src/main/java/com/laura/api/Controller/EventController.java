@@ -49,7 +49,6 @@ public class EventController {
 	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event){
 		
 		try{
-			System.out.println(event.toString());
 			User user = getUser();
 			event.setOrganizer(user);
 			event.setCreatedAt(new Date(System.currentTimeMillis()));
@@ -72,6 +71,7 @@ public class EventController {
 		try{
 			return ResponseEntity.ok(eventService.getEventsNotFinished());
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 		
@@ -79,29 +79,51 @@ public class EventController {
 	
 	@GetMapping("/get/{id}")
 	public ResponseEntity<?> getEvent(@PathVariable("id") long id) {
-		Event event = eventService.getEvent(id);
-		
-		if(event != null) {
-			return ResponseEntity.ok(event);
-		}
-		
-		return ResponseEntity.notFound().build();
-	}
-	
-	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> removeEvent(@PathVariable("id") long id){
-		Event event = eventService.getEvent(id);
 		try{
-			if(event.getOrganizer().getId() == getUser().getId()) {
-				eventService.deleteEvent(event);
-				return ResponseEntity.noContent().build();
+			Event event = eventService.getEvent(id);
+		
+			if(event != null) {
+				return ResponseEntity.ok(event);
 			}
-			return ResponseEntity.badRequest().build();
+			
+			return ResponseEntity.notFound().build();
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
-		}	
+		}
 	}
+
+	@GetMapping("/search")
+	public ResponseEntity<?> searchEvents(
+		@RequestParam(required = false) String sport,
+		@RequestParam(required = false) String address,
+		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+		@RequestParam(required = false) String time,
+		@RequestParam(required = false) float score){
+			System.out.println(score);
+		try{
+			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time, score);
+			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
+			return ResponseEntity.ok(events);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@GetMapping("/created")
+	public ResponseEntity<?> getEventsCreatedByUser(){
+		try{
+			return ResponseEntity.ok(eventService.getEventsByOrganizer(getUser()));
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	/* ===============================
+		PARTICIPANTES Y SOLICITANTES
+	 ===============================*/
 
 	@PostMapping("/accept")
 	public ResponseEntity<?> acceptApplicantRequest(@RequestParam("idEvent") long idEvent, @RequestParam("idUser") long idUser){
@@ -120,7 +142,7 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -142,7 +164,7 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -158,7 +180,7 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -169,7 +191,7 @@ public class EventController {
 			eventService.cancelRequest(id, getUser());
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -185,7 +207,7 @@ public class EventController {
 			return ResponseEntity.noContent().build();
 
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -196,7 +218,7 @@ public class EventController {
 			Set<Event> events = eventService.getApplicantsToUserEvents(getUser());
 			return ResponseEntity.ok(events);
 		}catch(Exception e){
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -211,34 +233,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			e.printStackTrace();
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
-	@GetMapping("/search")
-	public ResponseEntity<?> searchEvents(
-		@RequestParam(required = false) String sport,
-		@RequestParam(required = false) String address,
-		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-		@RequestParam(required = false) String time,
-		@RequestParam(required = false) float score){
-			System.out.println(score);
-		try{
-			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time, score);
-			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
-			return ResponseEntity.ok(events);
-		}catch(Exception e){
-			e.printStackTrace();
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
-	@GetMapping("/created")
-	public ResponseEntity<?> getEventsCreatedByUser(){
-		try{
-			return ResponseEntity.ok(eventService.getEventsByOrganizer(getUser()));
-		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -258,6 +253,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -273,6 +269,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -288,6 +285,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -306,6 +304,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -321,6 +320,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -336,6 +336,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -351,13 +352,13 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
 
 	@PutMapping("/finish")
 	public ResponseEntity<?> editFinish(@RequestParam("id") long id){
-		System.out.println("se mete");
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -367,9 +368,29 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
+
+	@DeleteMapping("/delete/{id}")
+	public ResponseEntity<?> removeEvent(@PathVariable("id") long id){
+		Event event = eventService.getEvent(id);
+		try{
+			if(event.getOrganizer().getId() == getUser().getId()) {
+				eventService.deleteEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.badRequest().build();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().build();
+		}	
+	}
+
+	/* ===============================
+		 COMENTARIOS EN EVENTO
+	 ===============================*/
 
 	@PostMapping("/publish/comment")
 	public ResponseEntity<?> publishComment(@RequestParam("idEvent") long idEvent, @RequestParam("comment") String comment){
@@ -383,6 +404,7 @@ public class EventController {
 
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -395,6 +417,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}
@@ -408,6 +431,7 @@ public class EventController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 	}

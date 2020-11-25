@@ -111,7 +111,7 @@ public class UserConfigSettings extends Fragment {
 
         if(LoginActivity.user.getPicture() != null && !LoginActivity.user.getPicture().equals("")){
             Glide.with(getContext())
-                    .load(LoginActivity.user.getPicture().replace("localhost", IP.getIp))
+                    .load(LoginActivity.user.getPicture())
                     .into(image);
         }
 

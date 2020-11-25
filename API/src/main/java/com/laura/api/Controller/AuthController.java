@@ -66,6 +66,7 @@ public class AuthController {
 			return ResponseEntity.ok(new JwtResponse(jwt, userService.getUser(userDetails.getEmail())));
 
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}
 		
@@ -95,6 +96,7 @@ public class AuthController {
 			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
 
 		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
 		}		
 	}
