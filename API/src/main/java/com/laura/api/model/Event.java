@@ -79,6 +79,7 @@ public class Event {
 	  	inverseJoinColumns = @JoinColumn(name = "user_id"))
 	private Set<User> applicants;
 
+	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="event", fetch = FetchType.LAZY)
 	private List<CommentEvent> userComments;
 

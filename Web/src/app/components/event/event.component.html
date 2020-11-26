@@ -14,7 +14,7 @@
                         <p> {{ event.organizer.firstName }} {{ event.organizer.lastName }} </p>
                     </div>
                 </div>
-                <div *ngIf="event.finish && !isOrganizer()" class="text-center mt-2">
+                <div *ngIf="event.finish && !isOrganizer() && isParticipant()" class="text-center mt-2">
                     <ngb-rating [max]="5" [(rate)]="scoreOrganizer" [readonly]="false"
                         *ngIf="event.organizer.id != idUser">
                     </ngb-rating>
@@ -233,7 +233,7 @@
 
                                         </div>
                                     </div>
-                                    <div class="text-center" *ngIf="event.finish">
+                                    <div class="text-center" *ngIf="event.finish  && isParticipant()">
                                         <ngb-rating [max]="5" [(rate)]="participant.reputationParticipant"
                                             [readonly]="false" *ngIf="participant.id != idUser">
                                         </ngb-rating>
@@ -247,7 +247,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-info" data-dismiss="modal" *ngIf="event.finish"
+                <button type="button" class="btn btn-info" data-dismiss="modal" *ngIf="event.finish && isParticipant()"
                     (click)="rateParticipants()">Puntuar</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>

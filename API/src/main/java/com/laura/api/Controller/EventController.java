@@ -427,7 +427,7 @@ public class EventController {
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null){
-				return ResponseEntity.ok(event.getComments());
+				if(event.getParticipants().contains(getUser())) return ResponseEntity.ok(event.getUserComments());
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){

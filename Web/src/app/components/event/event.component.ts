@@ -5,7 +5,6 @@ import { Event } from '../../models/Event';
 import { TokenStorageService } from './../../services/token-storage.service';
 import { EventService } from './../../services/event.service';
 import { RateService } from './../../services/rate.service';
-import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-event',
@@ -36,8 +35,7 @@ export class EventComponent implements OnInit {
     private router: Router,
     private tokenStorageService: TokenStorageService,
     private eventService: EventService,
-    private rateService: RateService,
-    @Inject(DOCUMENT) document
+    private rateService: RateService
   ) { }
 
   ngOnInit(): void {
@@ -48,7 +46,10 @@ export class EventComponent implements OnInit {
 
   getEvent() {
     if (this.idEvent != undefined && this.idEvent != null) {
-      this.eventService.getEvent(this.idEvent).subscribe(data => this.event = data);
+      this.eventService.getEvent(this.idEvent).subscribe(data => {
+        this.event = data;
+        this.getEventComments();
+      });
     }
   }
 
@@ -135,6 +136,18 @@ export class EventComponent implements OnInit {
       if (u.reputationParticipant != 0 && u.id != this.idUser) {
         this.rateService.rateParticipant(u.id, this.event.id, u.reputationParticipant).subscribe();
         console.log("Nombre: " + u.firstName + ", score: " + u.reputationParticipant);
+      }
+    }
+  }
+
+  getEventComments(){
+    for(let p of this.event.participants){
+      if(p.id === this.idUser){
+        this.eventService.getEventComments(this.event.id).subscribe(data => {
+          console.log(data);
+          this.event.userComments = data;
+          console.log(this.event.userComments);
+        });
       }
     }
   }
