@@ -1,10 +1,10 @@
-package tfg.dam.socialsports;
+package tfg.dam.socialsports.retrofit;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import tfg.dam.socialsports.Clases.Event;
-import tfg.dam.socialsports.Clases.User;
+import tfg.dam.socialsports.model.Event;
+import tfg.dam.socialsports.model.User;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
@@ -148,8 +148,8 @@ public interface APIService {
 
     /**TODO**/
     @FormUrlEncoded
-    @PUT("eventos/actualizar/genero")
-    Call<ResponseBody> actualizarGenero(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("genero") String genero);
+    @PUT("event/edit/gender")
+    Call<ResponseBody> editGender(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("gender") String gender);
 
     /**TODO**/
     @FormUrlEncoded
@@ -171,10 +171,9 @@ public interface APIService {
     @POST("event/join")
     Call<ResponseBody> sendRequestToJoinEvent(@Header("Authorization") String authHeader, @Field("id") Long id);
 
-    /****/
+    /**TODO**/
     @GET("eventos/hasidopuntuado/{idevento}/{email}")
     Call<Boolean> getHaSidoPuntuado(@Header("Authorization") String authHeader, @Path("idevento") Long idevento, @Path("email") String email);
-    /****/
 
     @DELETE("event/delete/{id}")
     Call<ResponseBody> deleteEvent(@Header("Authorization") String authHeader, @Path("id") Long id);

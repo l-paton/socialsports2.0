@@ -148,6 +148,13 @@ export class EventService {
     return this.http.put(EVENT_API + '/edit/maxage', params, {headers: headers});
   }
 
+  editGender(id, gender){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('gender', gender);
+    return this.http.put(EVENT_API + '/edit/gender', params, {headers: headers});
+
+  }
+
   finishEvent(id){
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     let params = new HttpParams().set('id', id);

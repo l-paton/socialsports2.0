@@ -1,4 +1,4 @@
-package tfg.dam.socialsports.Clases;
+package tfg.dam.socialsports.adapter;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,9 +18,11 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import tfg.dam.socialsports.EventRate;
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
+import tfg.dam.socialsports.model.User;
+import tfg.dam.socialsports.model.UserScore;
 
 public class ListUsersAdapter extends ArrayAdapter<User> {
 
@@ -67,7 +69,7 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
             }else {
                 ratingBar.setNextFocusDownId(EventRate.listaPuntuaciones.size());
                 UserScore puntuacion = new UserScore(LoginActivity.user.getId(),
-                        user.getId(),Funcionalidades.eventSeleccionado.getId(),0f);
+                        user.getId(), Utils.eventSeleccionado.getId(),0f);
                 EventRate.listaPuntuaciones.add(puntuacion);
                 ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                     @Override
@@ -88,7 +90,7 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
                 textGenero.setText(context.getResources().getString(R.string.undefined_gender).toUpperCase());
             int edad = -1;
             if (user.getBirthday() != null)
-                edad = Funcionalidades.calcularEdad(user.getBirthday());
+                edad = Utils.calcularEdad(user.getBirthday());
             if (edad != -1)
                 textEdad.setText(edad + " " + context.getResources().getString(R.string.years_old).toUpperCase());
             else{
@@ -97,7 +99,7 @@ public class ListUsersAdapter extends ArrayAdapter<User> {
 
             if(user.getPicture() != null && !user.getPicture().equals("")){
                 Glide.with(getContext())
-                        .load(user.getPicture())
+                        .load(user.getPicture().replace("localhost", "192.168.1.177"))
                         .into(image);
 
             }

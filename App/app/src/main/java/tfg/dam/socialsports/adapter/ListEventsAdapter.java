@@ -1,4 +1,4 @@
-package tfg.dam.socialsports.Clases;
+package tfg.dam.socialsports.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,9 +12,10 @@ import androidx.annotation.Nullable;
 
 import java.util.List;
 
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
+import tfg.dam.socialsports.model.Event;
 
 public class ListEventsAdapter extends ArrayAdapter<Event> {
 
@@ -50,7 +51,7 @@ public class ListEventsAdapter extends ArrayAdapter<Event> {
         sport.setText(event.getSport().toUpperCase());
         if(event.getAddress() != null) address.setText(event.getAddress().toUpperCase());
         if (event.getStartDate() != null)
-            startAt.setText(Funcionalidades.dateToString(event.getStartDate()));
+            startAt.setText(Utils.dateToString(event.getStartDate()));
         else
             startAt.setText(context.getResources().getString(R.string.sin_fecha));
         if (!event.isFinish()) {

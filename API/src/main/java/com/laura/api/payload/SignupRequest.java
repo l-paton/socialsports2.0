@@ -21,7 +21,7 @@ public class SignupRequest {
     private Date birthday;
     
     @NotBlank
-    @Size(min = 6)
+    @Size(min = 6, max = 1024)
     private String password;
 
     @Size(max = 6)

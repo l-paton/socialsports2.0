@@ -15,12 +15,12 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.ListUsersAdapter;
-import tfg.dam.socialsports.Clases.User;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.adapter.ListUsersAdapter;
+import tfg.dam.socialsports.model.User;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -87,7 +87,7 @@ public class UserConfigFriends extends Fragment {
 
     private void deleteFriend() {
 
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
         service.deleteFriend("Bearer " + LoginActivity.token,
                 userSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
@@ -106,7 +106,7 @@ public class UserConfigFriends extends Fragment {
     }
 
     private void getFriendList(){
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
         service.friendList("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<User>>() {
             @Override

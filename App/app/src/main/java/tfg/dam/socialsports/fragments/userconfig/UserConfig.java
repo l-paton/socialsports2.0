@@ -24,12 +24,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.User;
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.model.User;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -71,7 +71,7 @@ public class UserConfig extends Fragment {
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),toolbar);
+                Utils.esconderTeclado(getActivity(),getContext(),toolbar);
                 realizarAccionSeleccionada(menuItem);
                 return true;
             }
@@ -80,7 +80,7 @@ public class UserConfig extends Fragment {
         toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),toolbar);
+                Utils.esconderTeclado(getActivity(),getContext(),toolbar);
                 realizarAccionSeleccionada(item);
                 return true;
             }
@@ -90,29 +90,29 @@ public class UserConfig extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_configuration))) {
-                    Funcionalidades.showSelectedFragment(R.id.containerUserConfig, getActivity().getSupportFragmentManager(), userConfigSettings);
+                    Utils.showSelectedFragment(R.id.containerUserConfig, getActivity().getSupportFragmentManager(), userConfigSettings);
                 }
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_amigos))) {
-                    Funcionalidades.showSelectedFragment(R.id.containerUserConfig, getActivity().getSupportFragmentManager(), userConfigFriends);
+                    Utils.showSelectedFragment(R.id.containerUserConfig, getActivity().getSupportFragmentManager(), userConfigFriends);
                 }
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_bloqueados))) {
-                    Funcionalidades.showSelectedFragment(R.id.containerUserConfig, getActivity().getSupportFragmentManager(), userConfigBanned);
+                    Utils.showSelectedFragment(R.id.containerUserConfig, getActivity().getSupportFragmentManager(), userConfigBanned);
                 }
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
             }
         });
 
-        Funcionalidades.showSelectedFragment(R.id.containerUserConfig, getActivity().getSupportFragmentManager(), userConfigSettings);
+        Utils.showSelectedFragment(R.id.containerUserConfig, getActivity().getSupportFragmentManager(), userConfigSettings);
     }
 
     private void realizarAccionSeleccionada(MenuItem item) {
@@ -134,7 +134,7 @@ public class UserConfig extends Fragment {
         String passwordNewRepeat = userConfigSettings.getRepeatpass();
 
         if (!passwordNew.equals(passwordNewRepeat)) {
-            Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_passwords_diferentes),getContext());
+            Utils.mostrarMensaje(getResources().getString(R.string.mensaje_passwords_diferentes),getContext());
             return;
         }
 
@@ -199,7 +199,7 @@ public class UserConfig extends Fragment {
         Date newBirthday = userConfigSettings.getBirthdate();
         Date oldBirthday = LoginActivity.user.getBirthday();
         if (newBirthday != null && newBirthday != oldBirthday) {
-            editBirthDay(Funcionalidades.dateToString2(newBirthday));
+            editBirthDay(Utils.dateToString2(newBirthday));
         }
 
         try {
@@ -211,13 +211,13 @@ public class UserConfig extends Fragment {
         if(userConfigSettings.getUri() != null){
             try {
                 String type = getFileExtension(userConfigSettings.getUri());
-                actualizarImagen(getBytes(userConfigSettings.getInputStream()) , type);
+                updateImage(getBytes(userConfigSettings.getInputStream()) , type);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_finalizados),getContext());
+        Utils.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_finalizados),getContext());
     }
 
     private void logout() {
@@ -225,11 +225,11 @@ public class UserConfig extends Fragment {
     }
 
     private void deleteUserAccount() {
-        eliminararUsuarioBBDD(LoginActivity.user);
+        deleteUser(LoginActivity.user);
     }
 
     public void editFirstName(final String name) {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.editFirstName("Bearer " + LoginActivity.token, name).enqueue(new Callback<ResponseBody>() {
@@ -238,7 +238,7 @@ public class UserConfig extends Fragment {
                 if(response.isSuccessful()) {
                     LoginActivity.user.setFirstName(name);
                 }
-                else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
+                else Utils.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }
 
             @Override
@@ -249,7 +249,7 @@ public class UserConfig extends Fragment {
     }
 
     public void editLastName(final String lastName) {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.editLastName("Bearer " + LoginActivity.token, lastName).enqueue(new Callback<ResponseBody>() {
@@ -258,7 +258,7 @@ public class UserConfig extends Fragment {
                 if(response.isSuccessful()) {
                     LoginActivity.user.setLastName(lastName);
                 }
-                else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
+                else Utils.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }
 
             @Override
@@ -269,7 +269,7 @@ public class UserConfig extends Fragment {
     }
 
     public void editAddress(final String address) {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.editAddress("Bearer " + LoginActivity.token, address).enqueue(new Callback<ResponseBody>() {
@@ -279,7 +279,7 @@ public class UserConfig extends Fragment {
                     LoginActivity.user.setAddress(address);
                 }
                 else{
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
                 }
             }
 
@@ -291,7 +291,7 @@ public class UserConfig extends Fragment {
     }
 
     public void editGenre(final String genre) {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.editGender("Bearer " + LoginActivity.token, genre).enqueue(new Callback<ResponseBody>() {
@@ -300,7 +300,7 @@ public class UserConfig extends Fragment {
                 if(response.isSuccessful()) {
                     LoginActivity.user.setGender(genre);
                 }
-                else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
+                else Utils.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }
 
             @Override
@@ -311,16 +311,16 @@ public class UserConfig extends Fragment {
     }
 
     public void editBirthDay(final String birthday) {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.editBirthday("Bearer " + LoginActivity.token, birthday).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
-                    LoginActivity.user.setBirthday(Funcionalidades.StringToDate(birthday));
+                    LoginActivity.user.setBirthday(Utils.StringToDate(birthday));
                 }
-                else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
+                else Utils.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }
 
             @Override
@@ -331,7 +331,7 @@ public class UserConfig extends Fragment {
     }
 
     public void updatePassword(String password) {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.putPassword("Bearer " + LoginActivity.token, password).enqueue(new Callback<ResponseBody>() {
@@ -344,7 +344,7 @@ public class UserConfig extends Fragment {
                         e.printStackTrace();
                     }
                 }
-                else Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
+                else Utils.mostrarMensaje(getResources().getString(R.string.mensaje_cambios_no_guardados), getContext());
             }
 
             @Override
@@ -354,18 +354,18 @@ public class UserConfig extends Fragment {
         });
     }
 
-    public void eliminararUsuarioBBDD(User user) {
-        RETROFIT retrofit = new RETROFIT();
+    public void deleteUser(User user) {
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.borrarUsuario("Bearer " + LoginActivity.token).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.code() == 204) {
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_usuario_eliminado),getContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.mensaje_usuario_eliminado),getContext());
                     logout();
                 }else{
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_usuario_no_eliminado),getContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.mensaje_usuario_no_eliminado),getContext());
                 }
             }
 
@@ -376,11 +376,11 @@ public class UserConfig extends Fragment {
         });
     }
 
-    private void actualizarImagen(byte[] bytes , String type) {
+    private void updateImage(byte[] bytes , String type) {
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"),bytes);
         MultipartBody.Part body = MultipartBody.Part.createFormData("file" , LoginActivity.user.getId() + "." + type ,requestFile);
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
 
         retrofit.getAPIService().uploadImage("Bearer " + LoginActivity.token, body, requestFile).enqueue(new Callback<ResponseBody>() {
             @Override

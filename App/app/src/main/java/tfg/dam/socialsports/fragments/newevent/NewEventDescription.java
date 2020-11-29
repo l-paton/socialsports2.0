@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.R;
 
 
@@ -40,13 +40,13 @@ public class NewEventDescription extends Fragment {
         editSport.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         editLocation.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
     }

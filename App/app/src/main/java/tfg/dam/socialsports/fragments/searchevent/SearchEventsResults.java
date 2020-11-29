@@ -14,10 +14,10 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import tfg.dam.socialsports.Clases.ListEventsAdapter;
-import tfg.dam.socialsports.Clases.Event;
+import tfg.dam.socialsports.adapter.ListEventsAdapter;
+import tfg.dam.socialsports.model.Event;
 import tfg.dam.socialsports.EventSettings;
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.R;
 
 public class SearchEventsResults extends Fragment {
@@ -65,7 +65,7 @@ public class SearchEventsResults extends Fragment {
                 Event event = listaEventosFiltrados.get(position);
 
                 Intent intent = new Intent(getContext(), EventSettings.class);
-                Funcionalidades.eventSeleccionado = event;
+                Utils.eventSeleccionado = event;
                 startActivity(intent);
 
             }

@@ -17,13 +17,13 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.Event;
-import tfg.dam.socialsports.Clases.EventFilter;
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.model.Event;
+import tfg.dam.socialsports.model.EventFilter;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,22 +60,22 @@ public class SearchEvent extends Fragment {
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_search_events_filters))) {
                     navigationView.setVisibility(View.VISIBLE);
-                    Funcionalidades.showSelectedFragment(R.id.contenedorSearchEvent, getActivity().getSupportFragmentManager(), searchEventsFilters);
+                    Utils.showSelectedFragment(R.id.contenedorSearchEvent, getActivity().getSupportFragmentManager(), searchEventsFilters);
                 }
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_search_events_results))) {
                     navigationView.setVisibility(View.GONE);
-                    Funcionalidades.showSelectedFragment(R.id.contenedorSearchEvent, getActivity().getSupportFragmentManager(), searchEventsResults);
+                    Utils.showSelectedFragment(R.id.contenedorSearchEvent, getActivity().getSupportFragmentManager(), searchEventsResults);
                 }
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
             }
         });
 
@@ -84,26 +84,26 @@ public class SearchEvent extends Fragment {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.itemSearchMenuSearch:
-                        Funcionalidades.esconderTeclado(getActivity(),getContext(),tabLayout);
+                        Utils.esconderTeclado(getActivity(),getContext(),tabLayout);
                         buscarEventosFiltrados();
                         break;
                     case R.id.itemSearchMenuClean:
-                        Funcionalidades.esconderTeclado(getActivity(),getContext(),tabLayout);
+                        Utils.esconderTeclado(getActivity(),getContext(),tabLayout);
                         searchEventsFilters = new SearchEventsFilters();
-                        Funcionalidades.showSelectedFragment(R.id.contenedorSearchEvent,getActivity().getSupportFragmentManager(),searchEventsFilters);
+                        Utils.showSelectedFragment(R.id.contenedorSearchEvent,getActivity().getSupportFragmentManager(),searchEventsFilters);
                         break;
                 }
                 return true;
             }
         });
 
-        Funcionalidades.showSelectedFragment(R.id.contenedorSearchEvent,getActivity().getSupportFragmentManager(),searchEventsFilters);
+        Utils.showSelectedFragment(R.id.contenedorSearchEvent,getActivity().getSupportFragmentManager(),searchEventsFilters);
     }
 
     private void buscarEventosFiltrados() {
         filtro = obtenerFiltros();
 
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         Log.e("FILTRO: " , filtro.toString());
@@ -129,7 +129,7 @@ public class SearchEvent extends Fragment {
         }else {
             service.searchEvents("Bearer " + LoginActivity.token,
                     filtro.getSport(),
-                    Funcionalidades.dateToString2(filtro.getStartAt()),
+                    Utils.dateToString2(filtro.getStartAt()),
                     filtro.getTime(),
                     filtro.getAddress(),
                     filtro.getReputation()).enqueue(new Callback<ArrayList<Event>>() {
@@ -139,7 +139,7 @@ public class SearchEvent extends Fragment {
 
                         ArrayList<Event> listaEvents = response.body();
 
-                        int edad = Funcionalidades.calcularEdad(LoginActivity.user.getBirthday());
+                        int edad = Utils.calcularEdad(LoginActivity.user.getBirthday());
 
                         for (Event event : listaEvents) {
 

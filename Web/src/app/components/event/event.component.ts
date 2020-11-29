@@ -27,7 +27,7 @@ export class EventComponent implements OnInit {
   editComments: string;
   editMinAge: number;
   editMaxAge: number;
-  editGender: string;
+  editGender: string = null;
   commentEvent: string;
 
   constructor(
@@ -111,6 +111,12 @@ export class EventComponent implements OnInit {
 
     await this.sleep(250);
 
+    if(this.editGender !== null){
+      this.eventService.editGender(this.event.id, this.editGender).subscribe(() => {
+        this.event.requirement.gender = this.editGender;
+      })
+    }
+
     this.editar = false;
 
   }
@@ -144,9 +150,7 @@ export class EventComponent implements OnInit {
     for(let p of this.event.participants){
       if(p.id === this.idUser){
         this.eventService.getEventComments(this.event.id).subscribe(data => {
-          console.log(data);
           this.event.userComments = data;
-          console.log(this.event.userComments);
         });
       }
     }
@@ -269,5 +273,10 @@ export class EventComponent implements OnInit {
 
   sleep(msec) {
     return new Promise(resolve => setTimeout(resolve, msec));
+  }
+
+  checkCheckBoxvalue(gender: string) {
+    console.log(gender);
+    this.editGender = gender;
   }
 }

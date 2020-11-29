@@ -28,7 +28,7 @@ import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
 import tfg.dam.socialsports.fragments.newevent.NewEventRequirements;
@@ -124,10 +124,10 @@ public class EventSettingsSettings extends Fragment {
                 mes = monthOfYear;
                 dia = dayOfMonth;
                 if ((fechaCorrecta(newCalendar.getTime()) && newTime == null) || getFechaEvento() != null) {
-                    editFecha.setText(Funcionalidades.dateToString(date));
+                    editFecha.setText(Utils.dateToString(date));
                 }
                 else {
-                    Funcionalidades.mostrarMensaje("Fecha errónea.", getContext());
+                    Utils.mostrarMensaje("Fecha errónea.", getContext());
                     date = null;
                     editFecha.setText("");
                 }
@@ -144,7 +144,7 @@ public class EventSettingsSettings extends Fragment {
                     mostrarHoraSeleccionada();
                 }
                 else {
-                    Funcionalidades.mostrarMensaje("Hora errónea.", getContext());
+                    Utils.mostrarMensaje("Hora errónea.", getContext());
                     newTime = null;
                     editHora.setText("");
                 }
@@ -154,49 +154,49 @@ public class EventSettingsSettings extends Fragment {
         editFecha.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Funcionalidades.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId())
+                if (Utils.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId())
                     dialogoCalendario.show();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
             }
         });
         editHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Funcionalidades.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId())
+                if (Utils.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId())
                     dialogoTime.show();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
             }
         });
         participantes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         direccion.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
 
         precio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         comentarios.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
 
         notParticipant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
             }
         });
 
@@ -355,9 +355,9 @@ public class EventSettingsSettings extends Fragment {
     public String getGenero() {
         if (checkBoxGender.isChecked()) {
             if (radioMale.isChecked())
-                return ("Male").toUpperCase();
+                return ("hombre");
             if (radioFemale.isChecked())
-                return ("Female").toUpperCase();
+                return ("mujer");
         }
         return null;
     }
@@ -369,7 +369,7 @@ public class EventSettingsSettings extends Fragment {
     }
 
     private void cargarDatosEvento() {
-        if (Funcionalidades.eventSeleccionado.getOrganizer().getId() != LoginActivity.user.getId()) {
+        if (Utils.eventSeleccionado.getOrganizer().getId() != LoginActivity.user.getId()) {
             participantes.setFocusable(false);
             direccion.setFocusable(false);
             precio.setFocusable(false);
@@ -384,37 +384,37 @@ public class EventSettingsSettings extends Fragment {
             radioMale.setEnabled(false);
             radioFemale.setEnabled(false);
             ratingReputation.setIsIndicator(true);
-            ratingBarOrganizer.setRating(Funcionalidades.eventSeleccionado.getOrganizer().getReputationOrganizer());
+            ratingBarOrganizer.setRating(Utils.eventSeleccionado.getOrganizer().getReputationOrganizer());
         }else
             rowOrganizerReputation.setVisibility(View.GONE);
 
-        if (Funcionalidades.eventSeleccionado.getStartDate() != null)
-            editFecha.setText(Funcionalidades.dateToString(Funcionalidades.eventSeleccionado.getStartDate()).toUpperCase());
-        editHora.setText(Funcionalidades.eventSeleccionado.getTime());
-        if (Funcionalidades.eventSeleccionado.getMaxParticipants() > 0)
-            participantes.setText(Integer.toString(Funcionalidades.eventSeleccionado.getMaxParticipants()));
-        direccion.setText(Funcionalidades.eventSeleccionado.getAddress());
-        notParticipant.setChecked(!Funcionalidades.eventSeleccionado.getParticipants().contains(Funcionalidades.eventSeleccionado.getOrganizer()));
-        comentarios.setText(Funcionalidades.eventSeleccionado.getComments());
-        if (Funcionalidades.eventSeleccionado.getRequirement().getMinAge() > NewEventRequirements.MinAge) {
+        if (Utils.eventSeleccionado.getStartDate() != null)
+            editFecha.setText(Utils.dateToString(Utils.eventSeleccionado.getStartDate()).toUpperCase());
+        editHora.setText(Utils.eventSeleccionado.getTime());
+        if (Utils.eventSeleccionado.getMaxParticipants() > 0)
+            participantes.setText(Integer.toString(Utils.eventSeleccionado.getMaxParticipants()));
+        direccion.setText(Utils.eventSeleccionado.getAddress());
+        notParticipant.setChecked(!Utils.eventSeleccionado.getParticipants().contains(Utils.eventSeleccionado.getOrganizer()));
+        comentarios.setText(Utils.eventSeleccionado.getComments());
+        if (Utils.eventSeleccionado.getRequirement().getMinAge() > NewEventRequirements.MinAge) {
             checkBoxMinAge.setChecked(true);
-            barMinAge.setProgress(Funcionalidades.eventSeleccionado.getRequirement().getMinAge());
+            barMinAge.setProgress(Utils.eventSeleccionado.getRequirement().getMinAge());
         }
-        if (Funcionalidades.eventSeleccionado.getRequirement().getMaxAge() != 0 && Funcionalidades.eventSeleccionado.getRequirement().getMaxAge() < NewEventRequirements.MaxAge) {
+        if (Utils.eventSeleccionado.getRequirement().getMaxAge() != 0 && Utils.eventSeleccionado.getRequirement().getMaxAge() < NewEventRequirements.MaxAge) {
             checkBoxMaxAge.setChecked(true);
-            barMaxAge.setProgress(Funcionalidades.eventSeleccionado.getRequirement().getMaxAge());
+            barMaxAge.setProgress(Utils.eventSeleccionado.getRequirement().getMaxAge());
         }
-        if (Funcionalidades.eventSeleccionado.getRequirement().getGender() != null
-                && !Funcionalidades.eventSeleccionado.getRequirement().getGender().isEmpty()) {
+        if (Utils.eventSeleccionado.getRequirement().getGender() != null
+                && !Utils.eventSeleccionado.getRequirement().getGender().isEmpty()) {
             checkBoxGender.setChecked(true);
-            if (Funcionalidades.eventSeleccionado.getRequirement().getGender().toUpperCase().equals("MALE"))
+            if (Utils.eventSeleccionado.getRequirement().getGender().toUpperCase().equals("MALE"))
                 radioMale.setChecked(true);
-            else if (Funcionalidades.eventSeleccionado.getRequirement().getGender().toUpperCase().equals("FEMALE"))
+            else if (Utils.eventSeleccionado.getRequirement().getGender().toUpperCase().equals("FEMALE"))
                 radioFemale.setChecked(true);
         }
-        if (Funcionalidades.eventSeleccionado.getRequirement().getReputation() > 0) {
+        if (Utils.eventSeleccionado.getRequirement().getReputation() > 0) {
             checkBoxReputation.setChecked(true);
-            ratingReputation.setRating(Funcionalidades.eventSeleccionado.getRequirement().getReputation());
+            ratingReputation.setRating(Utils.eventSeleccionado.getRequirement().getReputation());
         }
     }
 }

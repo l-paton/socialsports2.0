@@ -21,7 +21,7 @@ import android.widget.TimePicker;
 import java.util.Calendar;
 import java.util.Date;
 
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.R;
 
 public class SearchEventsFilters extends Fragment {
@@ -70,7 +70,7 @@ public class SearchEventsFilters extends Fragment {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 newCalendar.set(year, monthOfYear, dayOfMonth);
                 date = newCalendar.getTime();
-                editFecha.setText(Funcionalidades.dateToString(date));
+                editFecha.setText(Utils.dateToString(date));
             }
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
@@ -87,38 +87,38 @@ public class SearchEventsFilters extends Fragment {
             @Override
             public void onClick(View v) {
                 dialogoCalendario.show();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
             }
         });
         editHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogoTime.show();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
             }
         });
         editDeporte.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         editLocalidad.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         checkReserva.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
             }
         });
         checkReputation.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
                 if (isChecked) {
                     ratingBarReputation.setEnabled(true);
                     textValorReputacion.setText(Float.toString(ratingBarReputation.getRating()));
@@ -132,7 +132,7 @@ public class SearchEventsFilters extends Fragment {
         ratingBarReputation.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
                 textValorReputacion.setText(Float.toString(ratingBar.getRating()));
             }
         });

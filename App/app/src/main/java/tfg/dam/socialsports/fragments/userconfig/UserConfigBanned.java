@@ -16,12 +16,12 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.ListUsersAdapter;
-import tfg.dam.socialsports.Clases.User;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.adapter.ListUsersAdapter;
+import tfg.dam.socialsports.model.User;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,7 +84,7 @@ public class UserConfigBanned extends Fragment {
     }
 
     private void acceptRequest() {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         retrofit.getAPIService().acceptFriend("Bearer " + LoginActivity.token,
                 selectedUser.getId())
                 .enqueue(new Callback<ResponseBody>() {
@@ -106,7 +106,7 @@ public class UserConfigBanned extends Fragment {
 
     public void denyRequest(){
 
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         retrofit.getAPIService().denyFriend("Bearer " + LoginActivity.token, selectedUser.getId())
                 .enqueue(new Callback<ResponseBody>() {
                     @Override
@@ -128,7 +128,7 @@ public class UserConfigBanned extends Fragment {
 
         Log.e("SE METE EN DENY", "EEEEEEEEEEEee");
 
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.requestsReceived("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<User>>() {

@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
 
@@ -89,7 +89,7 @@ public class UserConfigSettings extends Fragment {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 newCalendar.set(year, monthOfYear, dayOfMonth);
                 birthdate = newCalendar.getTime();
-                editNacimiento.setText(Funcionalidades.dateToString(birthdate));
+                editNacimiento.setText(Utils.dateToString(birthdate));
             }
         }, newCalendar.get(Calendar.YEAR), newCalendar.get(Calendar.MONTH), newCalendar.get(Calendar.DAY_OF_MONTH));
 
@@ -97,7 +97,7 @@ public class UserConfigSettings extends Fragment {
             @Override
             public void onClick(View v) {
                 dialogoCalendario.show();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
             }
         });
 
@@ -107,11 +107,11 @@ public class UserConfigSettings extends Fragment {
         editNombre.setText(LoginActivity.user.getFirstName());
         editApellido.setText(LoginActivity.user.getLastName());
         editDireccion.setText(LoginActivity.user.getAddress());
-        editNacimiento.setText(Funcionalidades.dateToString(LoginActivity.user.getBirthday()));
+        editNacimiento.setText(Utils.dateToString(LoginActivity.user.getBirthday()));
 
         if(LoginActivity.user.getPicture() != null && !LoginActivity.user.getPicture().equals("")){
             Glide.with(getContext())
-                    .load(LoginActivity.user.getPicture())
+                    .load(LoginActivity.user.getPicture().replace("localhost", "192.168.1.177"))
                     .into(image);
         }
 

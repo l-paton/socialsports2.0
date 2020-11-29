@@ -16,14 +16,14 @@ import com.google.android.material.tabs.TabLayout;
 import java.util.ArrayList;
 import java.util.Date;
 
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.Event;
-import tfg.dam.socialsports.Clases.Requirement;
-import tfg.dam.socialsports.Clases.User;
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.model.Event;
+import tfg.dam.socialsports.model.Requirement;
+import tfg.dam.socialsports.model.User;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -57,14 +57,14 @@ public class NewEvent extends Fragment {
         nextButton = getActivity().findViewById(R.id.buttonNext);
         previousButton = getActivity().findViewById(R.id.buttonPrevious);
         tabLayout = getActivity().findViewById(R.id.tabs);
-        Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventSpecify);
-        Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventRequirements);
-        Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventInvite);
+        Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventSpecify);
+        Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventRequirements);
+        Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventInvite);
 
         createButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresBoton((Button)v,getActivity().getApplication());
+                Utils.cambiarColoresBoton((Button)v,getActivity().getApplication());
             }
         });
         createButton.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +72,7 @@ public class NewEvent extends Fragment {
             public void onClick(View v) {
                 v.setFocusableInTouchMode(true);
                 v.requestFocus();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
                 v.setFocusableInTouchMode(false);
                 if (getParams())
                     createEvent();
@@ -82,7 +82,7 @@ public class NewEvent extends Fragment {
         nextButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresBotonSimple((Button) v,getActivity().getApplication());
+                Utils.cambiarColoresBotonSimple((Button) v,getActivity().getApplication());
             }
         });
         nextButton.setOnClickListener(new View.OnClickListener() {
@@ -90,7 +90,7 @@ public class NewEvent extends Fragment {
             public void onClick(View v) {
                 v.setFocusableInTouchMode(true);
                 v.requestFocus();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
                 v.setFocusableInTouchMode(false);
                 tabLayout.getTabAt(tabLayout.getSelectedTabPosition()+1).select();
             }
@@ -99,7 +99,7 @@ public class NewEvent extends Fragment {
         previousButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresBotonSimple((Button) v,getActivity().getApplication());
+                Utils.cambiarColoresBotonSimple((Button) v,getActivity().getApplication());
             }
         });
         previousButton.setOnClickListener(new View.OnClickListener() {
@@ -107,7 +107,7 @@ public class NewEvent extends Fragment {
             public void onClick(View v) {
                 v.setFocusableInTouchMode(true);
                 v.requestFocus();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
                 v.setFocusableInTouchMode(false);
                 tabLayout.getTabAt(tabLayout.getSelectedTabPosition()-1).select();
             }
@@ -116,21 +116,21 @@ public class NewEvent extends Fragment {
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_description))) {
-                    Funcionalidades.showSelectedFragment(R.id.newEventContainer,getActivity().getSupportFragmentManager(),newEventDescription);
+                    Utils.showSelectedFragment(R.id.newEventContainer,getActivity().getSupportFragmentManager(),newEventDescription);
                     activarBotonNext();
                 }
                 else if (tab.getText().toString().equals(getResources().getString(R.string.tab_specify))) {
-                    Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventSpecify);
+                    Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventSpecify);
                     activarBotonNextPrevious();
                 }
                 else if (tab.getText().toString().equals(getResources().getString(R.string.tab_requirements))) {
-                    Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventRequirements);
+                    Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventRequirements);
                     activarBotonNextPrevious();
                 }
                 else if (tab.getText().toString().equals(getResources().getString(R.string.tab_invite))) {
-                    Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventInvite);
+                    Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventInvite);
                     activarBotonPrevious();
                 }
             }
@@ -143,7 +143,7 @@ public class NewEvent extends Fragment {
                 onTabSelected(tab);
             }
         });
-        Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventDescription);
+        Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventDescription);
         activarBotonNext();
     }
 
@@ -171,7 +171,7 @@ public class NewEvent extends Fragment {
         address = newEventDescription.getLocalidad().toUpperCase();
 
         if (sport.equals("") || address.equals("")) {
-            Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_incomplete_data), getContext());
+            Utils.mostrarMensaje(getResources().getString(R.string.mensaje_incomplete_data), getContext());
             return false;
         }
 
@@ -203,7 +203,7 @@ public class NewEvent extends Fragment {
     }
 
     private void createEvent() {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
         Log.e("EVENTO: ", eventCreated.toString());
         service.createEvent("Bearer " + LoginActivity.token, eventCreated).enqueue(new Callback<ResponseBody>() {
@@ -211,18 +211,18 @@ public class NewEvent extends Fragment {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
                 if (response.isSuccessful()) {
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_evento_creado), getContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.mensaje_evento_creado), getContext());
                     newEventDescription = new NewEventDescription();
                     newEventSpecify = new NewEventSpecify();
                     newEventRequirements = new NewEventRequirements();
                     newEventInvite = new NewEventInvite();
                     eventCreated = null;
-                    Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventSpecify);
-                    Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventRequirements);
-                    Funcionalidades.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventInvite);
+                    Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventSpecify);
+                    Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventRequirements);
+                    Utils.showSelectedFragment(R.id.newEventContainer, getActivity().getSupportFragmentManager(), newEventInvite);
                     tabLayout.getTabAt(0).select();
                 } else {
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_error_evento_creado), getContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.mensaje_error_evento_creado), getContext());
                 }
             }
 
@@ -234,7 +234,7 @@ public class NewEvent extends Fragment {
     }
 
     private void getFriendList() {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
         service.friendList("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<User>>() {
             @Override

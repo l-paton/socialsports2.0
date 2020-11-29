@@ -17,6 +17,8 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 
 public class EventSettings extends AppCompatActivity {
 
@@ -34,14 +36,14 @@ public class EventSettings extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabsEventSettings);
         navigationView = findViewById(R.id.navigationEventSettings);
         toolbar = findViewById(R.id.toolbarEventSettings);
-        toolbar.setTitle(Funcionalidades.eventSeleccionado.getSport()+" - "+Funcionalidades.eventSeleccionado.getAddress());
+        toolbar.setTitle(Utils.eventSeleccionado.getSport()+" - "+ Utils.eventSeleccionado.getAddress());
         eventSettingsSettings = new EventSettingsSettings();
         eventSettingsParticipants = new EventSettingsParticipants();
         eventSettingsRequests = new EventSettingsRequests();
 
-        if (Funcionalidades.eventSeleccionado.getOrganizer().getId() != LoginActivity.user.getId()) {
-            if (!Funcionalidades.eresSolicitante(Funcionalidades.eventSeleccionado)
-                    && !Funcionalidades.eresParticipante(Funcionalidades.eventSeleccionado)) {
+        if (Utils.eventSeleccionado.getOrganizer().getId() != LoginActivity.user.getId()) {
+            if (!Utils.eresSolicitante(Utils.eventSeleccionado)
+                    && !Utils.eresParticipante(Utils.eventSeleccionado)) {
                 toolbar.inflateMenu(R.menu.event_subscribe_menu);
                 navigationView.inflateMenu(R.menu.event_subscribe_menu);
             }
@@ -54,21 +56,21 @@ public class EventSettings extends AppCompatActivity {
             toolbar.inflateMenu(R.menu.event_organizer_menu);
             navigationView.inflateMenu(R.menu.event_organizer_menu);
         }
-        Funcionalidades.showSelectedFragment(R.id.containerEventSettings,getSupportFragmentManager(),eventSettingsSettings);
+        Utils.showSelectedFragment(R.id.containerEventSettings,getSupportFragmentManager(),eventSettingsSettings);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_event_settings_sttings))) {
-                    Funcionalidades.showSelectedFragment(R.id.containerEventSettings, getSupportFragmentManager(), eventSettingsSettings);
+                    Utils.showSelectedFragment(R.id.containerEventSettings, getSupportFragmentManager(), eventSettingsSettings);
                 }
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_event_settings_participants))) {
                     eventSettingsParticipants = new EventSettingsParticipants();
-                    Funcionalidades.showSelectedFragment(R.id.containerEventSettings, getSupportFragmentManager(), eventSettingsParticipants);
+                    Utils.showSelectedFragment(R.id.containerEventSettings, getSupportFragmentManager(), eventSettingsParticipants);
                 }
                 if (tab.getText().toString().equals(getResources().getString(R.string.tab_event_settings_requests))) {
                     eventSettingsRequests = new EventSettingsRequests();
-                    Funcionalidades.showSelectedFragment(R.id.containerEventSettings, getSupportFragmentManager(), eventSettingsRequests);
+                    Utils.showSelectedFragment(R.id.containerEventSettings, getSupportFragmentManager(), eventSettingsRequests);
                 }
             }
 
@@ -103,27 +105,27 @@ public class EventSettings extends AppCompatActivity {
     private void realizarAccionSeleccionada(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.itemMenuEventSave:
-                Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
+                Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
                 saveChanges();
                 break;
             case R.id.itemMenuEventDelete:
-                Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
+                Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
                 eliminarEvento();
                 finish();
                 break;
             case R.id.itemMenuEventFinalize:
-                Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
-                Funcionalidades.eventSeleccionado.setFinish(true);
-                Funcionalidades.finishEvent(Funcionalidades.eventSeleccionado.getId());
+                Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
+                Utils.eventSeleccionado.setFinish(true);
+                Utils.finishEvent(Utils.eventSeleccionado.getId());
                 finish();
-                Funcionalidades.mostrarMensaje("Evento Finalizado",this);
+                Utils.mostrarMensaje("Evento Finalizado",this);
                 break;
             case R.id.itemMenuSubscribe:
-                Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
+                Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
                 mandarSolicitud();
                 break;
             case R.id.itemMenuUnsubscribe:
-                Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
+                Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
                 //eliminarSolicitud();
                 break;
         }
@@ -131,10 +133,10 @@ public class EventSettings extends AppCompatActivity {
 
     private void saveChanges() {
         if (eventSettingsSettings.getFechaEvento() != null) {
-            if (Funcionalidades.eventSeleccionado.getStartDate() == null ||
-                    eventSettingsSettings.getFechaEvento().compareTo(Funcionalidades.eventSeleccionado.getStartDate()) != 0) {
-                Funcionalidades.eventSeleccionado.setStartDate(eventSettingsSettings.getFechaEvento());
-                Funcionalidades.editStartDate(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getFechaEvento());
+            if (Utils.eventSeleccionado.getStartDate() == null ||
+                    eventSettingsSettings.getFechaEvento().compareTo(Utils.eventSeleccionado.getStartDate()) != 0) {
+                Utils.eventSeleccionado.setStartDate(eventSettingsSettings.getFechaEvento());
+                Utils.editStartDate(Utils.eventSeleccionado.getId(),eventSettingsSettings.getFechaEvento());
             }
         }
 
@@ -144,9 +146,9 @@ public class EventSettings extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (!eventSettingsSettings.getHoraEvento().equals(Funcionalidades.eventSeleccionado.getTime())) {
-            Funcionalidades.eventSeleccionado.setTime(eventSettingsSettings.getHoraEvento());
-            Funcionalidades.editEventTime(Funcionalidades.eventSeleccionado.getId(), eventSettingsSettings.getHoraEvento());
+        if (!eventSettingsSettings.getHoraEvento().equals(Utils.eventSeleccionado.getTime())) {
+            Utils.eventSeleccionado.setTime(eventSettingsSettings.getHoraEvento());
+            Utils.editEventTime(Utils.eventSeleccionado.getId(), eventSettingsSettings.getHoraEvento());
         }
 
         try {
@@ -155,9 +157,9 @@ public class EventSettings extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        if (!eventSettingsSettings.getDireccion().equals(Funcionalidades.eventSeleccionado.getAddress())) {
-            Funcionalidades.eventSeleccionado.setAddress(eventSettingsSettings.getDireccion());
-            Funcionalidades.actualizarDireccionEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getDireccion());
+        if (!eventSettingsSettings.getDireccion().equals(Utils.eventSeleccionado.getAddress())) {
+            Utils.eventSeleccionado.setAddress(eventSettingsSettings.getDireccion());
+            Utils.actualizarDireccionEvento(Utils.eventSeleccionado.getId(),eventSettingsSettings.getDireccion());
         }
 
         try {
@@ -165,9 +167,9 @@ public class EventSettings extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (eventSettingsSettings.getNumParticipantes() != Funcionalidades.eventSeleccionado.getMaxParticipants()) {
-            Funcionalidades.eventSeleccionado.setMaxParticipants(eventSettingsSettings.getNumParticipantes());
-            Funcionalidades.actualizarMaxParticipantesEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getNumParticipantes());
+        if (eventSettingsSettings.getNumParticipantes() != Utils.eventSeleccionado.getMaxParticipants()) {
+            Utils.eventSeleccionado.setMaxParticipants(eventSettingsSettings.getNumParticipantes());
+            Utils.actualizarMaxParticipantesEvento(Utils.eventSeleccionado.getId(),eventSettingsSettings.getNumParticipantes());
         }
         try {
             Thread.sleep(250);
@@ -175,68 +177,68 @@ public class EventSettings extends AppCompatActivity {
             e.printStackTrace();
         }
         if (eventSettingsSettings.getElOrganizadorEsParticipante() !=
-                Funcionalidades.eventSeleccionado.getParticipants().contains(Funcionalidades.eventSeleccionado.getOrganizer())) {
+                Utils.eventSeleccionado.getParticipants().contains(Utils.eventSeleccionado.getOrganizer())) {
             if (eventSettingsSettings.getElOrganizadorEsParticipante())
-                Funcionalidades.insertarParticipante(Funcionalidades.eventSeleccionado,Funcionalidades.eventSeleccionado.getOrganizer());
+                Utils.insertarParticipante(Utils.eventSeleccionado, Utils.eventSeleccionado.getOrganizer());
             else
-                Funcionalidades.removeParticipant(Funcionalidades.eventSeleccionado,Funcionalidades.eventSeleccionado.getOrganizer());
+                Utils.removeParticipant(Utils.eventSeleccionado, Utils.eventSeleccionado.getOrganizer());
         }
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (!eventSettingsSettings.getComentarios().equals(Funcionalidades.eventSeleccionado.getComments())) {
-            Funcionalidades.eventSeleccionado.setComments(eventSettingsSettings.getComentarios());
-            Funcionalidades.actualizarComentariosEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getComentarios());
+        if (!eventSettingsSettings.getComentarios().equals(Utils.eventSeleccionado.getComments())) {
+            Utils.eventSeleccionado.setComments(eventSettingsSettings.getComentarios());
+            Utils.actualizarComentariosEvento(Utils.eventSeleccionado.getId(),eventSettingsSettings.getComentarios());
         }
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (eventSettingsSettings.getEdadMinima() != Funcionalidades.eventSeleccionado.getRequirement().getMinAge()) {
-            Funcionalidades.eventSeleccionado.getRequirement().setMinAge(eventSettingsSettings.getEdadMinima());
-            Funcionalidades.actualizarEdadMinEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getEdadMinima());
+        if (eventSettingsSettings.getEdadMinima() != Utils.eventSeleccionado.getRequirement().getMinAge()) {
+            Utils.eventSeleccionado.getRequirement().setMinAge(eventSettingsSettings.getEdadMinima());
+            Utils.actualizarEdadMinEvento(Utils.eventSeleccionado.getId(),eventSettingsSettings.getEdadMinima());
         }
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (eventSettingsSettings.getEdadMaxima() != Funcionalidades.eventSeleccionado.getRequirement().getMaxAge()) {
-            Funcionalidades.eventSeleccionado.getRequirement().setMaxAge(eventSettingsSettings.getEdadMaxima());
-            Funcionalidades.actualizarEdadMaxEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getEdadMaxima());
+        if (eventSettingsSettings.getEdadMaxima() != Utils.eventSeleccionado.getRequirement().getMaxAge()) {
+            Utils.eventSeleccionado.getRequirement().setMaxAge(eventSettingsSettings.getEdadMaxima());
+            Utils.actualizarEdadMaxEvento(Utils.eventSeleccionado.getId(),eventSettingsSettings.getEdadMaxima());
         }
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (eventSettingsSettings.getGenero() != Funcionalidades.eventSeleccionado.getRequirement().getGender()) {
-            Funcionalidades.eventSeleccionado.getRequirement().setGender(eventSettingsSettings.getGenero());
-            Funcionalidades.actualizarGeneroEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getGenero());
+        if (eventSettingsSettings.getGenero() != Utils.eventSeleccionado.getRequirement().getGender()) {
+            Utils.eventSeleccionado.getRequirement().setGender(eventSettingsSettings.getGenero());
+            Utils.actualizarGeneroEvento(Utils.eventSeleccionado.getId(),eventSettingsSettings.getGenero());
         }
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (eventSettingsSettings.getReputacion() != Funcionalidades.eventSeleccionado.getRequirement().getReputation()) {
-            Funcionalidades.eventSeleccionado.getRequirement().setReputation(eventSettingsSettings.getReputacion());
-            Funcionalidades.actualizarReputacionEvento(Funcionalidades.eventSeleccionado.getId(),eventSettingsSettings.getReputacion());
+        if (eventSettingsSettings.getReputacion() != Utils.eventSeleccionado.getRequirement().getReputation()) {
+            Utils.eventSeleccionado.getRequirement().setReputation(eventSettingsSettings.getReputacion());
+            Utils.actualizarReputacionEvento(Utils.eventSeleccionado.getId(),eventSettingsSettings.getReputacion());
         }
         try {
             Thread.sleep(250);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_guardado_correcto), this);
+        Utils.mostrarMensaje(getResources().getString(R.string.mensaje_guardado_correcto), this);
     }
 
     private void mandarSolicitud() {
-        Funcionalidades.insertarSolicitante(Funcionalidades.eventSeleccionado);
-        Funcionalidades.mostrarMensaje(getResources().getString(R.string.messaje_request_sent),getApplicationContext());
+        Utils.insertarSolicitante(Utils.eventSeleccionado);
+        Utils.mostrarMensaje(getResources().getString(R.string.messaje_request_sent),getApplicationContext());
         toolbar.inflateMenu(R.menu.event_unsubscribe_menu);
         tabLayout.getTabAt(2).select();
     }
@@ -256,13 +258,13 @@ public class EventSettings extends AppCompatActivity {
     }*/
 
     private void eliminarEvento() {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
-        service.deleteEvent("Bearer " + LoginActivity.token, Funcionalidades.eventSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
+        service.deleteEvent("Bearer " + LoginActivity.token, Utils.eventSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_event_removed),getApplicationContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.mensaje_event_removed),getApplicationContext());
                     //MainActivity.listaEventos.remove(Funcionalidades.eventoSeleccionado);
                 }
             }

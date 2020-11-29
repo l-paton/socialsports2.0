@@ -15,11 +15,11 @@ import android.widget.ViewFlipper;
 
 import java.util.ArrayList;
 
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.Event;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.model.Event;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,7 +70,7 @@ public class Home extends Fragment {
     }
 
     public void eventosPendientes(){
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.myEventsJoined("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<Event>>() {

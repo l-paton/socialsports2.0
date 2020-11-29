@@ -65,6 +65,24 @@ public class EventController {
 			return ResponseEntity.badRequest().build();
 		}
 	}
+
+	@GetMapping("/search")
+	public ResponseEntity<?> searchEvents(
+		@RequestParam(required = false) String sport,
+		@RequestParam(required = false) String address,
+		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+		@RequestParam(required = false) String time,
+		@RequestParam(required = false) float score){
+			System.out.println(score);
+		try{
+			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time, score);
+			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
+			return ResponseEntity.ok(events);
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+			return ResponseEntity.badRequest().build();
+		}
+	}
 	
 	@GetMapping("/list")
 	public ResponseEntity<?> getEvents(){
@@ -87,24 +105,6 @@ public class EventController {
 			}
 			
 			return ResponseEntity.notFound().build();
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
-		}
-	}
-
-	@GetMapping("/search")
-	public ResponseEntity<?> searchEvents(
-		@RequestParam(required = false) String sport,
-		@RequestParam(required = false) String address,
-		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-		@RequestParam(required = false) String time,
-		@RequestParam(required = false) float score){
-			System.out.println(score);
-		try{
-			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time, score);
-			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
-			return ResponseEntity.ok(events);
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -139,7 +139,7 @@ public class EventController {
 				}
 			}
 
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -161,7 +161,7 @@ public class EventController {
 				}
 			}
 
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			
 		}catch(Exception e){
 			System.out.println(e.getMessage());
@@ -231,7 +231,7 @@ public class EventController {
 				eventService.deleteParticipant(event, idUser);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -243,7 +243,7 @@ public class EventController {
 	 ===============================*/
 
 	@PutMapping("/edit/address")
-	public ResponseEntity<?> editAddress(@RequestParam("id") long id, @RequestParam String address){
+	public ResponseEntity<?> editAddress(@RequestParam("id") long id, @RequestParam("address") String address){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -251,7 +251,7 @@ public class EventController {
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -267,7 +267,7 @@ public class EventController {
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -275,7 +275,7 @@ public class EventController {
 	}
 	
 	@PutMapping("/edit/time")
-	public ResponseEntity<?> editTime(@RequestParam("id") long id, @RequestParam String time){
+	public ResponseEntity<?> editTime(@RequestParam("id") long id, @RequestParam("time") String time){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -283,7 +283,7 @@ public class EventController {
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -291,7 +291,7 @@ public class EventController {
 	}
 
 	@PutMapping("/edit/maxparticipants")
-	public ResponseEntity<?> editMaxParticipants(@RequestParam("id") long id, @RequestParam int maxParticipants){
+	public ResponseEntity<?> editMaxParticipants(@RequestParam("id") long id, @RequestParam("maxParticipants") int maxParticipants){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -302,7 +302,7 @@ public class EventController {
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -310,7 +310,7 @@ public class EventController {
 	}
 
 	@PutMapping("/edit/comment")
-	public ResponseEntity<?> editComment(@RequestParam("id") long id, String comment){
+	public ResponseEntity<?> editComment(@RequestParam("id") long id, @RequestParam("comment") String comment){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -318,7 +318,7 @@ public class EventController {
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -326,7 +326,7 @@ public class EventController {
 	}
 
 	@PutMapping("/edit/minage")
-	public ResponseEntity<?> editMinAge(@RequestParam("id") long id, int minAge){
+	public ResponseEntity<?> editMinAge(@RequestParam("id") long id, @RequestParam("minAge") int minAge){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -334,7 +334,7 @@ public class EventController {
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -342,7 +342,7 @@ public class EventController {
 	}
 
 	@PutMapping("/edit/maxage")
-	public ResponseEntity<?> editMaxage(@RequestParam("id") long id, int maxAge){
+	public ResponseEntity<?> editMaxage(@RequestParam("id") long id, @RequestParam("maxAge") int maxAge){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -350,7 +350,24 @@ public class EventController {
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
 			}
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+		}catch(Exception e){
+			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
+		}
+	}
+
+	@PutMapping("/edit/gender")
+	public ResponseEntity<?> editGender(@RequestParam("id") long id, @RequestParam("gender") String gender){
+		try{
+			Event event = eventService.getEvent(id);
+			if(event != null && event.getOrganizer().getId() == getUser().getId()){
+				if(gender.equals("empty")) gender = null;
+				event.getRequirement().setGender(gender);
+				eventService.editEvent(event);
+				return ResponseEntity.noContent().build();
+			}
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -366,7 +383,7 @@ public class EventController {
 				eventService.editEvent(event);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();
@@ -381,7 +398,7 @@ public class EventController {
 				eventService.deleteEvent(event);
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().build();
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.badRequest().build();

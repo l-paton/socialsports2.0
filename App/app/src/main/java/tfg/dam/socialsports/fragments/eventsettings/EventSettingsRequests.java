@@ -1,7 +1,6 @@
 package tfg.dam.socialsports.fragments.eventsettings;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -20,14 +19,13 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.ListUsersAdapter;
-import tfg.dam.socialsports.Clases.User;
-import tfg.dam.socialsports.EventSettings;
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.adapter.ListUsersAdapter;
+import tfg.dam.socialsports.model.User;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 
 
 public class EventSettingsRequests extends Fragment {
@@ -51,7 +49,7 @@ public class EventSettingsRequests extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (Funcionalidades.eresOrganizador(Funcionalidades.eventSeleccionado)) {
+        if (Utils.eresOrganizador(Utils.eventSeleccionado)) {
             options = new String[]{getResources().getString(R.string.opcion_aceptar_solicitud)
                     , getResources().getString(R.string.opcion_rechazar_solicitud)
                     , getResources().getString(R.string.opcion_solicitud_de_amistad)};
@@ -60,7 +58,7 @@ public class EventSettingsRequests extends Fragment {
             options = new String[]{getResources().getString(R.string.opcion_solicitud_de_amistad)};
         }
         manuOptions = new AlertDialog.Builder(getContext());
-        if (Funcionalidades.eresOrganizador(Funcionalidades.eventSeleccionado)) {
+        if (Utils.eresOrganizador(Utils.eventSeleccionado)) {
             manuOptions.setItems(options, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -93,7 +91,7 @@ public class EventSettingsRequests extends Fragment {
             });
         }
         listViewRequests = getActivity().findViewById(R.id.listEventSettingsRequest);
-        listApplicants = Funcionalidades.eventSeleccionado.getApplicants();
+        listApplicants = Utils.eventSeleccionado.getApplicants();
         if (listApplicants != null)
             showUserList(listApplicants);
     }
@@ -113,7 +111,7 @@ public class EventSettingsRequests extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedUser = listApplicants.get(position);
-                if (!Funcionalidades.soyYo(selectedUser)) {
+                if (!Utils.soyYo(selectedUser)) {
                     manuOptions.setTitle(selectedUser.getFirstName() +
                             " " + selectedUser.getLastName());
                     manuOptions.show();
@@ -123,17 +121,17 @@ public class EventSettingsRequests extends Fragment {
     }
 
     private void acceptApplicantRequest() {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.acceptApplicantRequest("Bearer " + LoginActivity.token,
-                Funcionalidades.eventSeleccionado.getId(),
+                Utils.eventSeleccionado.getId(),
                 selectedUser.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    Funcionalidades.eventSeleccionado.getParticipants().add(selectedUser);
-                    Funcionalidades.eventSeleccionado.getApplicants().remove(selectedUser);
+                    Utils.eventSeleccionado.getParticipants().add(selectedUser);
+                    Utils.eventSeleccionado.getApplicants().remove(selectedUser);
                 }
             }
 
@@ -145,17 +143,17 @@ public class EventSettingsRequests extends Fragment {
     }
 
     private void denyApplicantRequest() {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
-        service.denyApplicantRequest("Bearer " + LoginActivity.token, Funcionalidades.eventSeleccionado.getId(), selectedUser.getId())
+        service.denyApplicantRequest("Bearer " + LoginActivity.token, Utils.eventSeleccionado.getId(), selectedUser.getId())
                 .enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
 
-                    for(User u : Funcionalidades.eventSeleccionado.getApplicants()){
+                    for(User u : Utils.eventSeleccionado.getApplicants()){
                         if(u.getId() == selectedUser.getId()){
-                            Funcionalidades.eventSeleccionado.getApplicants().remove(u);
+                            Utils.eventSeleccionado.getApplicants().remove(u);
                         }
                     }
                 }
@@ -169,6 +167,6 @@ public class EventSettingsRequests extends Fragment {
     }
 
     private void addFriend() {
-        Funcionalidades.addFriend(selectedUser);
+        Utils.addFriend(selectedUser);
     }
 }

@@ -21,7 +21,7 @@ import java.sql.Time;
 import java.util.Calendar;
 import java.util.Date;
 
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.R;
 
 public class NewEventSpecify extends Fragment {
@@ -79,10 +79,10 @@ public class NewEventSpecify extends Fragment {
                 mes = monthOfYear;
                 dia = dayOfMonth;
                 if ((fechaCorrecta(newCalendar.getTime()) && newTime == null) || getFechaEvento() != null) {
-                    editFecha.setText(Funcionalidades.dateToString(date));
+                    editFecha.setText(Utils.dateToString(date));
                 }
                 else {
-                    Funcionalidades.mostrarMensaje("Fecha errónea.", getContext());
+                    Utils.mostrarMensaje("Fecha errónea.", getContext());
                     date = null;
                     editFecha.setText("");
                 }
@@ -99,7 +99,7 @@ public class NewEventSpecify extends Fragment {
                     mostrarHoraSeleccionada();
                 }
                 else {
-                    Funcionalidades.mostrarMensaje("Hora errónea.", getContext());
+                    Utils.mostrarMensaje("Hora errónea.", getContext());
                     newTime = null;
                     editHora.setText("");
                 }
@@ -110,50 +110,50 @@ public class NewEventSpecify extends Fragment {
             @Override
             public void onClick(View v) {
                 dialogoCalendario.show();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
             }
         });
         editHora.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogoTime.show();
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),v);
+                Utils.esconderTeclado(getActivity(),getContext(),v);
             }
         });
         participantes.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         direccion.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         coste.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         precio.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         comentarios.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText)v,getActivity().getApplication());
+                Utils.cambiarColoresTexto((EditText)v,getActivity().getApplication());
             }
         });
         reserva.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
                 if (isChecked)
                     coste.setVisibility(View.VISIBLE);
                 else
@@ -163,7 +163,7 @@ public class NewEventSpecify extends Fragment {
         notParticipant.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                Funcionalidades.esconderTeclado(getActivity(),getContext(),getView());
+                Utils.esconderTeclado(getActivity(),getContext(),getView());
             }
         });
     }

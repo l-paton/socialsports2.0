@@ -15,9 +15,9 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import tfg.dam.socialsports.Clases.ListUsersAdapter;
-import tfg.dam.socialsports.Clases.User;
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.adapter.ListUsersAdapter;
+import tfg.dam.socialsports.model.User;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.R;
 
 
@@ -42,7 +42,7 @@ public class EventSettingsParticipants extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (Funcionalidades.eresOrganizador(Funcionalidades.eventSeleccionado)) {
+        if (Utils.eresOrganizador(Utils.eventSeleccionado)) {
             opciones = new String[]{getResources().getString(R.string.opcion_eliminar_participante)
                     , getResources().getString(R.string.opcion_solicitud_de_amistad)};
         }
@@ -50,7 +50,7 @@ public class EventSettingsParticipants extends Fragment {
             opciones = new String[]{getResources().getString(R.string.opcion_solicitud_de_amistad)};
         }
         menuOpciones = new AlertDialog.Builder(getContext());
-        if (Funcionalidades.eresOrganizador(Funcionalidades.eventSeleccionado)) {
+        if (Utils.eresOrganizador(Utils.eventSeleccionado)) {
             menuOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -80,7 +80,7 @@ public class EventSettingsParticipants extends Fragment {
             });
         }
         listViewParticipantes = getActivity().findViewById(R.id.listEventSettingsParticipants);
-        listaParticipantes = Funcionalidades.eventSeleccionado.getParticipants();
+        listaParticipantes = Utils.eventSeleccionado.getParticipants();
         if (listaParticipantes != null)
             mostrarListaUsuarios(listaParticipantes);
     }
@@ -100,7 +100,7 @@ public class EventSettingsParticipants extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 userSeleccionado = listaParticipantes.get(position);
-                if (!Funcionalidades.soyYo(userSeleccionado)) {
+                if (!Utils.soyYo(userSeleccionado)) {
                     menuOpciones.setTitle(userSeleccionado.getFirstName() +
                             " " + userSeleccionado.getLastName());
                     menuOpciones.show();
@@ -110,10 +110,10 @@ public class EventSettingsParticipants extends Fragment {
     }
 
     private void eliminarParticipante() {
-        Funcionalidades.removeParticipant(Funcionalidades.eventSeleccionado, userSeleccionado);
+        Utils.removeParticipant(Utils.eventSeleccionado, userSeleccionado);
     }
 
     private void agregarAmigo() {
-        Funcionalidades.addFriend(userSeleccionado);
+        Utils.addFriend(userSeleccionado);
     }
 }

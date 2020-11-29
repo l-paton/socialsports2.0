@@ -16,15 +16,15 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.ArrayList;
 
-import tfg.dam.socialsports.APIService;
-import tfg.dam.socialsports.Clases.ListEventsAdapter;
-import tfg.dam.socialsports.Clases.Event;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.adapter.ListEventsAdapter;
+import tfg.dam.socialsports.model.Event;
 import tfg.dam.socialsports.EventRate;
 import tfg.dam.socialsports.EventSettings;
-import tfg.dam.socialsports.Funcionalidades;
+import tfg.dam.socialsports.Utils;
 import tfg.dam.socialsports.LoginActivity;
 import tfg.dam.socialsports.R;
-import tfg.dam.socialsports.RETROFIT;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,7 +81,7 @@ public class MyEvents extends Fragment {
     }
 
     public void eventosPendientes(){
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.myEventsJoined("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<Event>>() {
@@ -101,7 +101,7 @@ public class MyEvents extends Fragment {
     }
 
     public void eventosFinalizados(){
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.myEventsJoinedFinished("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<Event>>() {
@@ -137,7 +137,7 @@ public class MyEvents extends Fragment {
                         intent = new Intent(getContext(), EventSettings.class);
                     else
                         intent = new Intent(getContext(), EventRate.class);
-                    Funcionalidades.eventSeleccionado = evento;
+                    Utils.eventSeleccionado = evento;
                     startActivity(intent);
                 }
             });

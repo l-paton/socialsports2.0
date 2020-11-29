@@ -22,10 +22,12 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import okhttp3.ResponseBody;
-import tfg.dam.socialsports.Clases.User;
+import tfg.dam.socialsports.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button loginButton;
     private Button registerButton;
     private ProgressBar loadingProgressBar;
-    private RETROFIT retrofit;
+    private RetrofitConnection retrofit;
     private APIService service;
     public static User user = null;
     public static String token = null;
@@ -49,20 +51,20 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login);
         registerButton = findViewById(R.id.register);
         loadingProgressBar = findViewById(R.id.loading);
-        retrofit = new RETROFIT();
+        retrofit = new RetrofitConnection();
         service = retrofit.getAPIService();
 
         emailEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText) v, getApplication());
+                Utils.cambiarColoresTexto((EditText) v, getApplication());
             }
         });
 
         passwordEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresTexto((EditText) v, getApplication());
+                Utils.cambiarColoresTexto((EditText) v, getApplication());
             }
         });
 
@@ -77,7 +79,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresBoton((Button) v, getApplication());
+                Utils.cambiarColoresBoton((Button) v, getApplication());
             }
         });
 
@@ -87,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 v.setFocusableInTouchMode(true);
                 v.requestFocus();
                 v.setFocusableInTouchMode(false);
-                Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),v);
+                Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),v);
                 iniciarLogueo();
             }
         });
@@ -95,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         registerButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                Funcionalidades.cambiarColoresBoton((Button) v, getApplication());
+                Utils.cambiarColoresBoton((Button) v, getApplication());
             }
         });
 
@@ -105,7 +107,7 @@ public class LoginActivity extends AppCompatActivity {
                 v.setFocusableInTouchMode(true);
                 v.requestFocus();
                 v.setFocusableInTouchMode(false);
-                Funcionalidades.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),v);
+                Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),v);
                 iniciarRegistro();
             }
         });
@@ -127,11 +129,11 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean comprobarDatosLoginCorrectos(String botonPulsado){
         if (emailEditText.getText().toString().equals("")) {
-            Funcionalidades.mostrarMensaje(getResources().getString(R.string.usuario_incompleto)+" "+botonPulsado,this);
+            Utils.mostrarMensaje(getResources().getString(R.string.usuario_incompleto)+" "+botonPulsado,this);
             return false;
         }
         else if (passwordEditText.getText().toString().equals("")) {
-            Funcionalidades.mostrarMensaje(getResources().getString(R.string.password_incompleto)+" "+botonPulsado, this);
+            Utils.mostrarMensaje(getResources().getString(R.string.password_incompleto)+" "+botonPulsado, this);
             return false;
         }
         return true;
@@ -179,7 +181,7 @@ public class LoginActivity extends AppCompatActivity {
                     user.inicializarValoresNulos();
                     loadApp();
                 }else{
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.login_datos_incorrectos), getApplicationContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.login_datos_incorrectos), getApplicationContext());
                     cleanBoxes();
                     loadingProgressBar.setVisibility(View.GONE);
                 }
@@ -206,16 +208,16 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(Call<User> call, Response<User> response) {
 
                 if (response.isSuccessful()) {
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.login_creado_nuevo_usuario), getApplicationContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.login_creado_nuevo_usuario), getApplicationContext());
                     login(email, password);
                 } else if (response.code() == 409) {
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.login_usuario_existe), getApplicationContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.login_usuario_existe), getApplicationContext());
                     loadingProgressBar.setVisibility(View.GONE);
                     cleanBoxes();
                 } else {
                     user = null;
                     loadingProgressBar.setVisibility(View.GONE);
-                    Funcionalidades.mostrarMensaje(getResources().getString(R.string.login_error_nuevo_usuario), getApplicationContext());
+                    Utils.mostrarMensaje(getResources().getString(R.string.login_error_nuevo_usuario), getApplicationContext());
                     try {
                         Log.e("ERROR: ", response.errorBody().string());
                     } catch (IOException e) {
@@ -234,7 +236,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     public void getEmail(){
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         retrofit.getAPIService().getMyEmail("Bearer " + LoginActivity.token).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

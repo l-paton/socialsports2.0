@@ -40,7 +40,10 @@ export class ConfigurationComponent implements OnInit {
 
   deleteAccount(){
     this.userService.deleteAccount().subscribe(() => 
-    {this.tokenStorageService.logout();});
+    {
+      this.tokenStorageService.logout();
+      window.location.reload();
+    });
   }
 
 }

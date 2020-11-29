@@ -78,11 +78,20 @@ ngb-rating{
     color: #00ffea;
 }
 
-.body-comment{
+.body-comment, .mensaje-comment{
     background-color: rgba(0, 0, 0, 0.5);
+}
+
+.mensaje-comment{
+    padding: 8px;
 }
 
 .participante:hover, .organizer-col:hover{
     cursor: pointer;
     text-shadow: 0 0 2px white;
+}
+
+.name-participant:hover{
+    cursor: pointer;
+    color: #00ffea;
 }

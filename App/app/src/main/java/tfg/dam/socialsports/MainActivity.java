@@ -36,23 +36,23 @@ public class MainActivity extends AppCompatActivity {
                 switch (menuItem.getItemId()) {
                     case (R.id.menu_home):
                         home = new Home();
-                        Funcionalidades.showSelectedFragment(R.id.container,getSupportFragmentManager(),home);
+                        Utils.showSelectedFragment(R.id.container,getSupportFragmentManager(),home);
                         break;
                     case (R.id.menu_new_event):
                         newEvent = new NewEvent();
-                        Funcionalidades.showSelectedFragment(R.id.container,getSupportFragmentManager(),newEvent);
+                        Utils.showSelectedFragment(R.id.container,getSupportFragmentManager(),newEvent);
                         break;
                     case (R.id.menu_search_event):
                         searchEvent = new SearchEvent();
-                        Funcionalidades.showSelectedFragment(R.id.container,getSupportFragmentManager(),searchEvent);
+                        Utils.showSelectedFragment(R.id.container,getSupportFragmentManager(),searchEvent);
                         break;
                     case (R.id.menu_my_events):
                         myEvents = new MyEvents();
-                        Funcionalidades.showSelectedFragment(R.id.container,getSupportFragmentManager(),myEvents);
+                        Utils.showSelectedFragment(R.id.container,getSupportFragmentManager(),myEvents);
                         break;
                     case (R.id.menu_user):
                         userConfig = new UserConfig();
-                        Funcionalidades.showSelectedFragment(R.id.container,getSupportFragmentManager(),userConfig);
+                        Utils.showSelectedFragment(R.id.container,getSupportFragmentManager(),userConfig);
                         break;
                 }
                 return true;

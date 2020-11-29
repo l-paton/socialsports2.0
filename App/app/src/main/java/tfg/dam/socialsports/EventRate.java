@@ -18,13 +18,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
 
-import tfg.dam.socialsports.Clases.ListUsersAdapter;
-import tfg.dam.socialsports.Clases.UserScore;
-import tfg.dam.socialsports.Clases.User;
+import tfg.dam.socialsports.adapter.ListUsersAdapter;
+import tfg.dam.socialsports.model.UserScore;
+import tfg.dam.socialsports.model.User;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import tfg.dam.socialsports.retrofit.APIService;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 
 public class EventRate extends AppCompatActivity {
 
@@ -57,8 +59,8 @@ public class EventRate extends AppCompatActivity {
         viewDivider = findViewById(R.id.dividerEventRate);
         navigationView = findViewById(R.id.navigationEventRate);
         toolbar = findViewById(R.id.toolbarEventRate);
-        toolbar.setTitle(Funcionalidades.eventSeleccionado.getSport()+" - "+Funcionalidades.eventSeleccionado.getAddress());
-        if (Funcionalidades.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId()) {
+        toolbar.setTitle(Utils.eventSeleccionado.getSport()+" - "+ Utils.eventSeleccionado.getAddress());
+        if (Utils.eventSeleccionado.getOrganizer().getId() == LoginActivity.user.getId()) {
             ratingBarOrganizer.setVisibility(View.GONE);
             ratingBarOrganizer.setEnabled(false);
             textOrganizer.setVisibility(View.GONE);
@@ -76,7 +78,7 @@ public class EventRate extends AppCompatActivity {
             }
         });
 
-        haSidoPuntuado(Funcionalidades.eventSeleccionado.getId(),LoginActivity.user.getEmail());
+        haSidoPuntuado(Utils.eventSeleccionado.getId(),LoginActivity.user.getEmail());
 
         menuOpciones = new AlertDialog.Builder(this);
         menuOpciones.setItems(opcionesOrganizador, new DialogInterface.OnClickListener() {
@@ -103,7 +105,7 @@ public class EventRate extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     userSeleccionado = listaParticipantes.get(position);
-                    if (!Funcionalidades.soyYo(userSeleccionado)) {
+                    if (!Utils.soyYo(userSeleccionado)) {
                         menuOpciones.setTitle(userSeleccionado.getFirstName() +
                                 " " + userSeleccionado.getLastName());
                         menuOpciones.show();
@@ -115,8 +117,8 @@ public class EventRate extends AppCompatActivity {
 
     private void sendScores() {
         if (ratingBarOrganizer.isEnabled()) {
-            UserScore userScore = new UserScore(LoginActivity.user.getId(), Funcionalidades.eventSeleccionado.getOrganizer().getId(),
-                    Funcionalidades.eventSeleccionado.getId(), ratingBarOrganizer.getRating());
+            UserScore userScore = new UserScore(LoginActivity.user.getId(), Utils.eventSeleccionado.getOrganizer().getId(),
+                    Utils.eventSeleccionado.getId(), ratingBarOrganizer.getRating());
             rateOrganizer(userScore);
         }
         for (UserScore puntuacion: listaPuntuaciones) {
@@ -131,11 +133,11 @@ public class EventRate extends AppCompatActivity {
     }
 
     private void addFriend() {
-        Funcionalidades.addFriend(userSeleccionado);
+        Utils.addFriend(userSeleccionado);
     }
 
     public void haSidoPuntuado(Long idEvento, String email) {
-        RETROFIT retrofit = new RETROFIT();
+        RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
 
         service.getHaSidoPuntuado("Bearer " + LoginActivity.token, idEvento, email).enqueue(new Callback<Boolean>() {
@@ -146,14 +148,14 @@ public class EventRate extends AppCompatActivity {
                     if (haSidoPuntuado)
                         deshabilitarPuntuar();
                 }
-                listaParticipantes = Funcionalidades.eventSeleccionado.getParticipants();
+                listaParticipantes = Utils.eventSeleccionado.getParticipants();
                 if (listaParticipantes != null)
                     showParticipants(listaParticipantes);
             }
 
             @Override
             public void onFailure(Call<Boolean> call, Throwable t) {
-                Funcionalidades.mostrarMensaje("onFailure",getApplicationContext());
+                Utils.mostrarMensaje("onFailure",getApplicationContext());
             }
         });
     }
@@ -161,7 +163,7 @@ public class EventRate extends AppCompatActivity {
     public void rateParticipants(UserScore puntuacion) {
 
         if(puntuacion.getScore() > 0) {
-            RETROFIT retrofit = new RETROFIT();
+            RetrofitConnection retrofit = new RetrofitConnection();
             APIService service = retrofit.getAPIService();
 
             service.rateParticipant("Bearer " + LoginActivity.token, puntuacion.getIdRatedUser(), puntuacion.getIdEvent(), puntuacion.getScore()).enqueue(new Callback<ResponseBody>() {
@@ -185,7 +187,7 @@ public class EventRate extends AppCompatActivity {
     public void rateOrganizer(UserScore puntuacion) {
 
         if(puntuacion.getScore() > 0) {
-            RETROFIT retrofit = new RETROFIT();
+            RetrofitConnection retrofit = new RetrofitConnection();
             APIService service = retrofit.getAPIService();
 
             service.rateOrganizer("Bearer " + LoginActivity.token, puntuacion.getIdRatedUser(), puntuacion.getIdEvent(), puntuacion.getScore()).enqueue(new Callback<ResponseBody>() {
