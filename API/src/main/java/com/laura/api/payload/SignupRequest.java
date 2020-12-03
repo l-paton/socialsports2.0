@@ -12,16 +12,16 @@ public class SignupRequest {
     @Email
     private String email;
     
-    @Size(max = 32)
+    @Size(max = 32, message = "Nombre demasiado largo")
     private String firstname;
     
-    @Size(max = 32)
+    @Size(max = 32, message = "Apellido demasiado largo")
     private String lastname;
 
     private Date birthday;
     
     @NotBlank
-    @Size(min = 6, max = 1024)
+    @Size(min = 6, max = 1024, message = "La contraseña debe tener entre 6 y 1024 carácteres")
     private String password;
 
     @Size(max = 6)

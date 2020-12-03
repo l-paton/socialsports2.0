@@ -77,7 +77,7 @@ public class AuthController {
 		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
 			
-			return ResponseEntity.badRequest().body(new MessageResponse(errors.get(0).getField() + ": " + errors.get(0).getDefaultMessage()));
+			return ResponseEntity.badRequest().body(new MessageResponse(errors.get(0).getDefaultMessage()));
 		}
 
 		try{

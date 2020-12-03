@@ -257,11 +257,15 @@
 
                                         </div>
                                     </div>
-                                    <div class="text-center" *ngIf="event.finish  && isParticipant()">
+                                    <div class="text-center" *ngIf="event.finish && participant.id != idUser && isParticipant() && participant.id != event.organizer.id">
                                         <ngb-rating [max]="5" [(rate)]="participant.reputationParticipant"
-                                            [readonly]="false" *ngIf="participant.id != idUser">
+                                            [readonly]="false">
                                         </ngb-rating>
                                         {{participant.reputationParticipant}}
+                                    </div>
+                                    <!-- El nivel de cutrez, absolutamente lamentable. -->
+                                    <div *ngIf="participant.id == idUser || participant.id == event.organizer.id">
+                                        <hr>
                                     </div>
 
                                 </div>
