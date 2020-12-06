@@ -2,6 +2,7 @@ package com.laura.api.Controller;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.validation.Valid;
@@ -22,10 +23,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.laura.api.Service.CommentEventService;
 import com.laura.api.Service.EventService;
 import com.laura.api.Service.UserService;
+import com.laura.api.model.CommentEvent;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
 import com.laura.api.payload.SearchRequest;
@@ -46,7 +49,7 @@ public class EventController {
 	UserService userService;
 	
 	@PostMapping("/create")
-	public ResponseEntity<?> createEvent(@Valid @RequestBody Event event){
+	public Event createEvent(@Valid @RequestBody Event event){
 		
 		try{
 			User user = getUser();
@@ -58,66 +61,62 @@ public class EventController {
 			event.setParticipants(set);
 			event.setFinish(false);
 
-			return ResponseEntity.ok(eventService.createEvent(event));
+			return eventService.createEvent(event);
 
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/search")
-	public ResponseEntity<?> searchEvents(
+	public Set<Event> searchEvents(
 		@RequestParam(required = false) String sport,
 		@RequestParam(required = false) String address,
 		@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
 		@RequestParam(required = false) String time,
 		@RequestParam(required = false) float score){
-			System.out.println(score);
+			
 		try{
 			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time, score);
 			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
-			return ResponseEntity.ok(events);
+			if(events.size() > 0) return events;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@GetMapping("/list")
-	public ResponseEntity<?> getEvents(){
+	public Set<Event> getEvents(){
 		try{
-			return ResponseEntity.ok(eventService.getEventsNotFinished());
+			Set<Event> events = eventService.getEventsNotFinished();
+			if(events.size() > 0) return events;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 		
 	}
 	
 	@GetMapping("/get/{id}")
-	public ResponseEntity<?> getEvent(@PathVariable("id") long id) {
+	public Event getEvent(@PathVariable("id") long id) {
 		try{
 			Event event = eventService.getEvent(id);
-		
-			if(event != null) {
-				return ResponseEntity.ok(event);
-			}
-			
-			return ResponseEntity.notFound().build();
+			if(event != null) return event;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/created")
-	public ResponseEntity<?> getEventsCreatedByUser(){
+	public Set<Event> getEventsCreatedByUser(){
 		try{
-			return ResponseEntity.ok(eventService.getEventsByOrganizer(getUser()));
+			Set<Event> events = eventService.getEventsByOrganizer(getUser());
+			if(events.size() > 0) return events;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -126,7 +125,7 @@ public class EventController {
 	 ===============================*/
 
 	@PostMapping("/accept")
-	public ResponseEntity<?> acceptApplicantRequest(@RequestParam("idEvent") long idEvent, @RequestParam("idUser") long idUser){
+	public ResponseEntity<String> acceptApplicantRequest(@RequestParam("idEvent") long idEvent, @RequestParam("idUser") long idUser){
 
 		try{
 			Event event = eventService.getEvent(idEvent);
@@ -139,16 +138,15 @@ public class EventController {
 				}
 			}
 
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 			
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PostMapping("/deny")
-	public ResponseEntity<?> denyApplicantRequest(@RequestParam("idEvent") long idEvent, @RequestParam("idUser") long idUser){
+	public ResponseEntity<String> denyApplicantRequest(@RequestParam("idEvent") long idEvent, @RequestParam("idUser") long idUser){
 
 		try{
 			Event event = eventService.getEvent(idEvent);
@@ -160,46 +158,42 @@ public class EventController {
 					return ResponseEntity.ok().build();
 				}
 			}
-
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+			
+			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 			
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PostMapping("/join")
-	public ResponseEntity<?> joinToEvent(@RequestParam("id") long id){
+	public ResponseEntity<String> joinToEvent(@RequestParam("id") long id){
 
 		try{
 			if(eventService.sendRequestToJoinEvent(id, getUser()) != null) {
 				return ResponseEntity.noContent().build();
 			}
-
 			return ResponseEntity.badRequest().build();
-
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/cancel/{id}")
-	public ResponseEntity<?> cancelRequest(@PathVariable("id") long id){
+	public ResponseEntity<String> cancelRequest(@PathVariable("id") long id){
 		try{
 			eventService.cancelRequest(id, getUser());
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/leave/{id}")
-	public ResponseEntity<?> leaveEvent(@PathVariable("id") long id){
+	public ResponseEntity<String> leaveEvent(@PathVariable("id") long id){
 		try{
 			Event event = eventService.leaveEvent(id, getUser());
+			
 			if(event.getParticipants().contains(getUser())){
 				return ResponseEntity.status(HttpStatus.CONFLICT).build();
 			}
@@ -207,24 +201,23 @@ public class EventController {
 			return ResponseEntity.noContent().build();
 
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@GetMapping("/requests")
-	public ResponseEntity<?> getRequests(){
+	public Set<Event> getRequests(){
 		try{
 			Set<Event> events = eventService.getApplicantsToUserEvents(getUser());
-			return ResponseEntity.ok(events);
+			if(events.size() > 0) return events;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/removeparticipant/{idEvent}/{idUser}")
-	public ResponseEntity<?> removeParticipant(@PathVariable("idEvent") long idEvent, @PathVariable("idUser") long idUser){
+	public ResponseEntity<String> removeParticipant(@PathVariable("idEvent") long idEvent, @PathVariable("idUser") long idUser){
 		try{
 			Event event = eventService.getEvent(idEvent);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -233,8 +226,7 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -243,7 +235,7 @@ public class EventController {
 	 ===============================*/
 
 	@PutMapping("/edit/address")
-	public ResponseEntity<?> editAddress(@RequestParam("id") long id, @RequestParam("address") String address){
+	public ResponseEntity<String> editAddress(@RequestParam("id") long id, @RequestParam("address") String address){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -253,13 +245,12 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/startdate")
-	public ResponseEntity<?> editStartDate(@RequestParam("id") long id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate){
+	public ResponseEntity<String> editStartDate(@RequestParam("id") long id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -269,13 +260,12 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PutMapping("/edit/time")
-	public ResponseEntity<?> editTime(@RequestParam("id") long id, @RequestParam("time") String time){
+	public ResponseEntity<String> editTime(@RequestParam("id") long id, @RequestParam("time") String time){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -285,13 +275,12 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/maxparticipants")
-	public ResponseEntity<?> editMaxParticipants(@RequestParam("id") long id, @RequestParam("maxParticipants") int maxParticipants){
+	public ResponseEntity<String> editMaxParticipants(@RequestParam("id") long id, @RequestParam("maxParticipants") int maxParticipants){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -304,13 +293,12 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/comment")
-	public ResponseEntity<?> editComment(@RequestParam("id") long id, @RequestParam("comment") String comment){
+	public ResponseEntity<String> editComment(@RequestParam("id") long id, @RequestParam("comment") String comment){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -320,13 +308,12 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/minage")
-	public ResponseEntity<?> editMinAge(@RequestParam("id") long id, @RequestParam("minAge") int minAge){
+	public ResponseEntity<String> editMinAge(@RequestParam("id") long id, @RequestParam("minAge") int minAge){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -336,13 +323,12 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/maxage")
-	public ResponseEntity<?> editMaxage(@RequestParam("id") long id, @RequestParam("maxAge") int maxAge){
+	public ResponseEntity<String> editMaxage(@RequestParam("id") long id, @RequestParam("maxAge") int maxAge){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -352,30 +338,32 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/gender")
-	public ResponseEntity<?> editGender(@RequestParam("id") long id, @RequestParam("gender") String gender){
+	public ResponseEntity<String> editGender(@RequestParam("id") long id, @RequestParam("gender") String gender){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
 				if(gender.equals("empty")) gender = null;
-				event.getRequirement().setGender(gender);
-				eventService.editEvent(event);
-				return ResponseEntity.noContent().build();
+				if(gender.equalsIgnoreCase("mujer") || gender.equalsIgnoreCase("hombre") || gender == null){
+					event.getRequirement().setGender(gender);
+					eventService.editEvent(event);
+					return ResponseEntity.noContent().build();
+				}else{
+					return ResponseEntity.badRequest().build();
+				}
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/finish")
-	public ResponseEntity<?> editFinish(@RequestParam("id") long id){
+	public ResponseEntity<String> editFinish(@RequestParam("id") long id){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null && event.getOrganizer().getId() == getUser().getId()){
@@ -385,13 +373,12 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> removeEvent(@PathVariable("id") long id){
+	public ResponseEntity<String> removeEvent(@PathVariable("id") long id){
 		Event event = eventService.getEvent(id);
 		try{
 			if(event.getOrganizer().getId() == getUser().getId()) {
@@ -400,8 +387,7 @@ public class EventController {
 			}
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}	
 	}
 
@@ -410,7 +396,7 @@ public class EventController {
 	 ===============================*/
 
 	@PostMapping("/publish/comment")
-	public ResponseEntity<?> publishComment(@RequestParam("idEvent") long idEvent, @RequestParam("comment") String comment){
+	public ResponseEntity<String> publishComment(@RequestParam("idEvent") long idEvent, @RequestParam("comment") String comment){
 		try{
 			Event event = eventService.getEvent(idEvent);
 
@@ -421,35 +407,33 @@ public class EventController {
 
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/delete/comment/{idComment}")
-	public ResponseEntity<?> deleteComment(@PathVariable("idComment") long idComment){
+	public ResponseEntity<String> deleteComment(@PathVariable("idComment") long idComment){
 		try{
 			if(commentEventService.deleteComment(getUser().getId(), idComment)){
 				return ResponseEntity.noContent().build();
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/comments/{id}")
-	public ResponseEntity<?> getEventComments(@PathVariable("id") long id){
+	public List<CommentEvent> getEventComments(@PathVariable("id") long id){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null){
-				if(event.getParticipants().contains(getUser())) return ResponseEntity.ok(event.getUserComments());
+				if(event.getParticipants().contains(getUser())) return event.getUserComments();
 			}
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}catch(Exception e){
 			System.out.println(e.getMessage());
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 

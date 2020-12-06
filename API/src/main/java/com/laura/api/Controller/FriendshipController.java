@@ -1,5 +1,6 @@
 package com.laura.api.Controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.laura.api.Service.FriendshipService;
 import com.laura.api.Service.UserService;
@@ -30,62 +32,62 @@ public class FriendshipController {
     UserService userService;
     
     @PostMapping("/sendrequest")
-	public ResponseEntity<?> sendFriendRequest(@RequestParam("id") long id){
+	public ResponseEntity<String> sendFriendRequest(@RequestParam("id") long id){
 		try{
             
             friendshipService.sendRequest(getUser(), id);
             return ResponseEntity.ok().build();
             
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PostMapping("/cancelrequest")
-	public ResponseEntity<?> cancelFriendRequest(@RequestParam("id") long id){
+	public ResponseEntity<String> cancelFriendRequest(@RequestParam("id") long id){
 		try{
 
 			friendshipService.cancelRequest(getUser(), id);
 			return ResponseEntity.ok().build();
 			
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}	
 
 	@PostMapping("/accept")
-	public ResponseEntity<?> acceptFriend(@RequestParam("id") long id){
+	public ResponseEntity<String> acceptFriend(@RequestParam("id") long id){
 		try{
             
             friendshipService.acceptRequest(getUser(), id);
             return ResponseEntity.ok().build();
             
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PostMapping("/deny")
-	public ResponseEntity<?> denyFriend(@RequestParam("id") long id){
+	public ResponseEntity<String> denyFriend(@RequestParam("id") long id){
 		try{
             
             friendshipService.denyRequest(getUser(), id);
             return ResponseEntity.noContent().build();
             
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteFriend(@PathVariable("id") long id){
+	public ResponseEntity<String> deleteFriend(@PathVariable("id") long id){
 		try{
             
-            //
+            friendshipService.deleteFriend(getUser(), id);
 
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -94,7 +96,7 @@ public class FriendshipController {
 		try{
             return ResponseEntity.ok(friendshipService.getFriends(getUser()));
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -110,7 +112,7 @@ public class FriendshipController {
             return ResponseEntity.badRequest().build();
             
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
@@ -119,7 +121,7 @@ public class FriendshipController {
 		try{
             return ResponseEntity.ok(friendshipService.getMyRequestsSent(getUser()));
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
     }
 
@@ -128,7 +130,7 @@ public class FriendshipController {
         try{
             return ResponseEntity.ok(friendshipService.getMyRequestsReceived(getUser()));
         }catch(Exception e){
-            return ResponseEntity.badRequest().build();
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
     

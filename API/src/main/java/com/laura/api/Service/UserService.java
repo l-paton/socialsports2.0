@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 import com.laura.api.Repository.UserRepository;
 import com.laura.api.model.User;
 
@@ -32,7 +34,7 @@ public class UserService {
 		repository.delete(user);
 	}
 	
-	public Iterable<User> getUsers(){
+	public Set<User> getUsers(){
 		return repository.findAll();
 	}
 

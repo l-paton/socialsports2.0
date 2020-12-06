@@ -78,6 +78,18 @@ public class FriendshipService {
         }
     }
 
+    public void deleteFriend(User user, long id){
+        User friend = userService.getUserById(id);
+
+        if(friend != null){
+            FriendshipId fi1 = new FriendshipId(friend, user);
+            FriendshipId fi2 = new FriendshipId(user, friend);
+            Friendship friendship = repository.findByFriendshipId(fi1);
+            if(friendship == null) friendship = repository.findByFriendshipId(fi2);
+            if(friendship != null) repository.delete(friendship);
+        }
+    }
+
     public void denyRequest(User user, long id){
         User sender = userService.getUserById(id);
 

@@ -2,6 +2,7 @@ package com.laura.api.Controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,10 +14,14 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.laura.api.Service.UserService;
+import com.laura.api.model.Event;
 import com.laura.api.model.User;
 
 @RestController
@@ -28,16 +33,16 @@ public class UserController {
 	UserService userService;
 	
 	@GetMapping("/list")
-	public ResponseEntity<?> getUsers(){
+	public Set<User> getUsers(){
 		try{
-			return ResponseEntity.ok(userService.getUsers());
+			return userService.getUsers();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PutMapping("/edit/firstname")
-	public ResponseEntity<?> editFirstName(@RequestParam String firstName){
+	public ResponseEntity<String> editFirstName(@RequestParam String firstName){
 		try{
 			User user = getUser();
 			user.setFirstName(firstName);
@@ -46,12 +51,12 @@ public class UserController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 	
 	@PutMapping("/edit/lastname")
-	public ResponseEntity<?> editLastName(@RequestParam String lastName){
+	public ResponseEntity<String> editLastName(@RequestParam String lastName){
 		try{
 			User user = getUser();
 			user.setLastName(lastName);
@@ -60,12 +65,12 @@ public class UserController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/description")
-	public ResponseEntity<?> editDescription(@RequestParam String description){
+	public ResponseEntity<String> editDescription(@RequestParam String description){
 		try{
 			User user = getUser();
 			user.setDescription(description);
@@ -74,13 +79,12 @@ public class UserController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/address")
-	public ResponseEntity<?> editAddress(@RequestParam String address){
-		System.out.println(address);
+	public ResponseEntity<String> editAddress(@RequestParam String address){
 		try{
 			User user = getUser();
 			user.setAddress(address);
@@ -89,12 +93,12 @@ public class UserController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/birthday")
-	public ResponseEntity<?> editBirthday(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date birthday){
+	public ResponseEntity<String> editBirthday(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date birthday){
 		try{
 			User user = getUser();
 			user.setBirthday(birthday);
@@ -103,12 +107,12 @@ public class UserController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/gender")
-	public ResponseEntity<?> editGender(@RequestParam String gender){
+	public ResponseEntity<String> editGender(@RequestParam String gender){
 		try{
 			User user = getUser();
 			user.setGender(gender);	
@@ -117,71 +121,73 @@ public class UserController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@PutMapping("/edit/password")
-	public ResponseEntity<?> editPassword(@RequestParam String password){
+	public ResponseEntity<String> editPassword(@RequestParam String password){
 		try{
 			if(userService.editPassword(getUser(), password)){
 				return ResponseEntity.noContent().build();
 			}
 			return ResponseEntity.badRequest().body("La contraseña debe tener un mínimo de 6 carácteres");
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@DeleteMapping("/delete")
-	public ResponseEntity<?> deleteUser(){
+	public ResponseEntity<String> deleteUser(){
 		try{
 			userService.deleteUser(getUser());
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/events/joined/{id}")
-	public ResponseEntity<?> getEventsJoined(@PathVariable("id") long id){
+	public Set<Event> getEventsJoined(@PathVariable("id") long id){
 		try{
 			User user = userService.getUserById(id);
-			return ResponseEntity.ok(user.getEventsJoined());
+			return user.getEventsJoined();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/events/joined/notfinished")
-	public ResponseEntity<?> getEventsJoinedNotFinished(){
+	public Set<Event> getEventsJoinedNotFinished(){
 		try{
-			return ResponseEntity.ok(getUser().getEventsJoined().stream().filter(o -> !o.isFinish()));
+			return getUser().getEventsJoined().stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/events/joined/finished")
-	public ResponseEntity<?> getEventsJoinedFinished(){
+	public Set<Event> getEventsJoinedFinished(){
 		try{
-			return ResponseEntity.ok(getUser().getEventsJoined().stream().filter(o -> o.isFinish()));
+			return getUser().getEventsJoined().stream().filter(o -> o.isFinish()).collect(Collectors.toSet());
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/events/applied")
-	public ResponseEntity<?> getEventsApplied(){
+	public Set<Event> getEventsApplied(){
 		try{
-			return ResponseEntity.ok(getUser().getEventsApplied());
+			Set<Event> events = getUser().getEventsApplied();
+			if(events.size() > 0) return events;
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/picture")
-	public ResponseEntity<?> getPicture(){
+	public ResponseEntity<String> getPicture(){
 		return ResponseEntity.ok(getUser().getPicture());
 	}
 
@@ -191,24 +197,25 @@ public class UserController {
 	}
 	
 	@GetMapping("/profile/{id}")
-	public ResponseEntity<?> getUserProfile(@PathVariable long id){
+	public User getUserProfile(@PathVariable long id){
 		try{
 			User user = userService.getUserById(id);
 			if(user != null){
-				return ResponseEntity.ok(user);
+				return user;
+			}else{
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 			}
-			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/email")
-	public ResponseEntity<?> getEmail(){
+	public ResponseEntity<String> getEmail(){
 		try{
 			return ResponseEntity.ok(getUser().getEmail());
 		}catch(Exception e){
-			return ResponseEntity.badRequest().build();
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 

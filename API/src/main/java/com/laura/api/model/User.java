@@ -20,10 +20,7 @@ import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import org.hibernate.annotations.DynamicUpdate;
-
 @Entity
-@DynamicUpdate
 @Table(name="USERS", uniqueConstraints = {@UniqueConstraint(columnNames = "EMAIL")} )
 public class User {
 

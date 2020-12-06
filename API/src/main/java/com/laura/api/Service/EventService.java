@@ -21,6 +21,10 @@ public class EventService {
 	@Autowired
 	EventRepository repository;
 
+	public Set<Event> getEventsNotFinished() {
+		return repository.findByFinish(false);
+	}
+	
 	public Iterable<Event> getEvents() {
 		return repository.findAll();
 	}
@@ -31,10 +35,6 @@ public class EventService {
 
 	public Set<Event> getEventsByOrganizer(User user){
 		return repository.findByOrganizer(user);
-	}
-
-	public Set<Event> getEventsNotFinished() {
-		return repository.findByFinish(false);
 	}
 
 	public Event createEvent(Event event) {
