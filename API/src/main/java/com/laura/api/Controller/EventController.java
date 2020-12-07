@@ -79,8 +79,7 @@ public class EventController {
 		try{
 			SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time, score);
 			Set<Event> events = (HashSet<Event>)eventService.searchEvents(searchRequest);
-			if(events.size() > 0) return events;
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return events;
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -90,8 +89,7 @@ public class EventController {
 	public Set<Event> getEvents(){
 		try{
 			Set<Event> events = eventService.getEventsNotFinished();
-			if(events.size() > 0) return events;
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return events;
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -102,8 +100,7 @@ public class EventController {
 	public Event getEvent(@PathVariable("id") long id) {
 		try{
 			Event event = eventService.getEvent(id);
-			if(event != null) return event;
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return event;
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -113,8 +110,7 @@ public class EventController {
 	public Set<Event> getEventsCreatedByUser(){
 		try{
 			Set<Event> events = eventService.getEventsByOrganizer(getUser());
-			if(events.size() > 0) return events;
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return events;
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -138,7 +134,7 @@ public class EventController {
 				}
 			}
 
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -159,7 +155,7 @@ public class EventController {
 				}
 			}
 			
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -209,8 +205,7 @@ public class EventController {
 	public Set<Event> getRequests(){
 		try{
 			Set<Event> events = eventService.getApplicantsToUserEvents(getUser());
-			if(events.size() > 0) return events;
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return events;
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -424,15 +419,15 @@ public class EventController {
 	}
 
 	@GetMapping("/comments/{id}")
-	public List<CommentEvent> getEventComments(@PathVariable("id") long id){
+	public ResponseEntity<?> getEventComments(@PathVariable("id") long id){
 		try{
 			Event event = eventService.getEvent(id);
 			if(event != null){
-				if(event.getParticipants().contains(getUser())) return event.getUserComments();
+				if(event.getParticipants().contains(getUser())) return ResponseEntity.ok(event.getUserComments());
+				else return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
 			}
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 		}catch(Exception e){
-			System.out.println(e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}

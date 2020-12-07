@@ -34,7 +34,6 @@ public class RateController {
             return ResponseEntity.ok().build();
             
         }catch(Exception e){
-            System.out.println(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
@@ -44,9 +43,7 @@ public class RateController {
         try{
             RateService.insertVote(idOrganizer, getUser(), idEvent, score, 1);
             return ResponseEntity.ok().build();
-            
         }catch(Exception e){
-            System.out.println(e.getMessage());
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }

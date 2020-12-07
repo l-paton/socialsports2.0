@@ -45,11 +45,15 @@ export class EventFormComponent implements OnInit {
     this.requirement = new Requirement(this.minAge, this.maxAge, this.gender, this.reputation);
 
     if(this.sport && this.address){
-      let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments, this.requirement, this.time);
-      console.log(e);
-      this.eventService.createEvent(e).subscribe(() => {
-        this.router.navigateByUrl('/');
-      });
+      if(new Date(this.startDate) < new Date()){
+        this.errorMessage = "La fecha debe ser igual o posterior a la de hoy.";
+      }else{
+        let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments, this.requirement, this.time);
+        console.log(e);
+        this.eventService.createEvent(e).subscribe(() => {
+          this.router.navigateByUrl('/');
+        });
+      }
     }else if(!this.sport){
       this.errorMessage = "Deporte requerido";
     }else if(!this.address){

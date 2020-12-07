@@ -115,7 +115,11 @@ public class UserController {
 	public ResponseEntity<String> editGender(@RequestParam String gender){
 		try{
 			User user = getUser();
-			user.setGender(gender);	
+			if(gender.equalsIgnoreCase("mujer") || gender.equalsIgnoreCase("hombre")){
+				user.setGender(gender);		
+			}else{
+				user.setGender(null);
+			}
 			if(userService.editUser(user) != null){
 				return ResponseEntity.noContent().build();
 			}
@@ -179,8 +183,7 @@ public class UserController {
 	public Set<Event> getEventsApplied(){
 		try{
 			Set<Event> events = getUser().getEventsApplied();
-			if(events.size() > 0) return events;
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+			return events;
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -188,7 +191,11 @@ public class UserController {
 
 	@GetMapping("/picture")
 	public ResponseEntity<String> getPicture(){
-		return ResponseEntity.ok(getUser().getPicture());
+		try{
+			return ResponseEntity.ok(getUser().getPicture());
+		}catch(Exception e){
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+		}
 	}
 
 	@GetMapping("/data")
@@ -197,13 +204,13 @@ public class UserController {
 	}
 	
 	@GetMapping("/profile/{id}")
-	public User getUserProfile(@PathVariable long id){
+	public ResponseEntity<?> getUserProfile(@PathVariable long id){
 		try{
 			User user = userService.getUserById(id);
 			if(user != null){
-				return user;
+				return ResponseEntity.ok(user);
 			}else{
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 			}
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

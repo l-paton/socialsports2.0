@@ -34,10 +34,8 @@ public class FriendshipController {
     @PostMapping("/sendrequest")
 	public ResponseEntity<String> sendFriendRequest(@RequestParam("id") long id){
 		try{
-            
             friendshipService.sendRequest(getUser(), id);
-            return ResponseEntity.ok().build();
-            
+            return ResponseEntity.noContent().build();
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -48,7 +46,7 @@ public class FriendshipController {
 		try{
 
 			friendshipService.cancelRequest(getUser(), id);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.noContent().build();
 			
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -58,10 +56,8 @@ public class FriendshipController {
 	@PostMapping("/accept")
 	public ResponseEntity<String> acceptFriend(@RequestParam("id") long id){
 		try{
-            
             friendshipService.acceptRequest(getUser(), id);
-            return ResponseEntity.ok().build();
-            
+            return ResponseEntity.noContent().build();
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -70,10 +66,8 @@ public class FriendshipController {
 	@PostMapping("/deny")
 	public ResponseEntity<String> denyFriend(@RequestParam("id") long id){
 		try{
-            
             friendshipService.denyRequest(getUser(), id);
             return ResponseEntity.noContent().build();
-            
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -82,9 +76,7 @@ public class FriendshipController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteFriend(@PathVariable("id") long id){
 		try{
-            
             friendshipService.deleteFriend(getUser(), id);
-
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -103,14 +95,11 @@ public class FriendshipController {
 	@GetMapping("/list/{id}")
 	public ResponseEntity<?> getFriendsOfUser(@PathVariable long id){
 		try{
-            
             User user = userService.getUserById(id);
             if(user != null){
                 return ResponseEntity.ok(friendshipService.getFriends(user));
             }
-
             return ResponseEntity.badRequest().build();
-            
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
