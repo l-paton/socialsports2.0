@@ -46,7 +46,8 @@ export class SignupComponent implements OnInit {
         if(this.birthday.value){
           if(new Date(this.birthday.value) >= new Date()){
             this.errorMessage = "Fecha de cumpleaños errónea";
-          }else{
+          }
+        }else{
             this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value, this.gender, this.birthday.value).subscribe(
               () => {
                 this.isSuccessful = true;
@@ -59,13 +60,12 @@ export class SignupComponent implements OnInit {
                 this.isSignUpFailed = true;
               });
           }
+        } else {
+          this.errorMessage = 'Las contraseñas no coinciden';
         }
       } else {
-        this.errorMessage = 'Las contraseñas no coinciden';
+        this.errorMessage = 'Rellena bien los campos';
       }
-    } else {
-      this.errorMessage = 'Rellena bien los campos';
-    }
   }
 
   checkCheckBoxvalue(gender: string) {

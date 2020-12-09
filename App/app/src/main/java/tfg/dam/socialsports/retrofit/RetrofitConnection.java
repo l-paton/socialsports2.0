@@ -10,7 +10,8 @@ import tfg.dam.socialsports.retrofit.APIService;
 public class RetrofitConnection {
 
     private APIService service;
-    public final String BASE_URL = "http://192.168.1.177:8080/api/";
+    public final String BASE_URL = "http://10.0.2.2:8080/api/";
+    /*public final String BASE_URL = "https://socialsports2-0.herokuapp.com/api/";*/
 
     public RetrofitConnection(){
 
@@ -20,7 +21,6 @@ public class RetrofitConnection {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(this.BASE_URL)
-                //.baseUrl("https://socialsports2-0.herokuapp.com/api/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
 

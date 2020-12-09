@@ -77,7 +77,6 @@ public class AuthController {
 	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
-			
 			return ResponseEntity.badRequest().body(new MessageResponse(errors.get(0).getDefaultMessage()));
 		}
 
