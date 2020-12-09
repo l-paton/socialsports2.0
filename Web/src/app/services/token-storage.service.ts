@@ -41,6 +41,6 @@ export class TokenStorageService {
   
   get isLoggedIn(): boolean {
     let authToken = this.getToken();
-    return (authToken !== null) ? true : false;
+    return (authToken) ? true : false;
   }  
 }

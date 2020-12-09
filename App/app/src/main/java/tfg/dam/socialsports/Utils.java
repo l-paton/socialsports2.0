@@ -195,8 +195,8 @@ public class Utils extends AppCompatActivity {
     }
 
     public static void eliminarAmigo(User user) {
-        if (LoginActivity.user.getListaAmigos().contains(user))
-            LoginActivity.user.getListaAmigos().remove(user);
+        if (LoginActivity.user.getFriends().contains(user))
+            LoginActivity.user.getFriends().remove(user);
 
         RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
@@ -214,26 +214,22 @@ public class Utils extends AppCompatActivity {
     }
 
     public static void addFriend(final User user) {
+            RetrofitConnection retrofit = new RetrofitConnection();
+            retrofit.getAPIService().sendFriendRequest("Bearer " + LoginActivity.token,
+                    user.getId())
+                    .enqueue(new Callback<ResponseBody>() {
+                        @Override
+                        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
-        RetrofitConnection retrofit = new RetrofitConnection();
-        retrofit.getAPIService().sendFriendRequest("Bearer " + LoginActivity.token,
-                user.getId())
-                .enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if(response.isSuccessful()){
-                            if (!LoginActivity.user.getListaAmigos().contains(user)) {
-                                LoginActivity.user.getListaAmigos().add(user);
-                                LoginActivity.user.getListaBloqueados().remove(user);
-                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        t.printStackTrace();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            t.printStackTrace();
+                        }
+                    });
+
+
     }
 
     public static void editStartDate(Long idEvent, Date startDate) {
@@ -348,10 +344,10 @@ public class Utils extends AppCompatActivity {
         });
     }
 
-    public static void actualizarPrecioEvento(String idEvento, float precio) {
+    public static void actualizarPrecioEvento(long id, float precio) {
         RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
-        service.actualizarPrecio("Bearer " + LoginActivity.token, idEvento, precio).enqueue(new Callback<ResponseBody>() {
+        service.actualizarPrecio("Bearer " + LoginActivity.token, id, precio).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
 
@@ -451,7 +447,9 @@ public class Utils extends AppCompatActivity {
         service.sendRequestToJoinEvent("Bearer " + LoginActivity.token, event.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                if(response.isSuccessful()){
+                    event.getApplicants().add(LoginActivity.user);
+                }
             }
 
             @Override

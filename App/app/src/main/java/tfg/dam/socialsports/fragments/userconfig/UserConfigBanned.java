@@ -91,7 +91,7 @@ public class UserConfigBanned extends Fragment {
                     @Override
                     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                         if(response.isSuccessful()){
-                            LoginActivity.user.getListaAmigos().add(selectedUser);
+                            LoginActivity.user.getFriends().add(selectedUser);
                             LoginActivity.user.getListaBloqueados().remove(selectedUser);
                             showFriendRequests(LoginActivity.user.getListaBloqueados());
                         }

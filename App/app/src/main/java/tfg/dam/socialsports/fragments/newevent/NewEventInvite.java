@@ -61,11 +61,11 @@ public class NewEventInvite extends Fragment {
                 return true;
             }
         });
-        for (int i = 0; i< LoginActivity.user.getListaAmigos().size(); i++) {
+        for (int i = 0; i< LoginActivity.user.getFriends().size(); i++) {
             CheckBox checkBox = new CheckBox(getContext());
             checkBox.setId(i);
-            checkBox.setText(LoginActivity.user.getListaAmigos().get(i).getFirstName());
-            checkBox.setHint(String.valueOf(LoginActivity.user.getListaAmigos().get(i).getId()));
+            checkBox.setText(LoginActivity.user.getFriends().get(i).getFirstName());
+            checkBox.setHint(String.valueOf(LoginActivity.user.getFriends().get(i).getId()));
             checkBox.setTextColor(getResources().getColor(R.color.colorElements));
             checkBox.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
             checkBox.setButtonTintList(getResources().getColorStateList(R.color.colorElements));
@@ -99,7 +99,7 @@ public class NewEventInvite extends Fragment {
     }
 
     public void selectAllFriends(boolean selec) {
-        for (int i = 0; i < LoginActivity.user.getListaAmigos().size(); i++) {
+        for (int i = 0; i < LoginActivity.user.getFriends().size(); i++) {
             CheckBox checkBox = getActivity().findViewById(i);
             checkBox.setChecked(selec);
             if (selec)

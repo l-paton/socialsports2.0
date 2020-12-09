@@ -173,6 +173,10 @@
 
     </div>
 
+    <div class="col-12 text-center mensaje-comment mt-5" *ngIf="errorMessage">
+        <h6>{{errorMessage}}</h6>
+    </div>
+    
     <div class="row mt-2" *ngIf="!event.finish && isParticipant()">
         <div class="col-12">
             <div class="form-group">
@@ -264,10 +268,6 @@
                                         {{participant.reputationParticipant}}
                                     </div>
                                     
-                                    <div *ngIf="participant.id == idUser || participant.id == event.organizer.id">
-                                        <hr>
-                                    </div>
-
                                 </div>
                             </div>
                         </div>

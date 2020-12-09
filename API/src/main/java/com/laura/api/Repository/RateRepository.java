@@ -1,4 +1,4 @@
-package com.laura.api.Repository;
+package com.laura.api.repository;
 
 import java.util.Set;
 

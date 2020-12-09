@@ -1,4 +1,4 @@
-package com.laura.api.Controller;
+package com.laura.api.controller;
 
 import java.util.Date;
 import java.util.List;
@@ -22,15 +22,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.laura.api.Repository.UserRepository;
-import com.laura.api.Security.jwt.JwtUtils;
-import com.laura.api.Security.services.UserDetailsImpl;
-import com.laura.api.Service.UserService;
 import com.laura.api.model.User;
 import com.laura.api.payload.JwtResponse;
 import com.laura.api.payload.LoginRequest;
 import com.laura.api.payload.MessageResponse;
 import com.laura.api.payload.SignupRequest;
+import com.laura.api.repository.UserRepository;
+import com.laura.api.security.jwt.JwtUtils;
+import com.laura.api.security.services.UserDetailsImpl;
+import com.laura.api.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -94,7 +94,7 @@ public class AuthController {
 			user.setReputationOrganizer(0);
 
 			userRepository.save(user);
-			return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+			return ResponseEntity.ok(new MessageResponse("Usuario registrado"));
 
 		}catch(Exception e){
 			System.out.println(e.getMessage());

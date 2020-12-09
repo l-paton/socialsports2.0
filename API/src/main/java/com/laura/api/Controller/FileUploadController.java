@@ -1,7 +1,7 @@
-package com.laura.api.Controller;
+package com.laura.api.controller;
 
-import com.laura.api.Service.UserService;
 import com.laura.api.model.User;
+import com.laura.api.service.UserService;
 import com.laura.api.storage.FileResponse;
 import com.laura.api.storage.StorageService;
 

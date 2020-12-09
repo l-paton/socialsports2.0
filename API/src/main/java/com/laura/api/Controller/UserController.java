@@ -1,11 +1,9 @@
-package com.laura.api.Controller;
+package com.laura.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +16,15 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Date;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
-import com.laura.api.Service.UserService;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
+import com.laura.api.payload.MessageResponse;
+import com.laura.api.service.UserService;
+import com.laura.api.service.UtilsService;
 
 @RestController
 @RequestMapping("/api/user")
@@ -31,12 +33,18 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	UtilsService utilsService;
+
+	private final Logger logger = Logger.getLogger(UserController.class.getName());
 	
 	@GetMapping("/list")
 	public Set<User> getUsers(){
 		try{
 			return userService.getUsers();
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -44,13 +52,16 @@ public class UserController {
 	@PutMapping("/edit/firstname")
 	public ResponseEntity<String> editFirstName(@RequestParam String firstName){
 		try{
-			User user = getUser();
-			user.setFirstName(firstName);
-			if(userService.editUser(user) != null) {
-				return ResponseEntity.noContent().build();
+			if(firstName.length() > 0 && firstName.length() <= 32){
+				User user = utilsService.getUser();
+				user.setFirstName(firstName);
+				if(userService.editUser(user) != null) {
+					return ResponseEntity.noContent().build();
+				}
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -58,18 +69,21 @@ public class UserController {
 	@PutMapping("/edit/lastname")
 	public ResponseEntity<String> editLastName(@RequestParam String lastName){
 		try{
-			User user = getUser();
-			user.setLastName(lastName);
-			if(userService.editUser(user) != null) {
-				return ResponseEntity.noContent().build();
+			if(lastName.length() > 0 && lastName.length() <= 32){
+				User user = utilsService.getUser();
+				user.setLastName(lastName);
+				if(userService.editUser(user) != null) {
+					return ResponseEntity.noContent().build();
+				}
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
-	@PutMapping("/edit/description")
+	/*@PutMapping("/edit/description")
 	public ResponseEntity<String> editDescription(@RequestParam String description){
 		try{
 			User user = getUser();
@@ -81,18 +95,21 @@ public class UserController {
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
-	}
+	}*/
 
 	@PutMapping("/edit/address")
 	public ResponseEntity<String> editAddress(@RequestParam String address){
 		try{
-			User user = getUser();
-			user.setAddress(address);
-			if(userService.editUser(user) != null){
-				return ResponseEntity.noContent().build();
+			if(address.length() <= 32){
+				User user = utilsService.getUser();
+				user.setAddress(address);
+				if(userService.editUser(user) != null){
+					return ResponseEntity.noContent().build();
+				}
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -100,13 +117,16 @@ public class UserController {
 	@PutMapping("/edit/birthday")
 	public ResponseEntity<String> editBirthday(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date birthday){
 		try{
-			User user = getUser();
-			user.setBirthday(birthday);
-			if(userService.editUser(user) != null){
-				return ResponseEntity.noContent().build();
+			if(birthday.before(new Date(System.currentTimeMillis()))){
+				User user = utilsService.getUser();
+				user.setBirthday(birthday);
+				if(userService.editUser(user) != null){
+					return ResponseEntity.noContent().build();
+				}
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -114,7 +134,7 @@ public class UserController {
 	@PutMapping("/edit/gender")
 	public ResponseEntity<String> editGender(@RequestParam String gender){
 		try{
-			User user = getUser();
+			User user = utilsService.getUser();
 			if(gender.equalsIgnoreCase("mujer") || gender.equalsIgnoreCase("hombre")){
 				user.setGender(gender);		
 			}else{
@@ -125,6 +145,7 @@ public class UserController {
 			}
 			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -132,11 +153,12 @@ public class UserController {
 	@PutMapping("/edit/password")
 	public ResponseEntity<String> editPassword(@RequestParam String password){
 		try{
-			if(userService.editPassword(getUser(), password)){
+			if(userService.editPassword(utilsService.getUser(), password)){
 				return ResponseEntity.noContent().build();
 			}
 			return ResponseEntity.badRequest().body("La contraseña debe tener un mínimo de 6 carácteres");
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -144,9 +166,10 @@ public class UserController {
 	@DeleteMapping("/delete")
 	public ResponseEntity<String> deleteUser(){
 		try{
-			userService.deleteUser(getUser());
+			userService.deleteUser(utilsService.getUser());
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -157,6 +180,7 @@ public class UserController {
 			User user = userService.getUserById(id);
 			return user.getEventsJoined();
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -164,8 +188,9 @@ public class UserController {
 	@GetMapping("/events/joined/notfinished")
 	public Set<Event> getEventsJoinedNotFinished(){
 		try{
-			return getUser().getEventsJoined().stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
+			return utilsService.getUser().getEventsJoined().stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -173,8 +198,9 @@ public class UserController {
 	@GetMapping("/events/joined/finished")
 	public Set<Event> getEventsJoinedFinished(){
 		try{
-			return getUser().getEventsJoined().stream().filter(o -> o.isFinish()).collect(Collectors.toSet());
+			return utilsService.getUser().getEventsJoined().stream().filter(o -> o.isFinish()).collect(Collectors.toSet());
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -182,9 +208,10 @@ public class UserController {
 	@GetMapping("/events/applied")
 	public Set<Event> getEventsApplied(){
 		try{
-			Set<Event> events = getUser().getEventsApplied();
+			Set<Event> events = utilsService.getUser().getEventsApplied();
 			return events;
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -192,15 +219,16 @@ public class UserController {
 	@GetMapping("/picture")
 	public ResponseEntity<String> getPicture(){
 		try{
-			return ResponseEntity.ok(getUser().getPicture());
+			return ResponseEntity.ok(utilsService.getUser().getPicture());
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
 
 	@GetMapping("/data")
 	public User getUserData(){
-		return getUser();
+		return utilsService.getUser();
 	}
 	
 	@GetMapping("/profile/{id}")
@@ -210,9 +238,10 @@ public class UserController {
 			if(user != null){
 				return ResponseEntity.ok(user);
 			}else{
-				return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MessageResponse("Usuario no encontrado"));
 			}
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
 	}
@@ -220,15 +249,11 @@ public class UserController {
 	@GetMapping("/email")
 	public ResponseEntity<String> getEmail(){
 		try{
-			return ResponseEntity.ok(getUser().getEmail());
+			return ResponseEntity.ok(utilsService.getUser().getEmail());
 		}catch(Exception e){
+			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
-	}
-
-	private User getUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return userService.getUser(auth.getName());
 	}
 	
 }

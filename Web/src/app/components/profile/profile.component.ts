@@ -156,5 +156,8 @@ export class ProfileComponent implements OnInit {
   selectChangeHandler(event: any){
     this.gender = event.target.value;
   }
-
+  
+  deleteFriend(id: number) {
+    this.friendshipService.deleteFriend(id).subscribe(() => this.ngOnInit());
+  }
 }

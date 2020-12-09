@@ -40,12 +40,6 @@ export class EventsComponent implements OnInit {
   getAllEvents() {
     this.eventService.getListEvents().subscribe(data => {
       this.events = data;
-      
-      //para la paginacion
-      for (let i = 1; i < Math.ceil(this.events.length/10); i++) {
-        this.numbers.push(i);
-      }
-      
     });
   }
 
@@ -123,7 +117,7 @@ export class EventsComponent implements OnInit {
     if(evento.requirement.maxAge > 0 && age > evento.requirement.maxAge){
       return false;
     }
-    if(evento.requirement.gender != null && evento.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender?.toUpperCase()){
+    if(evento.requirement.gender && evento.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender?.toUpperCase()){
       return false;
     }
     if(evento.requirement.reputation && evento.requirement.reputation > this.tokenStorageService.getUser().user.reputationParticipant){

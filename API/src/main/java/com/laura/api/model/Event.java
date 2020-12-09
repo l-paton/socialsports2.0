@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -34,12 +35,14 @@ public class Event {
 	@JoinColumn(name="ORGANIZADOR_ID", referencedColumnName="ID")
 	private User organizer;
 	
-	@Size(max = 64)
+	@Size(max = 64, message = "Deporte demasiado largo")
 	@Column(name="SPORT", nullable=false, length = 64)
+	@NotBlank
 	private String sport;
 	
-	@Size(max = 32)
-	@Column(name="ADDRESS", length = 32)
+	@Size(max = 64, message = "Dirección demasiado larga")
+	@Column(name="ADDRESS", length = 64)
+	@NotBlank
 	private String address;
 	
 	@Column(name="START_DATE")

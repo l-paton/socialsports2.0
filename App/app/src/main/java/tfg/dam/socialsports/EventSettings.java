@@ -233,6 +233,12 @@ public class EventSettings extends AppCompatActivity {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+        if(eventSettingsSettings.getPrecio() != Utils.eventSeleccionado.getPrice()){
+            Utils.eventSeleccionado.setPrice(eventSettingsSettings.getPrecio());
+            Utils.actualizarPrecioEvento(Utils.eventSeleccionado.getId(), eventSettingsSettings.getPrecio());
+        }
+
         Utils.mostrarMensaje(getResources().getString(R.string.mensaje_guardado_correcto), this);
     }
 

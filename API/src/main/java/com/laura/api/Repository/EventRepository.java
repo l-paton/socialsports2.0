@@ -1,4 +1,4 @@
-package com.laura.api.Repository;
+package com.laura.api.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;

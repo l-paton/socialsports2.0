@@ -1,13 +1,13 @@
-package com.laura.api.Service;
+package com.laura.api.service;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.laura.api.Repository.RateRepository;
 import com.laura.api.model.Event;
 import com.laura.api.model.RateId;
 import com.laura.api.model.RateUser;
 import com.laura.api.model.User;
+import com.laura.api.repository.RateRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

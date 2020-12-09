@@ -102,7 +102,7 @@ public interface APIService {
     @GET("event/search")
     Call<ArrayList<Event>> searchEvents(@Header("Authorization") String authHeader,
                                         @Query("sport") String sport, @Query("startDate") String startDate,
-                                        @Query("time") String time, @Query("address") String address, @Query("reputation") float reputation);
+                                        @Query("time") String time, @Query("address") String address, @Query("score") float score);
 
     @FormUrlEncoded
     @PUT("event/edit/address")
@@ -126,13 +126,8 @@ public interface APIService {
 
     /**TODO**/
     @FormUrlEncoded
-    @PUT("eventos/actualizar/coste")
-    Call<ResponseBody> actualizarCoste(@Header("Authorization") String authHeader, @Field("idEvento") Long idEvento, @Field("coste") float coste);
-
-    /**TODO**/
-    @FormUrlEncoded
-    @PUT("eventos/actualizar/precio")
-    Call<ResponseBody> actualizarPrecio(@Header("Authorization") String authHeader, @Field("idEvento") String idEvento, @Field("precio") float precio);
+    @PUT("event/edit/price")
+    Call<ResponseBody> actualizarPrecio(@Header("Authorization") String authHeader, @Field("id") Long id, @Field("price") float price);
 
     @FormUrlEncoded
     @PUT("event/edit/comment")

@@ -8,11 +8,18 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import tfg.dam.socialsports.fragments.home.Home;
 import tfg.dam.socialsports.fragments.myevents.MyEvents;
 import tfg.dam.socialsports.fragments.newevent.NewEvent;
 import tfg.dam.socialsports.fragments.searchevent.SearchEvent;
 import tfg.dam.socialsports.fragments.userconfig.UserConfig;
+import tfg.dam.socialsports.model.User;
+import tfg.dam.socialsports.retrofit.RetrofitConnection;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        getFriends();
         navigationView = findViewById(R.id.menu_nav_main);
 
         navigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -65,5 +72,22 @@ public class MainActivity extends AppCompatActivity {
         else {
             navigationView.setSelectedItemId(R.id.menu_home);
         }
+    }
+
+    public void getFriends(){
+        RetrofitConnection retrofit = new RetrofitConnection();
+        retrofit.getAPIService().friendList("Bearer " + LoginActivity.token).enqueue(new Callback<ArrayList<User>>() {
+            @Override
+            public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
+                if(response.isSuccessful()){
+                    LoginActivity.user.setFriends(response.body());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ArrayList<User>> call, Throwable t) {
+
+            }
+        });
     }
 }

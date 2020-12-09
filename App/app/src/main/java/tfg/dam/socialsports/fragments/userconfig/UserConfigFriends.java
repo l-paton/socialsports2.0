@@ -56,7 +56,7 @@ public class UserConfigFriends extends Fragment {
                         deleteFriend();
                         break;
                 }
-                mostrarListaAmigos(LoginActivity.user.getListaAmigos());
+                mostrarListaAmigos(LoginActivity.user.getFriends());
             }
         });
         listViewAmigos = getActivity().findViewById(R.id.listUserConfigFriends);
@@ -77,7 +77,7 @@ public class UserConfigFriends extends Fragment {
         listViewAmigos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                userSeleccionado = LoginActivity.user.getListaAmigos().get(position);
+                userSeleccionado = LoginActivity.user.getFriends().get(position);
                 menuOpciones.setTitle(userSeleccionado.getFirstName() +
                         " " + userSeleccionado.getLastName());
                 menuOpciones.show();
@@ -94,8 +94,8 @@ public class UserConfigFriends extends Fragment {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    LoginActivity.user.getListaAmigos().remove(userSeleccionado);
-                    mostrarListaAmigos(LoginActivity.user.getListaAmigos());
+                    LoginActivity.user.getFriends().remove(userSeleccionado);
+                    mostrarListaAmigos(LoginActivity.user.getFriends());
                 }
             }
             @Override
@@ -113,11 +113,11 @@ public class UserConfigFriends extends Fragment {
             public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
 
                 if(response.isSuccessful()){
-                    LoginActivity.user.setListaAmigos(new ArrayList<User>());
+                    LoginActivity.user.setFriends(new ArrayList<User>());
                     for(User user : response.body()){
-                        LoginActivity.user.getListaAmigos().add(user);
+                        LoginActivity.user.getFriends().add(user);
                     }
-                    mostrarListaAmigos(LoginActivity.user.getListaAmigos());
+                    mostrarListaAmigos(LoginActivity.user.getFriends());
                 }
             }
 

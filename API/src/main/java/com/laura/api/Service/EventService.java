@@ -1,4 +1,4 @@
-package com.laura.api.Service;
+package com.laura.api.service;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -8,18 +8,20 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.laura.api.Repository.EventRepository;
 import com.laura.api.model.CommentEvent;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
 import com.laura.api.payload.SearchRequest;
+import com.laura.api.repository.EventRepository;
 
 @Service
 public class EventService {
 
 	@Autowired
 	EventRepository repository;
+
+	@Autowired
+	UserService userService;
 
 	public Set<Event> getEventsNotFinished() {
 		return repository.findByFinish(false);
@@ -29,7 +31,7 @@ public class EventService {
 		return repository.findAll();
 	}
 
-	public Event getEvent(long id) {
+	public Event getEvent(long id){
 		return repository.findById(id).orElse(null);
 	}
 
@@ -97,21 +99,23 @@ public class EventService {
 	
 	}
 
-	public void acceptApplicant(Event event, User user) {
+	public void acceptApplicant(Event event, long idUser) {
 
-		if (event != null) {
+		User user = userService.getUserById(idUser);
+
+		if (event != null && user != null) {
 			Set<User> set = event.getParticipants();
 			set.add(user);
 			event.setParticipants(set);
 
 			if (repository.save(event) != null) {
-				cancelRequest(event.getId(), user);
+				cancelRequest(event.getId(), idUser);
 			}
 		}
 	}
 
-	public void denyApplicant(long id, User user) {
-		cancelRequest(id, user);
+	public void denyApplicant(long id, long idUser) {
+		cancelRequest(id, idUser);
 	}
 
 	public Set<Event> searchEvents(SearchRequest searchRequest) {
@@ -155,17 +159,16 @@ public class EventService {
 		return events;
 	}
 
-	public Event cancelRequest(long id, User user) {
+	public void cancelRequest(long id, long idUser) {
 		Event event = repository.findById(id).orElse(null);
+		User user = userService.getUserById(idUser);
 
-		if (event != null) {
+		if (event != null && user != null) {
 			Set<User> set = event.getApplicants();
 			set.remove(user);
 			event.setApplicants(set);
-			return repository.save(event);
+			repository.save(event);
 		}
-
-		return null;
 	}
 
 	public Event editEvent(Event event){

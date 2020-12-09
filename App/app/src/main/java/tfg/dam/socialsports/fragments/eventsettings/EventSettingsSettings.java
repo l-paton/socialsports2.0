@@ -368,6 +368,10 @@ public class EventSettingsSettings extends Fragment {
         return 0;
     }
 
+    public float getPrecio(){
+        return Float.parseFloat(precio.getText().toString());
+    }
+
     private void cargarDatosEvento() {
         if (Utils.eventSeleccionado.getOrganizer().getId() != LoginActivity.user.getId()) {
             participantes.setFocusable(false);

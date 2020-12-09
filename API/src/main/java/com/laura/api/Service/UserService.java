@@ -1,4 +1,4 @@
-package com.laura.api.Service;
+package com.laura.api.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.Set;
 
-import com.laura.api.Repository.UserRepository;
 import com.laura.api.model.User;
+import com.laura.api.repository.UserRepository;
 
 @Service
 public class UserService {

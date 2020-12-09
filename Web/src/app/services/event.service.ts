@@ -69,6 +69,7 @@ export class EventService {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     return this.http.get<Event[]>(EVENT_API + '/created', { headers });
   }
+  
   acceptUserRequest(idEvent, idUser) {
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     let params = new HttpParams().append('idEvent', idEvent).append('idUser', idUser);
@@ -148,11 +149,16 @@ export class EventService {
     return this.http.put(EVENT_API + '/edit/maxage', params, {headers: headers});
   }
 
+  editPrice(id, price){
+    let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
+    let params = new HttpParams().set('id', id).set('price', price);
+    return this.http.put(EVENT_API + '/edit/price', params, {headers: headers});
+  }
+
   editGender(id, gender){
     let headers = new HttpHeaders({ 'Authorization': 'bearer ' + this.tokenStorage.getToken() });
     let params = new HttpParams().set('id', id).set('gender', gender);
     return this.http.put(EVENT_API + '/edit/gender', params, {headers: headers});
-
   }
 
   finishEvent(id){

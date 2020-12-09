@@ -1,4 +1,4 @@
-package com.laura.api.Security.jwt;
+package com.laura.api.security.jwt;
 
 import org.springframework.stereotype.Component;
 

@@ -23,7 +23,8 @@ const routes: Routes = [
   { path: 'event/:id', component: EventComponent, canActivate: [AuthGuard] },
   { path: 'eventform', component: EventFormComponent, canActivate: [AuthGuard] },
   { path: 'community', component: CommunityComponent, canActivate: [AuthGuard] },
-  { path: 'configuration', component: ConfigurationComponent, canActivate: [AuthGuard]}
+  { path: 'configuration', component: ConfigurationComponent, canActivate: [AuthGuard]},
+  { path: '**', redirectTo: 'home'},
 ];
 
 @NgModule({

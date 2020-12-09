@@ -1,4 +1,4 @@
-package com.laura.api.Controller;
+package com.laura.api.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,13 +12,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.laura.api.Service.FriendshipService;
-import com.laura.api.Service.UserService;
 import com.laura.api.model.User;
+import com.laura.api.service.FriendshipService;
+import com.laura.api.service.UserService;
+import com.laura.api.service.UtilsService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @RestController
 @RequestMapping("/api/friend")
@@ -28,13 +27,16 @@ public class FriendshipController {
     @Autowired
     FriendshipService friendshipService;
 
+	@Autowired
+	UserService userService;
+
     @Autowired
-    UserService userService;
+    UtilsService utilsService;
     
     @PostMapping("/sendrequest")
 	public ResponseEntity<String> sendFriendRequest(@RequestParam("id") long id){
 		try{
-            friendshipService.sendRequest(getUser(), id);
+            friendshipService.sendRequest(utilsService.getUser(), id);
             return ResponseEntity.noContent().build();
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -45,7 +47,7 @@ public class FriendshipController {
 	public ResponseEntity<String> cancelFriendRequest(@RequestParam("id") long id){
 		try{
 
-			friendshipService.cancelRequest(getUser(), id);
+			friendshipService.cancelRequest(utilsService.getUser(), id);
 			return ResponseEntity.noContent().build();
 			
 		}catch(Exception e){
@@ -56,7 +58,7 @@ public class FriendshipController {
 	@PostMapping("/accept")
 	public ResponseEntity<String> acceptFriend(@RequestParam("id") long id){
 		try{
-            friendshipService.acceptRequest(getUser(), id);
+            friendshipService.acceptRequest(utilsService.getUser(), id);
             return ResponseEntity.noContent().build();
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -66,7 +68,7 @@ public class FriendshipController {
 	@PostMapping("/deny")
 	public ResponseEntity<String> denyFriend(@RequestParam("id") long id){
 		try{
-            friendshipService.denyRequest(getUser(), id);
+            friendshipService.denyRequest(utilsService.getUser(), id);
             return ResponseEntity.noContent().build();
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -76,7 +78,7 @@ public class FriendshipController {
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<String> deleteFriend(@PathVariable("id") long id){
 		try{
-            friendshipService.deleteFriend(getUser(), id);
+            friendshipService.deleteFriend(utilsService.getUser(), id);
 			return ResponseEntity.noContent().build();
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -86,7 +88,7 @@ public class FriendshipController {
 	@GetMapping("/list")
 	public ResponseEntity<?> getMyFriends(){
 		try{
-            return ResponseEntity.ok(friendshipService.getFriends(getUser()));
+            return ResponseEntity.ok(friendshipService.getFriends(utilsService.getUser()));
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -108,7 +110,7 @@ public class FriendshipController {
 	@GetMapping("/requests/sent")
 	public ResponseEntity<?> getRequestsSent(){
 		try{
-            return ResponseEntity.ok(friendshipService.getMyRequestsSent(getUser()));
+            return ResponseEntity.ok(friendshipService.getMyRequestsSent(utilsService.getUser()));
 		}catch(Exception e){
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -117,14 +119,9 @@ public class FriendshipController {
     @GetMapping("/requests/received")
     public ResponseEntity<?> getRequestsReceived(){
         try{
-            return ResponseEntity.ok(friendshipService.getMyRequestsReceived(getUser()));
+            return ResponseEntity.ok(friendshipService.getMyRequestsReceived(utilsService.getUser()));
         }catch(Exception e){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
     }
-    
-    private User getUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return userService.getUser(auth.getName());
-	}
 }

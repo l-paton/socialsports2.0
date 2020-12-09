@@ -29,6 +29,7 @@ export class EventComponent implements OnInit {
   editMaxAge: number;
   editGender: string = null;
   commentEvent: string;
+  errorMessage: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -111,9 +112,17 @@ export class EventComponent implements OnInit {
 
     await this.sleep(250);
 
-    if(this.editGender !== null){
+    if(this.editGender){
       this.eventService.editGender(this.event.id, this.editGender).subscribe(() => {
         this.event.requirement.gender = this.editGender;
+      })
+    }
+
+    await this.sleep(250);
+
+    if(this.editPrice){
+      this.eventService.editPrice(this.event.id, this.editPrice).subscribe(() => {
+        this.event.price = this.editPrice;
       })
     }
 
@@ -149,9 +158,10 @@ export class EventComponent implements OnInit {
   getEventComments(){
     for(let p of this.event.participants){
       if(p.id === this.idUser){
-        this.eventService.getEventComments(this.event.id).subscribe(data => {
-          this.event.userComments = data;
-        });
+        this.eventService.getEventComments(this.event.id).subscribe(
+          data => {
+            this.event.userComments = data;
+          });
       }
     }
   }
@@ -165,7 +175,9 @@ export class EventComponent implements OnInit {
 
   publishComment() {
     if (this.commentEvent) {
-      this.eventService.publishEvent(this.event.id, this.commentEvent).subscribe(() => this.ngOnInit());
+      this.eventService.publishEvent(this.event.id, this.commentEvent).subscribe(
+        result => this.ngOnInit(),
+        error => this.errorMessage = "Comentario demasiado largo");
       (<HTMLInputElement>document.getElementById('textarea-comentario')).value = '';
     }
   }
@@ -221,7 +233,7 @@ export class EventComponent implements OnInit {
       console.log("max age");
       return false;
     }
-    if (this.event.requirement.gender != null && this.event.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()) {
+    if (this.event.requirement.gender && this.event.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()) {
       console.log(this.tokenStorageService.getUser().user.gender.toUpperCase());
       console.log("gender");
       return false;

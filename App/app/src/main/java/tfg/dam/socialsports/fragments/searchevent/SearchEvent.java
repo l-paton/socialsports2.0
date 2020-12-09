@@ -144,29 +144,29 @@ public class SearchEvent extends Fragment {
                         for (Event event : listaEvents) {
 
                             //eventosNoCumploRequisitoEdadMaxima
-                            if (event.getRequirement().getMaxAge() != 0 && edad > event.getRequirement().getMaxAge()) {
+                            if (event.getRequirement().getMaxAge() > 0 && edad > event.getRequirement().getMaxAge()) {
                                 listaEvents.remove(event);
                                 break;
                             }
                             //eventosNoCumploRequisitoEdadMinima
-                            if (event.getRequirement().getMinAge() != 0 && edad < event.getRequirement().getMinAge()) {
+                            if (event.getRequirement().getMinAge() > 0 && edad < event.getRequirement().getMinAge()) {
                                 listaEvents.remove(event);
                                 break;
                             }
                             //eventosNoCumploRequisitoDeGenero
                             if (event.getRequirement().getGender() != null && !event.getRequirement().getGender().equals("")) {
-                                if (!event.getRequirement().getGender().equals(LoginActivity.user.getGender())) {
+                                if (!event.getRequirement().getGender().equalsIgnoreCase(LoginActivity.user.getGender())) {
                                     listaEvents.remove(event);
                                     break;
                                 }
                             }
                             //eventosNoCumploRequisitoReputacion
-                            /*if (LoginActivity.user.getUserScore() < event.getRequirement().getReputation() && event.getRequirement().getReputation() != -1) {
+                            if (event.getRequirement().getReputation() > 0 && LoginActivity.user.getReputationParticipant() < event.getRequirement().getReputation()) {
                                 listaEvents.remove(event);
                                 break;
-                            }*/
+                            }
 
-                            if (event.getMaxParticipants() != 0 && event.getMaxParticipants() <= event.getParticipants().size()) {
+                            if (event.getMaxParticipants() > 0 && event.getMaxParticipants() <= event.getParticipants().size()) {
                                 listaEvents.remove(event);
                             }
                         }

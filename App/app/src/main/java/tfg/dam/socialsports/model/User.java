@@ -18,7 +18,7 @@ public class User implements Serializable {
     private float reputationParticipant;
     private float reputationOrganizer;
     private String picture;
-    private ArrayList<User> listaAmigos;
+    private ArrayList<User> friends;
     private ArrayList<User> listaBloqueados;
 
     public User() {
@@ -119,12 +119,12 @@ public class User implements Serializable {
     public void setPicture(String picture) {
         this.picture = picture;
     }
-    public ArrayList<User> getListaAmigos() {
-        return listaAmigos;
+    public ArrayList<User> getFriends() {
+        return friends;
     }
 
-    public void setListaAmigos(ArrayList<User> listaAmigos) {
-        this.listaAmigos = listaAmigos;
+    public void setFriends(ArrayList<User> friends) {
+        this.friends = friends;
     }
 
     public ArrayList<User> getListaBloqueados() {
@@ -161,8 +161,8 @@ public class User implements Serializable {
             address = "";
         if (createdAt == null)
             createdAt = new Date();
-        if (listaAmigos == null)
-            listaAmigos = new ArrayList<>();
+        if (friends == null)
+            friends = new ArrayList<>();
         if(picture == null){
             picture = "";
         }

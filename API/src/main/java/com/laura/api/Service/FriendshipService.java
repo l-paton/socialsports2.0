@@ -1,12 +1,12 @@
-package com.laura.api.Service;
+package com.laura.api.service;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import com.laura.api.Repository.FriendshipRepository;
 import com.laura.api.model.Friendship;
 import com.laura.api.model.FriendshipId;
 import com.laura.api.model.User;
+import com.laura.api.repository.FriendshipRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +24,13 @@ public class FriendshipService {
         User receiver = userService.getUserById(id);
 
         if(receiver != null){
-            FriendshipId fi = new FriendshipId(user, receiver);
-            Friendship friendship = new Friendship(fi, 0);
-            repository.save(friendship);
+            if(!getFriends(user).contains(receiver)){
+                System.out.println("Si");
+                FriendshipId fi = new FriendshipId(user, receiver);
+                Friendship friendship = new Friendship(fi, 0);
+                repository.save(friendship);
+            }
+            System.out.println("No");
         }
     }
 

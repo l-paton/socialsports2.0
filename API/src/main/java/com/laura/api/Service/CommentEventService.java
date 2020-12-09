@@ -1,11 +1,11 @@
-package com.laura.api.Service;
+package com.laura.api.service;
 
 import java.util.Date;
 
-import com.laura.api.Repository.CommentEventRepository;
 import com.laura.api.model.CommentEvent;
 import com.laura.api.model.Event;
 import com.laura.api.model.User;
+import com.laura.api.repository.CommentEventRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

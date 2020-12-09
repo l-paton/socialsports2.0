@@ -190,7 +190,7 @@ public class NewEvent extends Fragment {
         /*if (newEventSpecify.getElOrganizadorEsParticipante())
             listaP.add(LoginActivity.user);*/
 
-        for (User user : LoginActivity.user.getListaAmigos()) {
+        for (User user : LoginActivity.user.getFriends()) {
             if (newEventInvite.getListInviteFriends().contains(user.getId())) {
                 listaP.add(user);
             }
@@ -241,9 +241,9 @@ public class NewEvent extends Fragment {
             public void onResponse(Call<ArrayList<User>> call, Response<ArrayList<User>> response) {
 
                 if (response.isSuccessful()) {
-                    LoginActivity.user.setListaAmigos(new ArrayList<User>());
+                    LoginActivity.user.setFriends(new ArrayList<User>());
                     for (User user : response.body()) {
-                        LoginActivity.user.getListaAmigos().add(user);
+                        LoginActivity.user.getFriends().add(user);
                     }
                 }
             }
