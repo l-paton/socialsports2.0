@@ -46,20 +46,22 @@ export class SignupComponent implements OnInit {
         if(this.birthday.value){
           if(new Date(this.birthday.value) >= new Date()){
             this.errorMessage = "Fecha de cumpleaños errónea";
+            return;
           }
-        }else{
-            this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value, this.gender, this.birthday.value).subscribe(
-              () => {
-                this.isSuccessful = true;
-                this.isSignUpFailed = false;
-                this.router.navigateByUrl('/login');
-              },
-              err => {
-                console.log(err);
-                this.errorMessage = err.error.message;
-                this.isSignUpFailed = true;
-              });
-          }
+        }
+        
+        this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value, this.gender, this.birthday.value).subscribe(
+          () => {
+            this.isSuccessful = true;
+            this.isSignUpFailed = false;
+            this.router.navigateByUrl('/login');
+          },
+          err => {
+            console.log(err);
+            this.errorMessage = err.error.message;
+            this.isSignUpFailed = true;
+          });
+          
         } else {
           this.errorMessage = 'Las contraseñas no coinciden';
         }
