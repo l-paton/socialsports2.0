@@ -110,7 +110,7 @@ public class EventSettings extends AppCompatActivity {
                 break;
             case R.id.itemMenuEventDelete:
                 Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
-                eliminarEvento();
+                deleteEvent();
                 finish();
                 break;
             case R.id.itemMenuEventFinalize:
@@ -122,11 +122,10 @@ public class EventSettings extends AppCompatActivity {
                 break;
             case R.id.itemMenuSubscribe:
                 Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
-                mandarSolicitud();
+                sendRequest();
                 break;
             case R.id.itemMenuUnsubscribe:
                 Utils.esconderTeclado(getSystemService(INPUT_METHOD_SERVICE),toolbar);
-                //eliminarSolicitud();
                 break;
         }
     }
@@ -242,28 +241,14 @@ public class EventSettings extends AppCompatActivity {
         Utils.mostrarMensaje(getResources().getString(R.string.mensaje_guardado_correcto), this);
     }
 
-    private void mandarSolicitud() {
+    private void sendRequest() {
         Utils.insertarSolicitante(Utils.eventSeleccionado);
         Utils.mostrarMensaje(getResources().getString(R.string.messaje_request_sent),getApplicationContext());
         toolbar.inflateMenu(R.menu.event_unsubscribe_menu);
         tabLayout.getTabAt(2).select();
     }
 
-    /*private void eliminarSolicitud() {
-        if (Funcionalidades.eresSolicitante(Funcionalidades.eventoSeleccionado)) {
-            Funcionalidades.eliminarSolicitante(Funcionalidades.eventoSeleccionado, LoginActivity.usuario);
-            tabLayout.getTabAt(2).select();
-        }
-        else if (Funcionalidades.eresParticipante(Funcionalidades.eventoSeleccionado)) {
-            Funcionalidades.eliminarParticipante(Funcionalidades.eventoSeleccionado, LoginActivity.usuario);
-            tabLayout.getTabAt(1).select();
-        }
-        toolbar.inflateMenu(R.menu.event_subscribe_menu);
-
-        Funcionalidades.mostrarMensaje(getResources().getString(R.string.mensaje_request_removed),this);
-    }*/
-
-    private void eliminarEvento() {
+    private void deleteEvent() {
         RetrofitConnection retrofit = new RetrofitConnection();
         APIService service = retrofit.getAPIService();
         service.deleteEvent("Bearer " + LoginActivity.token, Utils.eventSeleccionado.getId()).enqueue(new Callback<ResponseBody>() {
@@ -271,7 +256,6 @@ public class EventSettings extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
                     Utils.mostrarMensaje(getResources().getString(R.string.mensaje_event_removed),getApplicationContext());
-                    //MainActivity.listaEventos.remove(Funcionalidades.eventoSeleccionado);
                 }
             }
 

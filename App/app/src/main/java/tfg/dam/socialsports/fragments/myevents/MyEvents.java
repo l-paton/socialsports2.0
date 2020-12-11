@@ -32,8 +32,8 @@ import retrofit2.Response;
 public class MyEvents extends Fragment {
 
     private TabLayout tabLayout;
-    private ListView listViewEventos;
-    private ArrayList<Event> listaDeEvents = new ArrayList<>();
+    private ListView eventsListView;
+    private ArrayList<Event> eventsList = new ArrayList<>();
 
     public MyEvents() {
     }
@@ -49,7 +49,7 @@ public class MyEvents extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         tabLayout = getActivity().findViewById(R.id.tabsMyEvents);
-        listViewEventos = getActivity().findViewById(R.id.myEventsListView);
+        eventsListView = getActivity().findViewById(R.id.myEventsListView);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -125,12 +125,12 @@ public class MyEvents extends Fragment {
         if (arrayList != null && getContext() != null) {
             ListEventsAdapter adapter = new ListEventsAdapter(getContext(), R.layout.item_lista_eventos,
                     R.id.textItemEventoDeporte, arrayList);
-            listaDeEvents = arrayList;
-            listViewEventos.setAdapter(adapter);
-            listViewEventos.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            eventsList = arrayList;
+            eventsListView.setAdapter(adapter);
+            eventsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Event evento = listaDeEvents.get(position);
+                    Event evento = eventsList.get(position);
 
                     Intent intent = null;
                     if (!evento.isFinish())

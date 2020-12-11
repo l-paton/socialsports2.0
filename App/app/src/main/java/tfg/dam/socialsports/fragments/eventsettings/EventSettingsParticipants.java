@@ -23,14 +23,14 @@ import tfg.dam.socialsports.R;
 
 public class EventSettingsParticipants extends Fragment {
 
-    private User userSeleccionado;
-    private ListView listViewParticipantes;
-    private ArrayList<User> listaParticipantes;
-    private AlertDialog.Builder menuOpciones;
-    private String[] opciones;
+    private User selectedUser;
+    private ListView participantsListView;
+    private ArrayList<User> participantsList;
+    private AlertDialog.Builder optionsMenu;
+    private String[] options;
 
     public EventSettingsParticipants() {
-        listaParticipantes = new ArrayList<>();
+        participantsList = new ArrayList<>();
     }
 
     @Override
@@ -43,15 +43,15 @@ public class EventSettingsParticipants extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (Utils.eresOrganizador(Utils.eventSeleccionado)) {
-            opciones = new String[]{getResources().getString(R.string.opcion_eliminar_participante)
+            options = new String[]{getResources().getString(R.string.opcion_eliminar_participante)
                     , getResources().getString(R.string.opcion_solicitud_de_amistad)};
         }
         else {
-            opciones = new String[]{getResources().getString(R.string.opcion_solicitud_de_amistad)};
+            options = new String[]{getResources().getString(R.string.opcion_solicitud_de_amistad)};
         }
-        menuOpciones = new AlertDialog.Builder(getContext());
+        optionsMenu = new AlertDialog.Builder(getContext());
         if (Utils.eresOrganizador(Utils.eventSeleccionado)) {
-            menuOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            optionsMenu.setItems(options, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
@@ -62,13 +62,13 @@ public class EventSettingsParticipants extends Fragment {
                             agregarAmigo();
                             break;
                     }
-                    if (listaParticipantes != null)
-                        mostrarListaUsuarios(listaParticipantes);
+                    if (participantsList != null)
+                        mostrarListaUsuarios(participantsList);
                 }
             });
         }
         else {
-            menuOpciones.setItems(opciones, new DialogInterface.OnClickListener() {
+            optionsMenu.setItems(options, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     switch (which) {
@@ -79,41 +79,41 @@ public class EventSettingsParticipants extends Fragment {
                 }
             });
         }
-        listViewParticipantes = getActivity().findViewById(R.id.listEventSettingsParticipants);
-        listaParticipantes = Utils.eventSeleccionado.getParticipants();
-        if (listaParticipantes != null)
-            mostrarListaUsuarios(listaParticipantes);
+        participantsListView = getActivity().findViewById(R.id.listEventSettingsParticipants);
+        participantsList = Utils.eventSeleccionado.getParticipants();
+        if (participantsList != null)
+            mostrarListaUsuarios(participantsList);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (listaParticipantes != null)
-            mostrarListaUsuarios(listaParticipantes);
+        if (participantsList != null)
+            mostrarListaUsuarios(participantsList);
     }
 
     private void mostrarListaUsuarios(ArrayList<User> arrayList) {
         ListUsersAdapter adapter = new ListUsersAdapter(getContext(), R.layout.item_lista_usuarios,
                 R.id.textItemUsuarioNombre, arrayList);
-        listViewParticipantes.setAdapter(adapter);
-        listViewParticipantes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        participantsListView.setAdapter(adapter);
+        participantsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                userSeleccionado = listaParticipantes.get(position);
-                if (!Utils.soyYo(userSeleccionado)) {
-                    menuOpciones.setTitle(userSeleccionado.getFirstName() +
-                            " " + userSeleccionado.getLastName());
-                    menuOpciones.show();
+                selectedUser = participantsList.get(position);
+                if (!Utils.soyYo(selectedUser)) {
+                    optionsMenu.setTitle(selectedUser.getFirstName() +
+                            " " + selectedUser.getLastName());
+                    optionsMenu.show();
                 }
             }
         });
     }
 
     private void eliminarParticipante() {
-        Utils.removeParticipant(Utils.eventSeleccionado, userSeleccionado);
+        Utils.removeParticipant(Utils.eventSeleccionado, selectedUser);
     }
 
     private void agregarAmigo() {
-        Utils.addFriend(userSeleccionado);
+        Utils.addFriend(selectedUser);
     }
 }

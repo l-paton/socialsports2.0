@@ -226,16 +226,12 @@ export class EventComponent implements OnInit {
     var age = this.calculateAge();
 
     if (this.event.requirement.minAge > 0 && age < this.event.requirement.minAge) {
-      console.log("min age");
       return false;
     }
     if (this.event.requirement.maxAge > 0 && age > this.event.requirement.maxAge) {
-      console.log("max age");
       return false;
     }
     if (this.event.requirement.gender && this.event.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()) {
-      console.log(this.tokenStorageService.getUser().user.gender.toUpperCase());
-      console.log("gender");
       return false;
     }
     if (this.event.requirement.reputation && this.event.requirement.reputation > this.tokenStorageService.getUser().user.reputationParticipant) {
@@ -288,7 +284,6 @@ export class EventComponent implements OnInit {
   }
 
   checkCheckBoxvalue(gender: string) {
-    console.log(gender);
     this.editGender = gender;
   }
 }

@@ -116,39 +116,6 @@ public class Utils extends AppCompatActivity {
         return "";
     }
 
-    public static ArrayList<Event> eventosPendientes(ArrayList<Event> arrayList) {
-        ArrayList<Event> pendientes = new ArrayList<>();
-        if (arrayList != null) {
-            for (Event event : arrayList) {
-                if (!event.isFinish()) {
-                    if (event.getStartDate() == null || event.getStartDate().after(new Date()))
-                        pendientes.add(event);
-                    else {
-                        event.setFinish(true);
-                        finishEvent(event.getId());
-                    }
-                }
-            }
-        }
-        return pendientes;
-    }
-
-    public static ArrayList<Event> eventosFinalizados(ArrayList<Event> arrayList) {
-        ArrayList<Event> finalizados = new ArrayList<>();
-        if (arrayList != null) {
-            for (Event event : arrayList) {
-                if (event.isFinish())
-                    finalizados.add(event);
-                else if (event.getStartDate() != null && event.getStartDate().before(new Date())) {
-                    finalizados.add(event);
-                    event.setFinish(true);
-                    finishEvent(event.getId());
-                }
-            }
-        }
-        return finalizados;
-    }
-
     public static boolean eresSolicitante(Event ev) {
         for (User user: ev.getApplicants()) {
             if (user.getId() == LoginActivity.user.getId())
@@ -190,25 +157,6 @@ public class Utils extends AppCompatActivity {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
 
-            }
-        });
-    }
-
-    public static void eliminarAmigo(User user) {
-        if (LoginActivity.user.getFriends().contains(user))
-            LoginActivity.user.getFriends().remove(user);
-
-        RetrofitConnection retrofit = new RetrofitConnection();
-        APIService service = retrofit.getAPIService();
-        service.deleteFriend("Bearer " + LoginActivity.token,
-                LoginActivity.user.getId()).enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
-            }
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                t.printStackTrace();
             }
         });
     }

@@ -49,7 +49,6 @@ export class EventFormComponent implements OnInit {
         this.errorMessage = "La fecha debe ser igual o posterior a la de hoy.";
       }else{
         let e = new Event(this.sport, this.address, this.startDate, this.maxParticipants, this.price, this.comments, this.requirement, this.time);
-        console.log(e);
         this.eventService.createEvent(e).subscribe(
           result => {
             this.router.navigateByUrl('/');

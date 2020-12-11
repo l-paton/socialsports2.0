@@ -83,20 +83,6 @@ public class UserController {
 		}
 	}
 
-	/*@PutMapping("/edit/description")
-	public ResponseEntity<String> editDescription(@RequestParam String description){
-		try{
-			User user = getUser();
-			user.setDescription(description);
-			if(userService.editUser(user) != null){
-				return ResponseEntity.noContent().build();
-			}
-			return ResponseEntity.badRequest().build();
-		}catch(Exception e){
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
-	}*/
-
 	@PutMapping("/edit/address")
 	public ResponseEntity<String> editAddress(@RequestParam String address){
 		try{

@@ -43,11 +43,10 @@ export class SignupComponent implements OnInit {
     if (!this.signUpForm.invalid) {
 
       if (this.password.value === this.repeatPassword.value) {
-        if(this.birthday.value){
-          if(new Date(this.birthday.value) >= new Date()){
-            this.errorMessage = "Fecha de cumpleaños errónea";
-            return;
-          }
+        
+        if(this.birthday.value && new Date(this.birthday.value) >= new Date()){
+          this.errorMessage = "Fecha de cumpleaños errónea";
+          return;
         }
         
         this.authService.signup(this.email.value, this.password.value, this.firstname.value, this.lastname.value, this.gender, this.birthday.value).subscribe(
@@ -57,7 +56,6 @@ export class SignupComponent implements OnInit {
             this.router.navigateByUrl('/login');
           },
           err => {
-            console.log(err);
             this.errorMessage = err.error.message;
             this.isSignUpFailed = true;
           });

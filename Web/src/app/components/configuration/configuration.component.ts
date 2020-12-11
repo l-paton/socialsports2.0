@@ -27,7 +27,6 @@ export class ConfigurationComponent implements OnInit {
         this.userService.modifyPassword(this.password).subscribe(
           () => this.ngOnInit(), 
           err => {
-          console.log(err);
           this.errorMessage = err.error;
         });
       }else{
