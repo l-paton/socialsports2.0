@@ -9,7 +9,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
-import { HomeComponent } from './components/home/home.component';
 import { HeaderComponent } from './components/header/header.component';
 import { EventsComponent } from './components/events/events.component';
 import { EventFormComponent } from './components/event-form/event-form.component';
@@ -26,7 +25,6 @@ import { ConfigurationComponent } from './components/configuration/configuration
     AppComponent,
     LoginComponent,
     SignupComponent,
-    HomeComponent,
     HeaderComponent,
     EventsComponent,
     EventFormComponent,
