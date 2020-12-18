@@ -142,7 +142,7 @@ public class UserController {
 			if(userService.editPassword(utilsService.getUser(), password)){
 				return ResponseEntity.noContent().build();
 			}
-			return ResponseEntity.badRequest().body("La contraseña debe tener un mínimo de 6 carácteres");
+			return ResponseEntity.badRequest().build();
 		}catch(Exception e){
 			logger.log(Level.INFO, e.getMessage());
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);

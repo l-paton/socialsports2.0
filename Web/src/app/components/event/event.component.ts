@@ -241,6 +241,15 @@ export class EventComponent implements OnInit {
     return true;
   }
 
+  isNotFull(): boolean{
+    if(this.event.maxParticipants > 0){
+      if(this.event.maxParticipants <= this.event.participants.length){
+        return false;
+      }
+    }
+    return true;
+  }
+
   getUserPicture(picture) {
     if (picture == null) {
       return "http://placehold.it/45x45";

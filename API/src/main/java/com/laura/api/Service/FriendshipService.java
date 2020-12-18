@@ -25,12 +25,10 @@ public class FriendshipService {
 
         if(receiver != null){
             if(!getFriends(user).contains(receiver)){
-                System.out.println("Si");
                 FriendshipId fi = new FriendshipId(user, receiver);
                 Friendship friendship = new Friendship(fi, 0);
                 repository.save(friendship);
             }
-            System.out.println("No");
         }
     }
 

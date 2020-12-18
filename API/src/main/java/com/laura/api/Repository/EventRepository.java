@@ -20,12 +20,4 @@ public interface EventRepository extends CrudRepository<Event, Long>{
 	Set<Event> findByFinish(boolean bool);
 
 	Set<Event> findByOrganizer(User user);
-
-	Set<Event> findBySport(String sport);
-
-	Set<Event> findByAddress(String address);
-
-	Set<Event> findByStartDate(Date startDate);
-
-	Set<Event> findByTime(String time);
 }

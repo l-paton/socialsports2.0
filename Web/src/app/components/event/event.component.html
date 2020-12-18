@@ -149,7 +149,7 @@
 
             <div class="col-md-12">
                 <div *ngIf="!actualUserIsParticipant() && !actualUserIsApplicant()">
-                    <div class="text-right mt-4 mb-4" *ngIf="!isOrganizer() && cumplesLosRequisitos()">
+                    <div class="text-right mt-4 mb-4" *ngIf="!isOrganizer() && cumplesLosRequisitos() && isNotFull()">
                         <button class="btn btn-sm btn-primary" (click)="joinToEvent(event.id)">Unirse</button>
                     </div>
                     <div class="text-right mt-4 mb-4" *ngIf="!cumplesLosRequisitos()">

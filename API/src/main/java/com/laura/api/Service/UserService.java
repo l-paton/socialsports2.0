@@ -39,7 +39,7 @@ public class UserService {
 	}
 
 	public boolean editPassword(User user, String password){
-		if(password.length() > 6){
+		if(password.length() > 6 && password.length() < 1024){
 			user.setPassword(encoder.encode(password));
 			repository.save(user);
 			return true;
