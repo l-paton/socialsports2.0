@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <item
-        android:id="@+id/itemMenuSubscribe"
-        android:icon="@drawable/icon_subscribe"
-        android:title="@string/button_subscribe" />
-</menu>
