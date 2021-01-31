@@ -148,35 +148,32 @@
             </div>
 
             <div class="col-md-12">
-                <div *ngIf="!actualUserIsParticipant() && !actualUserIsApplicant()">
-                    <div class="text-right mt-4 mb-4" *ngIf="!isOrganizer() && cumplesLosRequisitos() && isNotFull()">
-                        <button class="btn btn-sm btn-primary" (click)="joinToEvent(event.id)">Unirse</button>
-                    </div>
-                    <div class="text-right mt-4 mb-4" *ngIf="!cumplesLosRequisitos()">
-                        <button class="btn btn-sm btn-secondary" disabled>No cumples los requisitos</button>
-                    </div>
+                <div class="text-right mt-4 mb-4" *ngIf="button() === 4">
+                    <button class="btn btn-sm btn-secondary" disabled>No cumples los requisitos</button>
                 </div>
-                <div *ngIf="actualUserIsApplicant()">
-                    <div class="text-right mt-4 mb-4">
-                        <button class="btn btn-sm btn-warning" (click)="cancelRequest(event.id)">Cancelar
-                            petición</button>
-                    </div>
-                </div>
-
-                <div class="text-right mt-4 mb-4" *ngIf="isOrganizer()">
-                    <button class="btn btn-sm btn-warning mr-2" *ngIf="!event.finish"
-                        (click)="finishEvent()">Finalizar</button>
-                    <button class="btn btn-sm btn-danger" (click)="removeEvent(event.id)">Eliminar</button>
+                <div class="text-right mt-4 mb-4" *ngIf="button() === 3">
+                    <button class="btn btn-sm btn-primary" (click)="joinToEvent(event.id)">Unirse</button>
                 </div>
             </div>
-        </div>
+            <div *ngIf="button() === 1">
+                <div class="text-right mt-4 mb-4">
+                    <button class="btn btn-sm btn-warning" (click)="cancelRequest(event.id)">Cancelar petición</button>
+                </div>
+            </div>
 
+            <div class="text-right mt-4 mb-4" *ngIf="button() == 0">
+                <button class="btn btn-sm btn-warning mr-2" *ngIf="!event.finish"
+                    (click)="finishEvent()">Finalizar</button>
+                <button class="btn btn-sm btn-danger" (click)="removeEvent(event.id)">Eliminar</button>
+            </div>
+        </div>
     </div>
+
 
     <div class="col-12 text-center mensaje-comment mt-5" *ngIf="errorMessage">
         <h6>{{errorMessage}}</h6>
     </div>
-    
+
     <div class="row mt-2" *ngIf="!event.finish && isParticipant()">
         <div class="col-12">
             <div class="form-group">
@@ -206,7 +203,7 @@
                         {{comment.user.firstName}} {{comment.user.lastName}}
 
                         <small class="text-muted">
-                            {{comment.createAt |  date : 'medium' }}
+                            {{comment.createAt | date : 'medium' }}
                         </small>
 
                         <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close"
@@ -221,9 +218,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="modalParticipants" tabindex="-1" aria-labelledby="modalParticipants" aria-hidden="true">
@@ -247,8 +242,8 @@
                                                 class="img-profile rounded" />
                                         </div>
                                         <div class="col-8">
-                                            <div class="row mt-1 mb-1 name-participant" [routerLink]="['/profile/', participant.id]"
-                                            data-dismiss="modal">
+                                            <div class="row mt-1 mb-1 name-participant"
+                                                [routerLink]="['/profile/', participant.id]" data-dismiss="modal">
                                                 {{ participant.firstName }} {{ participant.lastName}}
                                             </div>
                                             <div class="row">
@@ -261,13 +256,14 @@
 
                                         </div>
                                     </div>
-                                    <div class="text-center" *ngIf="event.finish && participant.id != idUser && isParticipant() && participant.id != event.organizer.id">
+                                    <div class="text-center"
+                                        *ngIf="event.finish && participant.id != idUser && isParticipant() && participant.id != event.organizer.id">
                                         <ngb-rating [max]="5" [(rate)]="participant.reputationParticipant"
                                             [readonly]="false">
                                         </ngb-rating>
                                         {{participant.reputationParticipant}}
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>

@@ -5,6 +5,7 @@ import { Event } from '../../models/Event';
 import { TokenStorageService } from './../../services/token-storage.service';
 import { EventService } from './../../services/event.service';
 import { RateService } from './../../services/rate.service';
+import { calculateAge, eventIsFull, isApplicant, isParticipant, meetTheRequirements } from '../../_helpers/utils';
 
 @Component({
   selector: 'app-event',
@@ -56,7 +57,7 @@ export class EventComponent implements OnInit {
 
   async acceptChanges() {
 
-    if(this.editAddress){
+    if (this.editAddress) {
       this.eventService.editAddress(this.event.id, this.editAddress).subscribe(() => {
         this.event.address = this.editAddress;
       })
@@ -88,7 +89,7 @@ export class EventComponent implements OnInit {
 
     await this.sleep(250);
 
-    if(this.editComments){
+    if (this.editComments) {
       this.eventService.editComment(this.event.id, this.editComments).subscribe(() => {
         this.event.comments = this.editComments;
       });
@@ -96,7 +97,7 @@ export class EventComponent implements OnInit {
 
     await this.sleep(250);
 
-    if(this.editMinAge){
+    if (this.editMinAge) {
       this.eventService.editMinAge(this.event.id, this.editMinAge).subscribe(() => {
         this.event.requirement.minAge = this.editMinAge;
       });
@@ -104,7 +105,7 @@ export class EventComponent implements OnInit {
 
     await this.sleep(250);
 
-    if(this.editMaxAge){
+    if (this.editMaxAge) {
       this.eventService.editMaxAge(this.event.id, this.editMaxAge).subscribe(() => {
         this.event.requirement.maxAge = this.editMaxAge;
       });
@@ -112,7 +113,7 @@ export class EventComponent implements OnInit {
 
     await this.sleep(250);
 
-    if(this.editGender){
+    if (this.editGender) {
       this.eventService.editGender(this.event.id, this.editGender).subscribe(() => {
         this.event.requirement.gender = this.editGender;
       })
@@ -120,7 +121,7 @@ export class EventComponent implements OnInit {
 
     await this.sleep(250);
 
-    if(this.editPrice){
+    if (this.editPrice) {
       this.eventService.editPrice(this.event.id, this.editPrice).subscribe(() => {
         this.event.price = this.editPrice;
       })
@@ -155,9 +156,9 @@ export class EventComponent implements OnInit {
     }
   }
 
-  getEventComments(){
-    for(let p of this.event.participants){
-      if(p.id === this.idUser){
+  getEventComments() {
+    for (let p of this.event.participants) {
+      if (p.id === this.idUser) {
         this.eventService.getEventComments(this.event.id).subscribe(
           data => {
             this.event.userComments = data;
@@ -182,7 +183,7 @@ export class EventComponent implements OnInit {
     }
   }
 
-  deleteComment(idComment){
+  deleteComment(idComment) {
     this.eventService.deleteComment(idComment).subscribe(() => this.ngOnInit());
   }
 
@@ -190,64 +191,27 @@ export class EventComponent implements OnInit {
     this.eventService.finishEvent(this.idEvent).subscribe(() => this.ngOnInit());
   }
 
-  /** FUNCIONES **/
-
-  actualUserIsParticipant(): boolean {
-    for (let i of this.event.participants) {
-      if (i.id == this.idUser) {
-        return true;
-      }
-    }
-    return false;
+  isParticipant(): boolean {
+    return isParticipant(this.event.participants, this.idUser);
   }
 
-  actualUserIsApplicant(): boolean {
-    for (let i of this.event.applicants) {
-      if (i.id == this.idUser) {
-        return true;
-      }
-    }
-    return false;
+  isApplicant(): boolean {
+    return isApplicant(this.event.applicants, this.idUser);
   }
 
   calculateAge(): number {
-    const today = new Date();
-    const birthday = new Date(this.tokenStorageService.getUser().user.birthday);
-
-    let age = today.getFullYear() - birthday.getFullYear();
-    const m = today.getMonth() - birthday.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
-      age--;
-    }
-    return age;
+    return calculateAge(this.tokenStorageService.getUser().user.birthday);
   }
 
-  cumplesLosRequisitos() {
+  meetTheRequirements() {
     var age = this.calculateAge();
-
-    if (this.event.requirement.minAge > 0 && age < this.event.requirement.minAge) {
-      return false;
-    }
-    if (this.event.requirement.maxAge > 0 && age > this.event.requirement.maxAge) {
-      return false;
-    }
-    if (this.event.requirement.gender && this.event.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender.toUpperCase()) {
-      return false;
-    }
-    if (this.event.requirement.reputation && this.event.requirement.reputation > this.tokenStorageService.getUser().user.reputationParticipant) {
-      return false;
-    }
-
-    return true;
+    var gender = this.tokenStorageService.getUser().user.gender;
+    var score = this.tokenStorageService.getUser().user.reputationParticipant;
+    return meetTheRequirements(this.event, age, gender, score);
   }
 
-  isNotFull(): boolean{
-    if(this.event.maxParticipants > 0){
-      if(this.event.maxParticipants <= this.event.participants.length){
-        return false;
-      }
-    }
-    return true;
+  eventIsFull(): boolean {
+    return eventIsFull(this.event);
   }
 
   getUserPicture(picture) {
@@ -271,15 +235,6 @@ export class EventComponent implements OnInit {
     else false;
   }
 
-  isParticipant(): boolean{
-    for(let p of this.event.participants){
-      if(p.id === this.idUser){
-        return true;
-      }
-    }
-    return false;
-  }
-
   editEvent() {
     this.editar = !this.editar;
   }
@@ -294,5 +249,31 @@ export class EventComponent implements OnInit {
 
   checkCheckBoxvalue(gender: string) {
     this.editGender = gender;
+  }
+
+  /*
+ 0. Eliminar o finalizar evento
+ 1. Cancelar petición
+ 2. Abandonar
+ 3. Unirse
+ 4. No cumples los requisitos
+ */
+  button(): number {
+
+    if (this.isOrganizer()) {
+      return 0;
+    }
+
+    if (this.isApplicant()) {
+      return 1;
+    } else if (this.isParticipant()) {
+      return 2
+    } else if (this.meetTheRequirements() && !this.eventIsFull()) {
+      return 3;
+    } else if (!this.meetTheRequirements() && !this.eventIsFull()) {
+      return 4;
+    } else {
+      return 5;
+    }
   }
 }
