@@ -10,7 +10,8 @@
         </div>
         <div class="form-group col-md-2">
           <label>Dirección </label>
-          <input type="text" [(ngModel)]="address" id="address" name="address" class="form-control" placeholder="Direccion">
+          <input type="text" [(ngModel)]="address" id="address" name="address" class="form-control"
+            placeholder="Direccion">
         </div>
         <div class="form-group col-md-2">
           <label>Fecha </label>
@@ -84,28 +85,20 @@
             <td>{{evento.startDate | date : 'dd-MM-yyyy'}} {{ evento.time }}</td>
             <td>{{evento.price | currency:'EUR'}}</td>
             <td>
-              <div *ngIf="eventIsFull(evento)" class="text-danger"><span
-                  class="badge badge-danger badge-pill">Lleno</span></div>
-              <div *ngIf="!eventIsFull(evento)">{{evento.participants.length}}</div>
+              <div *ngIf="eventIsFull(evento.id)" class="text-danger"><span class="badge badge-danger badge-pill">Lleno</span></div>
+              <div *ngIf="!eventIsFull(evento.id)">{{evento.participants.length}}</div>
             </td>
             <th><button class="btn btn-mostrar btn-sm" (click)="navigateToEvent(evento.id)">Mostrar</button></th>
             <th>
 
-              <div *ngIf="id != evento.organizer.id">
-                <button class="btn btn-secondary btn-sm" *ngIf="!cumplesLosRequisitos(evento.id) &&!isInEventsJoined(evento.id)" disabled>No cumples
-                  los requisitos</button>
-                <button class="btn btn-warning btn-sm" *ngIf="isInEventsApplied(evento.id)"
-                  (click)="cancelRequest(evento.id)">Cancelar solicitud</button>
-                <button class="btn btn-danger btn-sm" *ngIf="isInEventsJoined(evento.id)"
-                  (click)="leave(evento.id)">Abandonar</button>
-                <button class="btn btn-success btn-sm"
-                  *ngIf="!isInEventsJoined(evento.id) && !eventIsFull(evento) && !isInEventsApplied(evento.id) && cumplesLosRequisitos(evento.id)"
-                  (click)="joinToEvent(evento)">Unirse</button>
-              </div>
-
-              <button class="btn btn-danger btn-sm" *ngIf="id == evento.organizer.id"
+              <button class="btn btn-danger btn-sm" *ngIf="button(evento.id) === 0"
                 (click)="deleteEvent(evento)">Eliminar</button>
-
+              <button class="btn btn-warning btn-sm" *ngIf="button(evento.id) === 1" (click)="cancelRequest(evento.id)">Cancelar
+                solicitud</button>
+              <button class="btn btn-danger btn-sm" *ngIf="button(evento.id) === 2" (click)="leave(evento.id)">Abandonar</button>
+              <button class="btn btn-success btn-sm" *ngIf="button(evento.id) === 3" (click)="joinToEvent(evento)">Unirse</button>
+              <button class="btn btn-secondary btn-sm" *ngIf="button(evento.id) === 4" disabled> No cumples los
+                requisitos</button>
             </th>
           </tr>
         </tbody>
@@ -123,7 +116,6 @@
         </ul>
       </nav>
     </div>
-    
+
   </div>
 </div>
-

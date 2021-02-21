@@ -4,6 +4,7 @@ import { EventService } from '../../services/event.service';
 import { UserService } from '../../services/user.service';
 import { TokenStorageService } from '../../services/token-storage.service';
 import { Event } from '../../models/Event';
+import { calculateAge, eventIsFull, isApplicant, isParticipant, meetTheRequirements } from '../../_helpers/utils';
 
 @Component({
   selector: 'app-events',
@@ -15,13 +16,11 @@ export class EventsComponent implements OnInit {
   id: number;
   events: Event[] = [];
   eventsJoined: Event[] = [];
-  
   sport: string = '';
   address: string = '';
   startDate: Date;
   time: string = '';
   score: number = 0;
-
   numbers: number[] = [];
 
   constructor(
@@ -68,25 +67,6 @@ export class EventsComponent implements OnInit {
     this.eventService.cancelRequest(id).subscribe(() => this.ngOnInit());
   }
 
-  isInEventsJoined(id: number): boolean {
-    for (let i of this.eventsJoined) {
-      if (i.id == id) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  isInEventsApplied(id: number): boolean{
-    var evento = this.events.find(o => o.id == id);
-    for(let j of evento.applicants){
-      if(j.id == this.id){
-        return true;
-      }
-    }
-    return false;
-  }
-
   buscar(){
     
     let stringDate = '';
@@ -106,26 +86,40 @@ export class EventsComponent implements OnInit {
           });
     }
   }
-
-  cumplesLosRequisitos(id: number){
-    var evento = this.events.find(o => o.id == id);
+  
+  meetTheRequirements(id: number){
+    var event = this.events.find(o => o.id == id);
     var age = this.calculateAge();
+    var gender = this.tokenStorageService.getUser().user.gender;
+    var score = this.tokenStorageService.getUser().user.reputationParticipant;
+    return meetTheRequirements(event, age, gender, score);    
+  }
 
-    if(evento.requirement.minAge > 0 && age < evento.requirement.minAge){
-      return false;
-    }
-    if(evento.requirement.maxAge > 0 && age > evento.requirement.maxAge){
-      return false;
-    }
-    if(evento.requirement.gender && evento.requirement.gender.toUpperCase() != this.tokenStorageService.getUser().user.gender?.toUpperCase()){
-      return false;
-    }
-    if(evento.requirement.reputation && evento.requirement.reputation > this.tokenStorageService.getUser().user.reputationParticipant){
-      return false;
-    }
+  eventIsFull(idEvent : number): boolean{
+    var event = this.events.find(o => o.id == idEvent);
+    return eventIsFull(event);
+  }
 
-    return true;
-    
+  calculateAge(): number{
+    return calculateAge(this.tokenStorageService.getUser().user.birthday);
+  }
+
+  isParticipant(idEvent: number): boolean {
+    var event = this.events.find(o => o.id == idEvent);
+    return isParticipant(event.participants, this.id);
+  }
+
+  isApplicant(idEvent: number): boolean{
+    var event = this.events.find(o => o.id == idEvent);
+    return isApplicant(event.applicants, this.id);
+  }
+
+  isOrganizer(idEvent: number){
+    var event = this.events.find(o => o.id == idEvent);
+    if (event.organizer.id === this.id) {
+      return true;
+    }
+    else false;
   }
 
   limpiar(){
@@ -141,22 +135,29 @@ export class EventsComponent implements OnInit {
     this.ngOnInit();
   }
 
-  eventIsFull(event : Event): boolean{
-    if(event.maxParticipants > 0 && event.maxParticipants === event.participants.length){
-      return true;
-    }
-    else false;
-  }
-
-  calculateAge(): number{
-    const today = new Date();
-    const birthday = new Date(this.tokenStorageService.getUser().user.birthday);
+  /*
+  0. Eliminar o finalizar evento
+  1. Cancelar petición
+  2. Abandonar
+  3. Unirse
+  4. No cumples los requisitos
+  */
+  button(idEvent: number): number {
     
-    let age = today.getFullYear() - birthday.getFullYear();
-    const m = today.getMonth() - birthday.getMonth();
-    if (m < 0 || (m === 0 && today.getDate() < birthday.getDate())) {
-      age--;
+    if (this.isOrganizer(idEvent)) {
+      return 0;
     }
-    return age;
+
+    if (this.isApplicant(idEvent)) {
+      return 1;
+    }else if(this.isParticipant(idEvent)){
+      return 2
+    } else if(this.meetTheRequirements(idEvent) && !this.eventIsFull(idEvent)) {
+      return 3;
+    } else if (!this.meetTheRequirements(idEvent) && !this.eventIsFull(idEvent)) {
+      return 4;
+    }else{
+      return 5;
+    }
   }
 }

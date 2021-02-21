@@ -17,7 +17,7 @@ public class SwaggerConfig {
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
         .select()
-        .apis(RequestHandlerSelectors.basePackage("com.laura.api.Controller"))
+        .apis(RequestHandlerSelectors.basePackage("com.laura.api.controller"))
         .paths(PathSelectors.any())
         .build();
     }

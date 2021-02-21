@@ -2,11 +2,10 @@ package com.laura.api.controller;
 
 import com.laura.api.model.User;
 import com.laura.api.service.UserService;
+import com.laura.api.service.UtilsService;
 import com.laura.api.storage.FileResponse;
 import com.laura.api.storage.StorageService;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +20,12 @@ public class FileUploadController {
 
     private StorageService storageService;
     private UserService userService;
+	private UtilsService utilsService;
 
-    public FileUploadController(StorageService storageService, UserService userService) {
+    public FileUploadController(StorageService storageService, UserService userService, UtilsService utilsService) {
         this.storageService = storageService;
         this.userService = userService;
+        this.utilsService = utilsService;
     }
 
     @GetMapping(value = "/users/{filename:.+}")
@@ -42,29 +43,18 @@ public class FileUploadController {
     @PostMapping("/upload")
     @ResponseBody
     public FileResponse uploadFile(@RequestParam("file") MultipartFile file) {
-        try{
+        User user = utilsService.getUser();
 
-            User user = getUser();
+        String name = storageService.store(file, String.valueOf(user.getId()));
+        
+        String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/api/images/users/")
+                .path(name)
+                .toUriString();
+        
+        user.setPicture(uri);
+        userService.editUser(user);
 
-            String name = storageService.store(file, String.valueOf(getUser().getId()));
-            
-            String uri = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/api/images/users/")
-                    .path(name)
-                    .toUriString();
-            
-            user.setPicture(uri);
-            userService.editUser(user);
-
-            return  new FileResponse(name, uri, file.getContentType(), file.getSize());
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
-        }
+        return  new FileResponse(name, uri, file.getContentType(), file.getSize());
     }
-
-    private User getUser() {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		return userService.getUser(auth.getName());
-	}
 }

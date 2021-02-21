@@ -119,24 +119,10 @@ public class EventService {
 	}
 
 	public Set<Event> searchEvents(SearchRequest searchRequest) {
-		Set<Event> events = (HashSet<Event>) repository.findAll().stream().filter(o -> !o.isFinish()).collect(Collectors.toSet());
 
-		if (searchRequest.getSport() != null && searchRequest.getSport() != "") {
-			events.removeIf(o -> !o.getSport().equalsIgnoreCase(searchRequest.getSport()));
-		}
-
-		if (searchRequest.getAddress() != null && searchRequest.getAddress() != "") {
-			events.removeIf(o -> !o.getAddress().equalsIgnoreCase(searchRequest.getAddress()));
-		}
-
-		if (searchRequest.getstartDate() != null) {
-			events.removeIf(o -> o.getStartDate() != searchRequest.getStartDate());
-		}
-
-		if (searchRequest.getTime() != null && searchRequest.getTime() != "") {
-			events.removeIf(o -> !o.getTime().equals(searchRequest.getTime()));
-		}
-
+		Set<Event> events = new HashSet<Event>();
+		events.addAll(repository.findByOptionalSportAndOptionalAddressAndOptionalStartDateAndOptionalTime(searchRequest.getSport(), searchRequest.getAddress(), searchRequest.getstartDate(), searchRequest.getTime()));
+		
 		if(searchRequest.getScore() > 0){
 			Iterator<Event> iter = events.iterator();
 			while (iter.hasNext()) {

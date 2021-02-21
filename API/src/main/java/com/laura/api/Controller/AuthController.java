@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.laura.api.model.User;
 import com.laura.api.payload.JwtResponse;
@@ -53,51 +52,36 @@ public class AuthController {
 	JwtUtils jwtUtils;
 
 	@PostMapping("/signin")
-	public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
-		try{
-			Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-			
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			
-			String jwt = jwtUtils.generateJwtToken(loginRequest.getEmail());
-			
-			UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-			return ResponseEntity.ok(new JwtResponse(jwt, userService.getUser(userDetails.getEmail())));
-
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}
+	public JwtResponse authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+		Authentication authentication = authenticationManager.authenticate(
+			new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
 		
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		
+		String jwt = jwtUtils.generateJwtToken(loginRequest.getEmail());
+		
+		UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+
+		return new JwtResponse(jwt, userService.getUser(userDetails.getEmail()));
 	}
 
 	@PostMapping("/signup")
-	public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest, BindingResult bindingResult) {
+	public ResponseEntity<MessageResponse> registerUser(@Valid @RequestBody SignupRequest signUpRequest, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			List<FieldError> errors = bindingResult.getFieldErrors();
-			return ResponseEntity.badRequest().body(new MessageResponse(errors.get(0).getDefaultMessage()));
+			return new ResponseEntity<>(new MessageResponse(errors.get(0).getDefaultMessage()), HttpStatus.BAD_REQUEST);
 		}
 
-		try{
-			if (userRepository.existsByEmail(signUpRequest.getEmail())) {
-				return ResponseEntity
-						.status(HttpStatus.CONFLICT)
-						.body(new MessageResponse("Ese email ya está en uso"));
-			}
-			
-			User user = new User(signUpRequest.getEmail(), signUpRequest.getFirstname(), signUpRequest.getLastname(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), new Date(System.currentTimeMillis()), signUpRequest.getBirthday());
-			if(user.getFirstName() == null) user.setFirstName("sin nombre");
-			user.setReputationParticipant(0);
-			user.setReputationOrganizer(0);
+		if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+			return new ResponseEntity<>(new MessageResponse("Ese email ya está en uso"), HttpStatus.CONFLICT);
+		}
+		
+		User user = new User(signUpRequest.getEmail(), signUpRequest.getFirstname(), signUpRequest.getLastname(), encoder.encode(signUpRequest.getPassword()), signUpRequest.getGender(), new Date(System.currentTimeMillis()), signUpRequest.getBirthday());
+		if(user.getFirstName() == null) user.setFirstName("sin nombre");
+		user.setReputationParticipant(0);
+		user.setReputationOrganizer(0);
 
-			userRepository.save(user);
-			return ResponseEntity.ok(new MessageResponse("Usuario registrado"));
-
-		}catch(Exception e){
-			System.out.println(e.getMessage());
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-		}		
+		userRepository.save(user);
+		return new ResponseEntity<>(new MessageResponse("Usuario registrado"), HttpStatus.OK);
 	}
 }
