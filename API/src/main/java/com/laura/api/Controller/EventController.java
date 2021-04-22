@@ -66,7 +66,11 @@ public class EventController {
 		@RequestParam(required = false) String time,
 		@RequestParam(required = false, defaultValue = "0") Float score){
 		
-		SearchRequest searchRequest = new SearchRequest(sport, address, startDate, time, score);
+		SearchRequest searchRequest = new SearchRequest(
+			sport != null && !sport.equals("") ? sport : null, 
+			address != null && !address.equals("") ? address : null, 
+			startDate, 
+			time != null && !time.equals("") ? time : null, score);
 		return eventService.searchEvents(searchRequest);
 	}
 	
